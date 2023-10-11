@@ -1,0 +1,19 @@
+@import "../../common/variables.scss";
+
+.nav {
+  box-shadow: var(--shadow);
+  padding: 10px 20px;
+  margin: auto;
+  position: fixed;
+  top: 7%;
+  width: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 40px;
+  @include displayFlex();
+}
+
+.action {
+  @include displayFlex();
+  gap: 2rem;
+}
