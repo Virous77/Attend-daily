@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
+import { AppContextProvider } from "@/store/useAppContext";
 
 const inter = Inter({ subsets: ["latin"] });
 import { ThemeProvider } from "@/components/ui/theme-provider";
@@ -26,8 +27,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
-          {children}
+          <AppContextProvider>
+            <Navbar />
+            {children}
+          </AppContextProvider>
         </ThemeProvider>
       </body>
     </html>
