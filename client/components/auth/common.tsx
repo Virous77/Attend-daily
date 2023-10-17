@@ -16,12 +16,14 @@ type PropsType = {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   formData: FormData;
   handleFormSubmit: () => void;
+  isLoading: boolean;
 };
 
 const Common: React.FC<PropsType> = ({
   handleChange,
   formData,
   handleFormSubmit,
+  isLoading,
 }) => {
   const { state, setState } = useAppContext();
   const componentType = state.authModal ? "SIGN UP" : "SIGN IN";
@@ -79,7 +81,7 @@ const Common: React.FC<PropsType> = ({
 
         <DialogFooter>
           <Button type="submit" className="sm:w-36" onClick={handleFormSubmit}>
-            {componentType}
+            {isLoading ? "Processing..." : componentType}
           </Button>
         </DialogFooter>
       </div>

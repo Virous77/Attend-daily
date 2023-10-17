@@ -3,9 +3,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import { AppContextProvider } from "@/store/useAppContext";
+import { ThemeProvider } from "@/components/ui/theme-provider";
+import ReactQueryProvider from "@/lib/reactQueryProvider";
+import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
-import { ThemeProvider } from "@/components/ui/theme-provider";
 
 export const metadata: Metadata = {
   title: "Attend-daily",
@@ -27,10 +29,13 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AppContextProvider>
-            <Navbar />
-            {children}
-          </AppContextProvider>
+          <ReactQueryProvider>
+            <AppContextProvider>
+              <Navbar />
+              {children}
+              <Toaster />
+            </AppContextProvider>
+          </ReactQueryProvider>
         </ThemeProvider>
       </body>
     </html>
