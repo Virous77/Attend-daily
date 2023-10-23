@@ -1,16 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { FaUserAlt } from "react-icons/fa";
-import styles from "./form.module.scss";
 import { useState } from "react";
 import Login from "./login";
 import Register from "./register";

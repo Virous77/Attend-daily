@@ -6,7 +6,6 @@ import bodyParser from "body-parser";
 import helmet from "helmet";
 import mongoose from "mongoose";
 import morgan from "morgan";
-
 import { createServer } from "http";
 import { Server } from "socket.io";
 import router from "./src/routes.js";

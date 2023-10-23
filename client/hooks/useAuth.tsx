@@ -6,6 +6,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useAppContext } from "@/store/useAppContext";
 import jwt_decode from "jwt-decode";
+import axios from "axios";
 
 type RegisterResponse = {
   message: string;
@@ -59,6 +60,13 @@ const useAuth = (endPoints: string) => {
         const userData: LoginDataResponse = jwt_decode(
           data.data ? data.data : ""
         );
+
+        const config = {
+          method: "post",
+          url: "/api/login",
+          data: { token: data.data },
+        };
+        axios(config);
         localStorage.setItem("chatID", JSON.stringify(userData.data._id));
         localStorage.setItem("chatToken", JSON.stringify(data.data));
         return;
