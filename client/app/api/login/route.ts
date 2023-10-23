@@ -4,7 +4,7 @@ type TBody = {
   token: string;
 };
 
-export async function POST(request: NextRequest) {
+export async function POST(request: NextRequest, res: NextResponse) {
   const body: TBody = await request.json();
 
   const response = NextResponse.json({ status: 200 });
@@ -15,6 +15,5 @@ export async function POST(request: NextRequest) {
     httpOnly: true,
     maxAge: 60 * 60,
   });
-
   return response;
 }

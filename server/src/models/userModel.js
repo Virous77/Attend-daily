@@ -18,6 +18,14 @@ const UserSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    bio: {
+      type: String,
+      required: false,
+    },
+    userName: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,

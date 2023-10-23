@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const protectedRoutes = ["/test"];
+const protectedRoutes = ["/feed"];
 
 export async function middleware(req: NextRequest) {
-  let cookie = req.cookies.get("attend");
+  const cookie = req.cookies.get("attend");
 
   if (!cookie?.value && protectedRoutes.includes(req.nextUrl.pathname)) {
     const ab = new URL("/", req.nextUrl.origin);
