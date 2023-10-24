@@ -10,6 +10,8 @@ import {
 
 export type stateType = {
   authModal: boolean;
+  feedType: string;
+  isLogged: boolean;
 };
 
 type ContextType = {
@@ -31,6 +33,8 @@ export const AppContextProvider = ({
 }) => {
   const [state, setState] = useState<stateType>({
     authModal: false,
+    feedType: "home feed",
+    isLogged: false,
   });
 
   return (

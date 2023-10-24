@@ -1,11 +1,5 @@
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-
-export async function get() {
-  const cookieStore = cookies();
-  const cookie = cookieStore.get("attend");
-  return cookie;
-}
+import { get } from "./layout";
 
 import React from "react";
 const Root = async () => {

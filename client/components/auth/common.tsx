@@ -5,6 +5,7 @@ import styles from "./form.module.scss";
 import { useAppContext } from "@/store/useAppContext";
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
+import Loader from "../ui/loader/Loader";
 
 type FormData = {
   email: string;
@@ -95,8 +96,14 @@ const Common: React.FC<PropsType> = ({
         </p>
 
         <DialogFooter>
-          <Button type="submit" className="sm:w-36" onClick={handleFormSubmit}>
-            {isLoading ? "Processing..." : componentType}
+          <Button
+            type="submit"
+            className="sm:w-36"
+            onClick={handleFormSubmit}
+            disabled={isLoading}
+            variant={isLoading ? "disabled" : "default"}
+          >
+            {isLoading ? <Loader /> : componentType}
           </Button>
         </DialogFooter>
       </div>

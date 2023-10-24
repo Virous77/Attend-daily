@@ -1,3 +1,9 @@
+import { BiHomeSmile } from "react-icons/bi";
+import { TbMessage2 } from "react-icons/tb";
+import { MdOutlineAccountBalanceWallet } from "react-icons/md";
+import { RiSearchLine } from "react-icons/ri";
+import { FaRegUser } from "react-icons/fa";
+
 export const getLocalData = (id: string) => {
   const localData = localStorage.getItem(id);
   return localData ? JSON.parse(localData) : null;
@@ -11,3 +17,36 @@ export const localAppError = {
     stack: "",
   },
 };
+
+export const navLink = [
+  {
+    id: 1,
+    name: "Home",
+    link: "/feed",
+    icon: BiHomeSmile,
+  },
+  {
+    id: 2,
+    name: "Search",
+    link: "/search",
+    icon: RiSearchLine,
+  },
+  {
+    id: 3,
+    name: "message",
+    link: "/message",
+    icon: TbMessage2,
+  },
+  {
+    id: 4,
+    name: "Account",
+    link: "/account",
+    icon: MdOutlineAccountBalanceWallet,
+  },
+  {
+    id: 5,
+    name: "Profile",
+    link: "/profile",
+    icon: FaRegUser,
+  },
+];

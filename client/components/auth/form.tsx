@@ -7,23 +7,20 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { FaUserAlt } from "react-icons/fa";
-import { useState } from "react";
+import React, { useState } from "react";
 import Login from "./login";
 import Register from "./register";
 import { useAppContext } from "@/store/useAppContext";
-import { usePathname } from "next/navigation";
+import { NavbarProps } from "../layout/Navbar";
 
-const MainForm = () => {
+const MainForm: React.FC<NavbarProps> = ({ isLoggedIn }) => {
   const [open, setOpen] = useState(false);
   const { state } = useAppContext();
-  const pathName = usePathname();
 
   const componentType = state.authModal ? "SIGN UP" : "SIGN IN";
 
-  if (pathName !== "/") return null;
-
   return (
-    <Dialog open={pathName !== "/" ? false : open} onOpenChange={setOpen}>
+    <Dialog open={isLoggedIn ? false : open} onOpenChange={setOpen}>
       <DialogTrigger>
         <p className=" border border-input bg-background hover:bg-accent hover:text-accent-foreground p-3 rounded-lg">
           <FaUserAlt />

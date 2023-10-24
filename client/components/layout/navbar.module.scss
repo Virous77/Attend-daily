@@ -3,14 +3,22 @@
 .nav {
   box-shadow: var(--shadow);
   padding: 10px 20px;
-  margin: auto;
   position: fixed;
   top: 7%;
-  width: 80%;
   left: 50%;
+  width: 80%;
   transform: translate(-50%, -50%);
   border-radius: 40px;
   @include displayFlex();
+  z-index: 100;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    top: 0;
+    transform: none;
+    left: 0;
+    border-radius: 0;
+  }
 }
 
 .action {
