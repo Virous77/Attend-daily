@@ -9,7 +9,8 @@ import { Button } from "../ui/button";
 type FormData = {
   email: string;
   password: string;
-  name?: string;
+  name: string;
+  userName: string;
 };
 
 type PropsType = {
@@ -32,17 +33,31 @@ const Common: React.FC<PropsType> = ({
     <>
       <div className="grid gap-4 py-4">
         {state.authModal && (
-          <div className={styles.box}>
-            <Label htmlFor="name" className="text-right">
-              Name
-            </Label>
-            <Input
-              id="name"
-              className="col-span-3"
-              onChange={(e) => handleChange(e)}
-              value={formData.name}
-            />
-          </div>
+          <>
+            <div className={styles.box}>
+              <Label htmlFor="name" className="text-right">
+                Name
+              </Label>
+              <Input
+                id="name"
+                className="col-span-3"
+                onChange={(e) => handleChange(e)}
+                value={formData.name}
+              />
+            </div>
+
+            <div className={styles.box}>
+              <Label htmlFor="userName" className="text-right">
+                UserName
+              </Label>
+              <Input
+                id="userName"
+                className="col-span-3"
+                onChange={(e) => handleChange(e)}
+                value={formData.userName}
+              />
+            </div>
+          </>
         )}
         <div className={styles.box}>
           <Label htmlFor="email" className="text-right">

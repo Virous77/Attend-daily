@@ -6,6 +6,8 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useAppContext } from "@/store/useAppContext";
 import axios from "axios";
+import { AppError } from "@/types/types";
+import { useRouter } from "next/navigation";
 
 type RegisterResponse = {
   message: string;
@@ -13,31 +15,23 @@ type RegisterResponse = {
   data: null | string;
 };
 
-type LoginDataResponse = {
-  data: {
-    name: string;
-    image: string;
-    email: string;
-    createdAt: string;
-    updatedAt: string;
-    _id: string;
-  };
-};
-
 const useAuth = (endPoints: string) => {
-  const { setState, state } = useAppContext();
-  const [formData, setFormData] = useState({
+  const initialState = {
     password: "",
     email: "",
     name: "",
-  });
-
-  const { password, email, name } = formData;
+    userName: "",
+  };
+  const { setState, state } = useAppContext();
+  const [formData, setFormData] = useState(initialState);
+  const { password, email, name, userName } = formData;
+  const router = useRouter();
 
   const RegisterData = {
     password,
     email,
     name,
+    userName,
   };
 
   const LoginData = {
@@ -62,7 +56,7 @@ const useAuth = (endPoints: string) => {
           data: { token: data.data },
         };
         axios(config);
-        window.location.reload();
+        router.push("/feed");
         return;
       }
 
@@ -72,6 +66,15 @@ const useAuth = (endPoints: string) => {
       });
 
       setState((prev) => ({ ...prev, authModal: false }));
+      setFormData(initialState);
+    },
+    onError: (err: any) => {
+      const errResponse: AppError = err.data;
+      toast({
+        description: errResponse.message,
+        duration: 4000,
+        variant: "destructive",
+      });
     },
   });
 

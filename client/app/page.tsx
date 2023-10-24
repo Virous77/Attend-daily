@@ -10,6 +10,7 @@ export async function get() {
 import React from "react";
 const Root = async () => {
   const value = await get();
+
   if (value?.value) return redirect("/feed");
 
   return <div>cool</div>;

@@ -27,7 +27,7 @@ export const loginUser = handleCallback(async (req, res, next) => {
 });
 
 export const createUser = handleCallback(async (req, res, next) => {
-  const { email, password, name } = req.body;
+  const { email, password, name, userName } = req.body;
 
   const findUser = await userModel.findOne({ email: email.toLowerCase() });
 
@@ -43,6 +43,7 @@ export const createUser = handleCallback(async (req, res, next) => {
     email: email.toLowerCase(),
     password: hash,
     name,
+    userName,
   });
   await user.save();
 

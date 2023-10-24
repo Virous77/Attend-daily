@@ -11,22 +11,19 @@ import { useState } from "react";
 import Login from "./login";
 import Register from "./register";
 import { useAppContext } from "@/store/useAppContext";
+import { usePathname } from "next/navigation";
 
 const MainForm = () => {
-  const [formData, setFormData] = useState({
-    active: false,
-  });
+  const [open, setOpen] = useState(false);
   const { state } = useAppContext();
+  const pathName = usePathname();
 
   const componentType = state.authModal ? "SIGN UP" : "SIGN IN";
 
+  if (pathName !== "/") return null;
+
   return (
-    <Dialog
-      open={formData.active}
-      onOpenChange={() =>
-        setFormData({ ...formData, active: formData.active ? false : true })
-      }
-    >
+    <Dialog open={pathName !== "/" ? false : open} onOpenChange={setOpen}>
       <DialogTrigger>
         <p className=" border border-input bg-background hover:bg-accent hover:text-accent-foreground p-3 rounded-lg">
           <FaUserAlt />
