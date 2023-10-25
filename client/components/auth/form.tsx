@@ -26,7 +26,7 @@ const MainForm: React.FC<NavbarProps> = ({ isLoggedIn }) => {
           <FaUserAlt />
         </p>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[525px]">
+      <DialogContent className="sm:max-w-[525px] w-[95%]">
         <DialogHeader>
           <p className="text-center">{componentType}</p>
         </DialogHeader>

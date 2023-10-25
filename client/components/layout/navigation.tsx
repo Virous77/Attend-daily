@@ -32,7 +32,7 @@ const Navigation: React.FC<NavigationProps> = ({ isLoggedIn }) => {
                 router.push(
                   !isLoggedIn && !state.isLogged
                     ? "/"
-                    : `${value.link}/reetesh-kumar`
+                    : `${value.link}/${state.user?.userName}`
                 );
               } else {
                 router.push(

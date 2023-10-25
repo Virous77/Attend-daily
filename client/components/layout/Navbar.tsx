@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import styles from "./navbar.module.scss";
 import { ModeToggle } from "../ui/toggle-theme";
 import MainForm from "../auth/form";
 import Logout from "../auth/logout";
@@ -9,7 +8,7 @@ import FeedType from "./feedType";
 import Logo from "./logo";
 import { useAppContext } from "@/store/useAppContext";
 import { MdOutlineNotificationsNone } from "react-icons/md";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export type NavbarProps = {
   isLoggedIn: string | undefined;
@@ -18,9 +17,15 @@ export type NavbarProps = {
 const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
   const { state } = useAppContext();
   const router = useRouter();
+  const pathName = usePathname();
 
   return (
-    <nav className={`${styles.nav} bg-background`}>
+    <nav
+      className={`bg-background ${
+        pathName !== "/feed" && pathName !== "/" ? "hidden md:flex" : "flex"
+      } fixed left-0 md:left-2/4 w-full md:w-[80%] md:transform -translate-x-1/2 -translate-y-1/2 transform-none items-center justify-between md:top-[7%] top-0 z-10 px-5 py-[10px] md:rounded-[40px]`}
+      style={{ boxShadow: "var(--shadow)" }}
+    >
       <FeedType />
       <Logo />
 
