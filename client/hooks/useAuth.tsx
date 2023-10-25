@@ -6,13 +6,18 @@ import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useAppContext } from "@/store/useAppContext";
 import axios from "axios";
-import { AppError } from "@/types/types";
+import { AppError, User } from "@/types/types";
 import { useRouter } from "next/navigation";
+import jwt_decode from "jwt-decode";
 
 type RegisterResponse = {
   message: string;
   status: boolean;
   data: null | string;
+};
+
+type LoginUserType = {
+  data: User;
 };
 
 const useAuth = (endPoints: string) => {
@@ -22,7 +27,7 @@ const useAuth = (endPoints: string) => {
     name: "",
     userName: "",
   };
-  const { setState, state } = useAppContext();
+  const { setState, state, refetch } = useAppContext();
   const [formData, setFormData] = useState(initialState);
   const { password, email, name, userName } = formData;
   const router = useRouter();
@@ -49,6 +54,7 @@ const useAuth = (endPoints: string) => {
       });
     },
     onSuccess: (data) => {
+      const userData: LoginUserType = jwt_decode(data.data || "");
       if (!state.authModal) {
         const config = {
           method: "post",
@@ -56,7 +62,7 @@ const useAuth = (endPoints: string) => {
           data: { token: data.data },
         };
         axios(config);
-        setState((prev) => ({ ...prev, isLogged: true }));
+        setState((prev) => ({ ...prev, isLogged: true, user: userData.data }));
         router.push("/feed");
         return;
       }

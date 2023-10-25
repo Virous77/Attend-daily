@@ -17,11 +17,8 @@ const Logout = () => {
   };
 
   return (
-    <div>
-      <button
-        className=" border border-input bg-background hover:bg-accent hover:text-accent-foreground p-2 rounded-lg cursor-pointer"
-        onClick={handleDelete}
-      >
+    <div className="md:block hidden">
+      <button className="btn-primary" onClick={handleDelete}>
         <BiLogOutCircle size={22} />
       </button>
     </div>

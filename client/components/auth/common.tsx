@@ -32,7 +32,7 @@ const Common: React.FC<PropsType> = ({
 
   return (
     <>
-      <div className="grid gap-4 py-4">
+      <form className="grid gap-4 py-4" onSubmit={(e) => e.preventDefault()}>
         {state.authModal && (
           <>
             <div className={styles.box}>
@@ -106,7 +106,7 @@ const Common: React.FC<PropsType> = ({
             {isLoading ? <Loader /> : componentType}
           </Button>
         </DialogFooter>
-      </div>
+      </form>
     </>
   );
 };

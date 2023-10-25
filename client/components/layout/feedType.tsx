@@ -19,7 +19,7 @@ const FeedType = () => {
       onChange={(e) => setState((prev) => ({ ...prev, feedType: e }))}
       data={data}
       placeHolder="Feed"
-      className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-blue-600 w-[180px]"
+      className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-blue-600 w-[131px] md:w-[180px]"
     />
   );
 };

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const protectedRoutes = ["/message", "/account"];
+const protectedRoutes = ["/message", "/account", "/notification"];
 
 export async function middleware(req: NextRequest) {
   const cookie = req.cookies.get("attend");

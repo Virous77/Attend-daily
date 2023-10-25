@@ -78,6 +78,12 @@
   }
 }
 
+@layer components {
+  .btn-primary {
+    @apply border border-input bg-background hover:bg-accent hover:text-accent-foreground p-2 rounded-lg cursor-pointer;
+  }
+}
+
 .loaderIcon {
   animation: App-logo-spin infinite 5s linear;
 }

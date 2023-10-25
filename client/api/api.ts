@@ -16,3 +16,18 @@ export const postData = async ({ endPoints, params }: PostProps) => {
     throw error.response ? error.response : localAppError;
   }
 };
+
+export const getData = async ({
+  url,
+  endPoints,
+}: {
+  url?: string;
+  endPoints: string;
+}) => {
+  try {
+    const { data } = await axios.post(`${url || base_url}${endPoints}`);
+    return data;
+  } catch (error: any) {
+    throw error.response ? error.response : localAppError;
+  }
+};
