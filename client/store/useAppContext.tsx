@@ -79,7 +79,7 @@ export const AppContextProvider = ({
     queryFn: async () => {
       const data: StatusType = await getData({
         endPoints: "/api/status",
-        url: "https://attend-daily-vercel.app",
+        url: "https://attend-daily.vercel.app",
       });
 
       if (!data.status) return null;
