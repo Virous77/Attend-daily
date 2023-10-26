@@ -8,6 +8,7 @@ import ReactQueryProvider from "@/lib/reactQueryProvider";
 import { Toaster } from "@/components/ui/toaster";
 import Navigation from "@/components/layout/navigation";
 import { cookies } from "next/headers";
+import { Providers } from "./Providers";
 
 export async function get() {
   const cookieStore = cookies();
@@ -39,14 +40,16 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ReactQueryProvider>
-            <AppContextProvider>
-              <Navbar isLoggedIn={value?.value} />
-              {children}
-              <Toaster />
-              <Navigation isLoggedIn={value?.value} />
-            </AppContextProvider>
-          </ReactQueryProvider>
+          <Providers>
+            <ReactQueryProvider>
+              <AppContextProvider>
+                <Navbar isLoggedIn={value?.value} />
+                {children}
+                <Toaster />
+                <Navigation isLoggedIn={value?.value} />
+              </AppContextProvider>
+            </ReactQueryProvider>
+          </Providers>
         </ThemeProvider>
       </body>
     </html>

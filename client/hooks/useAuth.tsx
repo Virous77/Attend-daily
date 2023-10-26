@@ -27,7 +27,7 @@ const useAuth = (endPoints: string) => {
     name: "",
     userName: "",
   };
-  const { setState, state, refetch } = useAppContext();
+  const { setState, state } = useAppContext();
   const [formData, setFormData] = useState(initialState);
   const { password, email, name, userName } = formData;
   const router = useRouter();
@@ -46,7 +46,7 @@ const useAuth = (endPoints: string) => {
 
   const data = state.authModal ? RegisterData : LoginData;
 
-  const { mutate, isLoading } = useMutation<RegisterResponse>({
+  const { mutate, isPending: isLoading } = useMutation<RegisterResponse>({
     mutationFn: () => {
       return postData({
         params: data,

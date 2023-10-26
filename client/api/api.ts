@@ -1,7 +1,7 @@
 import axios from "axios";
 import { localAppError } from "@/utils/utils";
 
-const base_url = "http://localhost:4000/api/v1";
+const base_url = process.env.NEXT_PUBLIC_SERVER_URL;
 
 type PostProps = {
   endPoints: string;

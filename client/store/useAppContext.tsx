@@ -11,6 +11,13 @@ import {
 } from "react";
 import jwt_decode from "jwt-decode";
 import { User } from "@/types/types";
+import { useDisclosure } from "@nextui-org/react";
+
+type ModalType = {
+  isOpen: boolean;
+  onOpen: () => void;
+  onOpenChange: () => void;
+};
 
 export type stateType = {
   authModal: boolean;
@@ -23,6 +30,7 @@ type ContextType = {
   state: stateType;
   setState: Dispatch<SetStateAction<stateType>>;
   refetch: () => void;
+  modal: ModalType;
 };
 
 type LoginUserType = {
@@ -42,6 +50,7 @@ const initialValue = {
   state: {} as stateType,
   setState: () => {},
   refetch: () => {},
+  modal: {} as ModalType,
 };
 
 const AppContext = createContext<ContextType>(initialValue);
@@ -57,6 +66,12 @@ export const AppContextProvider = ({
     isLogged: false,
     user: null,
   });
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const modal = {
+    isOpen,
+    onOpen,
+    onOpenChange,
+  };
 
   const { refetch } = useQuery({
     staleTime: 5 * 60 * 100,
@@ -64,7 +79,7 @@ export const AppContextProvider = ({
     queryFn: async () => {
       const data: StatusType = await getData({
         endPoints: "/api/status",
-        url: "http://localhost:3000",
+        url: "https://attend-daily-vercel.app",
       });
 
       if (!data.status) return null;
@@ -76,7 +91,7 @@ export const AppContextProvider = ({
   });
 
   return (
-    <AppContext.Provider value={{ setState, state, refetch }}>
+    <AppContext.Provider value={{ setState, state, refetch, modal }}>
       {children}
     </AppContext.Provider>
   );
