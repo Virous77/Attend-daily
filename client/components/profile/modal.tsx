@@ -21,10 +21,12 @@ const ModalComp = () => {
         {(onClose) => (
           <>
             <ModalBody>
-              <span className=" p-3 text-center cursor-pointer">Share</span>
+              <span className=" p-3 text-center cursor-pointer font-bold">
+                Share
+              </span>
               <Divider />
               <span
-                className="p-3 text-center cursor-pointer"
+                className="p-3 text-center cursor-pointer font-bold"
                 onClick={() => {
                   router.push("/settings");
                   onClose();

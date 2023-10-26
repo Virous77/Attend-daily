@@ -54,6 +54,17 @@ const useAuth = (endPoints: string) => {
       });
     },
     onSuccess: (data) => {
+      if (state.authModal) {
+        toast({
+          description: data.message,
+          duration: 4000,
+        });
+
+        setState((prev) => ({ ...prev, authModal: false }));
+        setFormData(initialState);
+        return;
+      }
+
       const userData: LoginUserType = jwt_decode(data.data || "");
       if (!state.authModal) {
         const config = {
@@ -64,16 +75,7 @@ const useAuth = (endPoints: string) => {
         axios(config);
         setState((prev) => ({ ...prev, isLogged: true, user: userData.data }));
         router.push("/feed");
-        return;
       }
-
-      toast({
-        description: data.message,
-        duration: 4000,
-      });
-
-      setState((prev) => ({ ...prev, authModal: false }));
-      setFormData(initialState);
     },
     onError: (err: any) => {
       const errResponse: AppError = err.data;
