@@ -13,7 +13,10 @@ export async function POST(request: NextRequest, res: NextResponse) {
     name: "attend",
     value: body.token,
     httpOnly: true,
-    maxAge: 60 * 60,
+    maxAge: 3600 * 24 * 7,
+    path: "/",
+    secure: true,
+    sameSite: "strict",
   });
   return response;
 }

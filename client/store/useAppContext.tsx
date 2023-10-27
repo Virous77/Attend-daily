@@ -9,7 +9,6 @@ import {
   SetStateAction,
   Dispatch,
 } from "react";
-import jwt_decode from "jwt-decode";
 import { User } from "@/types/types";
 import { useDisclosure } from "@nextui-org/react";
 
@@ -31,10 +30,7 @@ type ContextType = {
   setState: Dispatch<SetStateAction<stateType>>;
   refetch: () => void;
   modal: ModalType;
-};
-
-type LoginUserType = {
-  data: User;
+  isPending: boolean;
 };
 
 type StatusType = {
@@ -51,6 +47,7 @@ const initialValue = {
   setState: () => {},
   refetch: () => {},
   modal: {} as ModalType,
+  isPending: false,
 };
 
 const AppContext = createContext<ContextType>(initialValue);
@@ -73,7 +70,7 @@ export const AppContextProvider = ({
     onOpenChange,
   };
 
-  const { refetch } = useQuery({
+  const { refetch, isPending } = useQuery({
     staleTime: 5 * 60 * 100,
     queryKey: ["user"],
     queryFn: async () => {
@@ -92,10 +89,11 @@ export const AppContextProvider = ({
       }));
       return data.data;
     },
+    retry: false,
   });
 
   return (
-    <AppContext.Provider value={{ setState, state, refetch, modal }}>
+    <AppContext.Provider value={{ setState, state, refetch, modal, isPending }}>
       {children}
     </AppContext.Provider>
   );

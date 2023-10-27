@@ -14,13 +14,13 @@ const ModalComp = () => {
       placement={"auto"}
       onOpenChange={onOpenChange}
       backdrop="opaque"
-      className="bg-background text-foreground"
+      className="bg-background text-foreground !w-full"
       hideCloseButton={true}
     >
-      <ModalContent>
+      <ModalContent className="max-w-full md:max-w-md">
         {(onClose) => (
           <>
-            <ModalBody>
+            <ModalBody className="w-full">
               <span className=" p-3 text-center cursor-pointer font-bold">
                 Share
               </span>

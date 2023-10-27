@@ -5,6 +5,8 @@ import { Avatar } from "@nextui-org/react";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import EditProfile from "./editProfile";
 import { User } from "@/types/types";
+import { Skeleton } from "../ui/skeleton";
+import Content from "./content";
 
 export type StateType = {
   name: string;
@@ -16,7 +18,7 @@ export type StateType = {
 };
 
 const UserData = () => {
-  const { state } = useAppContext();
+  const { state, isPending } = useAppContext();
   const [open, setOpen] = useState<StateType>({
     image: "",
     name: "",
@@ -59,6 +61,39 @@ const UserData = () => {
           <MdOutlineModeEditOutline size={22} />
         </button>
       </div>
+      <div className="mt-6 flex items-start justify-between">
+        <div className="flex flex-col">
+          {state.user?.userName ? (
+            <b className="text-bold text-xl">{state.user?.userName}</b>
+          ) : (
+            <Skeleton className=" mt-3 h-4 w-[100px]" />
+          )}
+          {state.user?.name ? (
+            <span className="text-[14px] opacity-75">{state.user?.name}</span>
+          ) : (
+            <Skeleton className=" mt-3 h-3 w-[120px]" />
+          )}
+        </div>
+
+        <div className="flex items-center gap-4">
+          <div className=" flex flex-col  items-end">
+            <b>0</b>
+            <span className=" text-[14px] opacity-75">Followers</span>
+          </div>
+
+          <div className=" flex flex-col items-end">
+            <b>0</b>
+            <span className=" text-[14px] opacity-75">Following</span>
+          </div>
+        </div>
+      </div>
+
+      {state.user?.bio || !isPending ? (
+        <p className=" mt-3 text-[14px] opacity-75">{state.user?.bio}</p>
+      ) : (
+        <Skeleton className=" mt-[18px] h-3 w-[150px]" />
+      )}
+      <Content />
       <EditProfile open={open} setOpen={setOpen} />
     </div>
   );
