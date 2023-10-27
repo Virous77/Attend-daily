@@ -14,4 +14,5 @@ export type User = {
   createdAt: string;
   userName: string;
   bio: string;
+  token: string;
 };

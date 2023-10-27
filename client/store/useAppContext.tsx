@@ -77,16 +77,20 @@ export const AppContextProvider = ({
     staleTime: 5 * 60 * 100,
     queryKey: ["user"],
     queryFn: async () => {
-      const data: StatusType = await getData({
+      const token: StatusType = await getData({
         endPoints: "/api/status",
         url: process.env.NEXT_PUBLIC_FRONTEND_URL,
       });
+      const data = await getData({
+        endPoints: "auth/status",
+        token: token.token.value,
+      });
 
-      if (!data.status) return null;
-
-      const userData: LoginUserType = jwt_decode(data.token.value);
-      setState((prev) => ({ ...prev, user: userData.data }));
-      return userData;
+      setState((prev) => ({
+        ...prev,
+        user: data.data,
+      }));
+      return data.data;
     },
   });
 

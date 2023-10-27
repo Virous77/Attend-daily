@@ -54,3 +54,13 @@ export const createUser = handleCallback(async (req, res, next) => {
     code: 201,
   });
 });
+
+export const status = handleCallback(async (req, res) => {
+  sendResponse({
+    data: { ...req.user._doc, token: req.token },
+    message: "User status fetched successfully",
+    status: true,
+    res,
+    code: 200,
+  });
+});

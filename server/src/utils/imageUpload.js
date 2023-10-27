@@ -37,6 +37,7 @@ export const deleteImages = async (imageUrls) => {
         return cloudinary.uploader.destroy(publicId);
       })
     );
+    return true;
   } catch (error) {
     throw error;
   }

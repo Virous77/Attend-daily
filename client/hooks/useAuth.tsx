@@ -73,7 +73,11 @@ const useAuth = (endPoints: string) => {
           data: { token: data.data },
         };
         axios(config);
-        setState((prev) => ({ ...prev, isLogged: true, user: userData.data }));
+        setState((prev) => ({
+          ...prev,
+          isLogged: true,
+          user: { ...userData.data, token: data.data ? data.data : "" },
+        }));
         router.push("/feed");
       }
     },

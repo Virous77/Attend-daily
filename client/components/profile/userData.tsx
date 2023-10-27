@@ -8,7 +8,7 @@ import { User } from "@/types/types";
 
 export type StateType = {
   name: string;
-  image: File | null;
+  image: string | ArrayBuffer;
   bio: string;
   email: string;
   active: boolean;
@@ -18,7 +18,7 @@ export type StateType = {
 const UserData = () => {
   const { state } = useAppContext();
   const [open, setOpen] = useState<StateType>({
-    image: null,
+    image: "",
     name: "",
     bio: "",
     email: "",
@@ -34,7 +34,7 @@ const UserData = () => {
       email: user.email,
       bio: user.bio,
       active: true,
-      image: null,
+      image: "",
       previewImage: user.image,
     }));
   };
