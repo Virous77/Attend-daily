@@ -7,6 +7,7 @@ import EditProfile from "./editProfile";
 import { User } from "@/types/types";
 import { Skeleton } from "../ui/skeleton";
 import Content from "./content";
+import { useUserContext } from "@/store/useUserContext";
 
 export type StateType = {
   name: string;
@@ -27,6 +28,7 @@ const UserData = () => {
     active: false,
     previewImage: "",
   });
+  const { networkData } = useUserContext();
 
   const handleSetUserState = (user: User | null) => {
     if (!user) return;
@@ -77,12 +79,12 @@ const UserData = () => {
 
         <div className="flex items-center gap-4">
           <div className=" flex flex-col  items-end">
-            <b>0</b>
+            <b>{networkData?.data?.followers.length || 0}</b>
             <span className=" text-[14px] opacity-75">Followers</span>
           </div>
 
           <div className=" flex flex-col items-end">
-            <b>0</b>
+            <b>{networkData?.data?.following.length || 0}</b>
             <span className=" text-[14px] opacity-75">Following</span>
           </div>
         </div>

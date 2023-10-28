@@ -5,14 +5,35 @@ export type AppError = {
   success: boolean;
 };
 
-export type User = {
+type common = {
   _id: string;
+  updatedAt: string;
+  createdAt: string;
+};
+
+export type User = common & {
   name: string;
   email: string;
   image: string;
-  updatedAt: string;
-  createdAt: string;
   userName: string;
   bio: string;
   token: string;
+};
+
+export type UserNetwork = common & {
+  userId: string;
+  totalPost: number;
+  followers: [
+    {
+      id: string;
+      followedAt: string;
+    }
+  ];
+  following: [
+    {
+      id: string;
+      followedAt: string;
+    }
+  ];
+  bookmarks: string[];
 };

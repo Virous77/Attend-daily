@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js";
 import { createError, handleCallback, sendResponse } from "../utils/utils.js";
 import bcrypt from "bcryptjs";
 import { createJwtToken } from "../utils/jwtToken.js";
+import userNetwork from "../models/userNetwork.js";
 
 export const loginUser = handleCallback(async (req, res, next) => {
   const { email, password: userPassword } = req.body;
@@ -46,6 +47,8 @@ export const createUser = handleCallback(async (req, res, next) => {
     userName,
   });
   await user.save();
+  const network = new userNetwork({ userId: user._id });
+  await network.save();
 
   sendResponse({
     message: "User registered successfully.",

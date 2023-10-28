@@ -9,6 +9,7 @@ import { Toaster } from "@/components/ui/toaster";
 import Navigation from "@/components/layout/navigation";
 import { cookies } from "next/headers";
 import { Providers } from "./Providers";
+import { UserContextProvider } from "@/store/useUserContext";
 
 export async function get() {
   const cookieStore = cookies();
@@ -43,10 +44,12 @@ export default async function RootLayout({
           <Providers>
             <ReactQueryProvider>
               <AppContextProvider>
-                <Navbar isLoggedIn={value?.value} />
-                {children}
-                <Toaster />
-                <Navigation isLoggedIn={value?.value} />
+                <UserContextProvider>
+                  <Navbar isLoggedIn={value?.value} />
+                  {children}
+                  <Toaster />
+                  <Navigation isLoggedIn={value?.value} />
+                </UserContextProvider>
               </AppContextProvider>
             </ReactQueryProvider>
           </Providers>

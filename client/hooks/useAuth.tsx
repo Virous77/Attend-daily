@@ -48,6 +48,8 @@ const useAuth = (endPoints: string) => {
 
   const { mutate, isPending: isLoading } = useMutation<RegisterResponse>({
     mutationFn: () => {
+      setState((prev) => ({ ...prev, isLoading: "login" }));
+
       return postData({
         params: data,
         endPoints: endPoints,
@@ -59,8 +61,8 @@ const useAuth = (endPoints: string) => {
           description: data.message,
           duration: 4000,
         });
-
         setState((prev) => ({ ...prev, authModal: false }));
+
         setFormData(initialState);
         return;
       }
@@ -77,6 +79,7 @@ const useAuth = (endPoints: string) => {
           ...prev,
           isLogged: true,
           user: { ...userData.data, token: data.data ? data.data : "" },
+          isLoading: "",
         }));
         router.push("/feed");
       }
@@ -88,6 +91,7 @@ const useAuth = (endPoints: string) => {
         duration: 4000,
         variant: "destructive",
       });
+      setState((prev) => ({ ...prev, isLoading: "" }));
     },
   });
 

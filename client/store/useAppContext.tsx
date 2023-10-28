@@ -23,6 +23,7 @@ export type stateType = {
   feedType: string;
   isLogged: boolean;
   user: User | null;
+  isLoading: string;
 };
 
 type ContextType = {
@@ -62,6 +63,7 @@ export const AppContextProvider = ({
     feedType: "home feed",
     isLogged: false,
     user: null,
+    isLoading: "",
   });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const modal = {
@@ -87,6 +89,7 @@ export const AppContextProvider = ({
         ...prev,
         user: data.data,
       }));
+
       return data.data;
     },
     retry: false,

@@ -43,9 +43,10 @@ export const getData = async ({
         Authorization: `Bearer ${token}`,
       },
     });
+
     return data;
   } catch (error: any) {
-    throw error.response ? error.response : localAppError;
+    throw error.response ? error.response.data : localAppError;
   }
 };
 
@@ -59,6 +60,6 @@ export const putData = async ({ endPoints, params, token = "" }: PostProps) => {
     });
     return data;
   } catch (error: any) {
-    throw error.response ? error.response : localAppError;
+    throw error.response ? error.response.data : localAppError;
   }
 };

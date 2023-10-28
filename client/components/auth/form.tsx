@@ -20,7 +20,10 @@ const MainForm: React.FC<NavbarProps> = ({ isLoggedIn }) => {
   const componentType = state.authModal ? "SIGN UP" : "SIGN IN";
 
   return (
-    <Dialog open={isLoggedIn ? false : open} onOpenChange={setOpen}>
+    <Dialog
+      open={isLoggedIn ? false : state.isLoading === "login" ? true : open}
+      onOpenChange={setOpen}
+    >
       <DialogTrigger>
         <p className=" border border-input bg-background hover:bg-accent hover:text-accent-foreground p-3 rounded-lg">
           <FaUserAlt />

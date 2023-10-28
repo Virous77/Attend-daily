@@ -4,6 +4,7 @@ const NetworkSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Users",
+    required: true,
   },
   followers: {
     type: [
@@ -28,6 +29,13 @@ const NetworkSchema = new mongoose.Schema({
       },
     ],
     required: false,
+  },
+  totalPost: {
+    type: Number,
+    default: 0,
+  },
+  bookMarks: {
+    type: [String],
   },
 });
 
