@@ -3,6 +3,7 @@ import { TbMessage2 } from "react-icons/tb";
 import { MdOutlineAccountBalanceWallet } from "react-icons/md";
 import { RiSearchLine } from "react-icons/ri";
 import { FaRegUser } from "react-icons/fa";
+import moment from "moment";
 
 export const getLocalData = (id: string) => {
   const localData = localStorage.getItem(id);
@@ -50,3 +51,21 @@ export const navLink = [
     icon: FaRegUser,
   },
 ];
+
+export const formatTimeAgo = (createdAt: Date) => {
+  const now = moment();
+  const createdMoment = moment(createdAt);
+  const diffInMinutes = now.diff(createdMoment, "minutes");
+
+  if (diffInMinutes < 1) {
+    return `${diffInMinutes === 0 ? 1 : diffInMinutes} seconds ago`;
+  } else if (diffInMinutes < 60) {
+    return `${diffInMinutes} minute${diffInMinutes > 1 ? "s" : ""} ago`;
+  } else if (diffInMinutes < 1440) {
+    const hoursAgo = Math.floor(diffInMinutes / 60);
+    return `${hoursAgo} hour${hoursAgo > 1 ? "s" : ""} ago`;
+  } else {
+    const daysAgo = Math.floor(diffInMinutes / 1440);
+    return `${daysAgo} day${daysAgo > 1 ? "s" : ""} ago`;
+  }
+};

@@ -37,3 +37,21 @@ export type UserNetwork = common & {
   ];
   bookmarks: string[];
 };
+
+export type Post = common & {
+  userId: string;
+  image: string[];
+  video: string[];
+  title: string;
+  pin: boolean;
+};
+
+export type QueryResponse = {
+  isPending: boolean;
+  refetch: () => void;
+};
+
+export type QueryData = {
+  message: string;
+  state: boolean;
+};

@@ -24,6 +24,10 @@ const PostSchema = new mongoose.Schema(
       default: false,
       required: false,
     },
+    postType: {
+      type: ["post", "poll"],
+      required: true,
+    },
   },
   {
     timestamps: true,

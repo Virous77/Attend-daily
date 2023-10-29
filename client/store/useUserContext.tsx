@@ -9,27 +9,24 @@ import {
   SetStateAction,
 } from "react";
 import useQueryFetch from "@/hooks/useQueryFetch";
+import { QueryResponse, QueryData } from "@/types/types";
 
 export type stateType = {
   network: UserNetwork | null;
 };
 
-type QueryData = {
+type NetworkDataType = QueryData & {
   data: UserNetwork | null;
-  message: string;
-  state: boolean;
 };
 
-type QueryResponse = {
-  fetchResult: QueryData;
-  isPending: boolean;
-  refetch: () => void;
+type NetworkQueryResponse = QueryResponse & {
+  fetchResult: NetworkDataType;
 };
 
 type ContextType = {
   userData: stateType;
   setUserData: Dispatch<SetStateAction<stateType>>;
-  networkData: QueryData;
+  networkData: NetworkDataType;
   refetch: () => void;
   isPending: boolean;
 };
@@ -37,7 +34,7 @@ type ContextType = {
 const initialState: ContextType = {
   userData: {} as stateType,
   setUserData: () => {},
-  networkData: {} as QueryData,
+  networkData: {} as NetworkDataType,
   refetch: () => {},
   isPending: false,
 };
@@ -57,7 +54,7 @@ export const UserContextProvider = ({
     fetchResult: networkData,
     isPending,
     refetch,
-  }: QueryResponse = useQueryFetch({
+  }: NetworkQueryResponse = useQueryFetch({
     endPoints: "user/network",
     key: "user-network",
     staleTime: 5 * 60 * 100,

@@ -41,6 +41,7 @@ export const createPost = handleCallback(async (req, res) => {
   const packet = {
     userId: user._id,
     title: req.body.title,
+    postType: req.body.type,
   };
 
   const newPost = new postModel(packet);
@@ -143,6 +144,22 @@ export const addPostLike = handleCallback(async (req, res) => {
     code: 200,
     message: "You have Liked comment Successfully",
     data: newLike,
+    res,
+  });
+});
+
+export const getUserPosts = handleCallback(async (req, res, next) => {
+  const user = req.user;
+
+  const posts = await postModel.find({ userId: user._id });
+
+  console.log(posts);
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "User Posts fetched Successfully",
+    data: posts,
     res,
   });
 });
