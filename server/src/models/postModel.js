@@ -1,0 +1,33 @@
+import mongoose from "mongoose";
+
+const PostSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Users",
+      required: true,
+    },
+    title: {
+      type: String,
+      required: false,
+    },
+    image: {
+      type: [String],
+      required: false,
+    },
+    video: {
+      type: [String],
+      required: false,
+    },
+    pin: {
+      type: Boolean,
+      default: false,
+      required: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+export default mongoose.model("posts", PostSchema);
