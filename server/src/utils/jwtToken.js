@@ -16,11 +16,16 @@ export const createJwtToken = async (data) => {
 export const verifyJwtToken = async (token) => {
   const tokenVerified = jwt.verify(token, secretKey, (err, decoded) => {
     if (err) {
-      if (err.message === "jwt expired")
+      if (err.message === "jwt expired") {
         throw new Error("session is over, login again");
-    } else {
-      return decoded;
+      }
+
+      if (err.message === "invalid signature") {
+        throw new Error("Token provided is incorrect");
+      }
     }
+
+    return decoded;
   });
 
   return tokenVerified;

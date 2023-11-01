@@ -21,8 +21,13 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Attend-daily",
-  description:
-    "A complete daily attendance tracker with loads of other feature.",
+  description: "ChatX: Share your daily memories globally with your friends.",
+  viewport:
+    "width=device-width; initial-scale=1; viewport-fit=cover; maximum-scale=1; user-scalable=no",
+  keywords: "social, messaging, connect, network",
+  authors: [
+    { name: "Reetesh Kumar", url: "https://reetesh-virous.netlify.app/" },
+  ],
 };
 
 export default async function RootLayout({

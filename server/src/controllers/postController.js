@@ -46,6 +46,9 @@ export const createPost = handleCallback(async (req, res) => {
 
   const newPost = new postModel(packet);
   await newPost.save();
+  const postLike = new postLikeModel({ postId: newPost._id });
+  await postLike.save();
+  await postModel.findByIdAndUpdate(newPost._id, { like: postLike._id });
 
   sendResponse({
     status: true,
@@ -151,7 +154,10 @@ export const addPostLike = handleCallback(async (req, res) => {
 export const getUserPosts = handleCallback(async (req, res, next) => {
   const user = req.user;
 
-  const posts = await postModel.find({ userId: user._id });
+  const posts = await postModel
+    .find({ userId: user._id })
+    .populate("like")
+    .exec();
 
   console.log(posts);
 

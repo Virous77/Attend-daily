@@ -28,6 +28,10 @@ const PostSchema = new mongoose.Schema(
       type: ["post", "poll"],
       required: true,
     },
+    like: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "PostLikes",
+    },
   },
   {
     timestamps: true,
