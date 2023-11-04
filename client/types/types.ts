@@ -1,3 +1,5 @@
+import { type } from "os";
+
 export type AppError = {
   message: string;
   stack: string;
@@ -44,6 +46,7 @@ export type Post = common & {
   video: string[];
   title: string;
   pin: boolean;
+  totalComments: number;
 };
 
 export type Like = common & {
@@ -73,4 +76,8 @@ export type MainComments = common & {
   };
   content: string;
   like: string[];
+};
+
+export type CommentReplies = MainComments & {
+  commentId: string;
 };

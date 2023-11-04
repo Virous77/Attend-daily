@@ -31,14 +31,19 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({
     <div className=" pt-1 pl-1 flex items-center justify-between w-full">
       <Like value={post.like.like} handleLike={() => handleLike(post._id)} />
 
-      <span
-        className=" cursor-pointer"
-        onClick={() =>
-          setOpen((prev) => ({ ...prev, active: true, post: post }))
-        }
-      >
-        <FaRegComment size={20} />
-      </span>
+      <div className="flex items-center gap-1">
+        <span
+          className=" cursor-pointer"
+          onClick={() =>
+            setOpen((prev) => ({ ...prev, active: true, post: post }))
+          }
+        >
+          <FaRegComment size={20} />
+        </span>
+        {post.totalComments > 0 && (
+          <p className=" leading-none">{post.totalComments}</p>
+        )}
+      </div>
 
       <span className=" cursor-pointer">
         <FaRetweet size={20} />

@@ -22,19 +22,30 @@ const Dropdown = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent className=" w-40 mr-2">
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem className=" cursor-pointer">
             <User className="mr-2" size={20} />
             <span>Follow</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
+            <MdReportGmailerrorred className="mr-2 " size={20} />
+            <span>Edit Post</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+
+          <DropdownMenuItem className=" cursor-pointer">
             <TbCopy className="mr-2" size={20} />
             <span>Copy Link</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>
+          <DropdownMenuItem className=" cursor-pointer">
             <MdReportGmailerrorred className="mr-2" size={20} />
             <span>Report</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem className=" bg-red-500 hover:bg-red-400 cursor-pointer">
+            <MdReportGmailerrorred className="mr-2 " size={20} />
+            <span>Delete Post</span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

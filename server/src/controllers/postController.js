@@ -89,6 +89,9 @@ export const addComment = handleCallback(async (req, res) => {
   };
   const newComment = new commentModel(packet);
   await newComment.save();
+  await postModel.findByIdAndUpdate(postId, {
+    $inc: { totalComments: 1 },
+  });
 
   sendResponse({
     status: true,
@@ -101,16 +104,20 @@ export const addComment = handleCallback(async (req, res) => {
 
 export const addCommentReplies = handleCallback(async (req, res) => {
   const commentReplyUser = req.user;
-  const { content, commentId } = req.body;
+  const { content, postId, commentId } = req.body;
 
   const packet = {
     commentedUser: commentReplyUser._id,
     content,
     commentId,
+    postId,
   };
 
   const newComment = new commentReplies(packet);
   await newComment.save();
+  await postModel.findByIdAndUpdate(postId, {
+    $inc: { totalComments: 1 },
+  });
 
   sendResponse({
     status: true,
@@ -189,16 +196,24 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
 
 export const getComments = handleCallback(async (req, res) => {
   const { postId } = req.params;
+
   const comments = await commentModel.find({ postId: postId }).populate({
     path: "commentedUser",
     select: "image name userName",
   });
 
+  const commentsReplies = await commentReplies
+    .find({ postId: postId })
+    .populate({
+      path: "commentedUser",
+      select: "image name userName",
+    });
+
   sendResponse({
     status: true,
     code: 200,
     message: "Post comments fetched Successfully",
-    data: comments,
+    data: { comments, commentsReplies },
     res,
   });
 });
