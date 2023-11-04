@@ -18,8 +18,9 @@ const PostImages: React.FC<PostImagesProps> = ({ image }) => {
                 key={idx}
                 width="100%"
                 height="100%"
-                className=" max-h-96 cursor-pointer hover:scroll-smooth"
+                className=" max-h-96 cursor-pointer hover:scroll-smooth transition-opacity opacity-0 duration-[2s]"
                 shadow="sm"
+                placeholder="blur"
               />
             ))}
           </ul>

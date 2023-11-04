@@ -54,9 +54,23 @@ export type Like = common & {
 export type QueryResponse = {
   isPending: boolean;
   refetch: () => void;
+  isError: boolean;
+  error: Error | null;
 };
 
 export type QueryData = {
   message: string;
   state: boolean;
+};
+
+export type MainComments = common & {
+  postId: string;
+  commentedUser: {
+    _id: string;
+    name: string;
+    userName: string;
+    image: string;
+  };
+  content: string;
+  like: string[];
 };

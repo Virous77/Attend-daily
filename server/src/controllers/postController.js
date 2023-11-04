@@ -123,7 +123,7 @@ export const addCommentReplies = handleCallback(async (req, res) => {
 
 export const addCommentLike = handleCallback(async (req, res) => {
   const likeUser = req.user;
-  const { type, commentId } = req.body;
+  const { type, postId: commentId } = req.body;
 
   let newLike;
 
@@ -178,13 +178,27 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
     .populate("like")
     .exec();
 
-  console.log(posts);
-
   sendResponse({
     status: true,
     code: 200,
     message: "User Posts fetched Successfully",
     data: posts,
+    res,
+  });
+});
+
+export const getComments = handleCallback(async (req, res) => {
+  const { postId } = req.params;
+  const comments = await commentModel.find({ postId: postId }).populate({
+    path: "commentedUser",
+    select: "image name userName",
+  });
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Post comments fetched Successfully",
+    data: comments,
     res,
   });
 });

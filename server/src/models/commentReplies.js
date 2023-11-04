@@ -7,6 +7,11 @@ const CommentRepliesSchema = new mongoose.Schema(
       ref: "Comments",
       required: true,
     },
+    postId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Posts",
+      required: true,
+    },
     commentedUser: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Users",

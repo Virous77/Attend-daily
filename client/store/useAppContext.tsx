@@ -24,6 +24,7 @@ export type stateType = {
   isLogged: boolean;
   user: User | null;
   isLoading: string;
+  open: string;
 };
 
 type ContextType = {
@@ -64,6 +65,7 @@ export const AppContextProvider = ({
     isLogged: false,
     user: null,
     isLoading: "",
+    open: "",
   });
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const modal = {
@@ -73,7 +75,7 @@ export const AppContextProvider = ({
   };
 
   const { refetch, isPending } = useQuery({
-    staleTime: 5 * 60 * 100,
+    staleTime: 5 * 60 * 1000,
     queryKey: ["user"],
     queryFn: async () => {
       const token: StatusType = await getData({

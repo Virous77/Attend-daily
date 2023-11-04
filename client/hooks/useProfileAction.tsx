@@ -6,6 +6,7 @@ import { useState } from "react";
 type MutateType = {
   postId: string;
   endPoints: string;
+  type?: string;
 };
 
 const useProfileAction = () => {
@@ -19,7 +20,7 @@ const useProfileAction = () => {
     mutationFn: async (data: MutateType) => {
       const res = await putData({
         endPoints: data.endPoints,
-        params: { postId: data.postId },
+        params: { postId: data.postId, type: data.type },
         token: user?.token,
       });
       return res;

@@ -1,16 +1,19 @@
 import React from "react";
-import { PostListProps } from "./postList";
-import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
+import { PostListProps, StateType } from "./postList";
 import { FaRegComment, FaRetweet } from "react-icons/fa";
 import { BsBookmarkCheckFill, BsBookmarkCheck } from "react-icons/bs";
-import { useAppContext } from "@/store/useAppContext";
 import { useUserContext } from "@/store/useUserContext";
 import useProfileAction from "@/hooks/useProfileAction";
+import Like from "@/common/like";
 
-const PostAction: React.FC<PostListProps> = ({ post }) => {
-  const {
-    state: { user },
-  } = useAppContext();
+type PostActionProps = {
+  setOpen: React.Dispatch<React.SetStateAction<StateType>>;
+};
+
+const PostAction: React.FC<PostListProps & PostActionProps> = ({
+  post,
+  setOpen,
+}) => {
   const { networkData } = useUserContext();
   const { mutate, setQuery } = useProfileAction();
 
@@ -26,28 +29,14 @@ const PostAction: React.FC<PostListProps> = ({ post }) => {
 
   return (
     <div className=" pt-1 pl-1 flex items-center justify-between w-full">
-      <div className=" flex items-center gap-1">
-        {post.like.like.includes(user?._id || "") ? (
-          <span
-            className=" cursor-pointer"
-            onClick={() => handleLike(post._id)}
-          >
-            <AiTwotoneHeart size={20} />
-          </span>
-        ) : (
-          <span
-            className=" cursor-pointer"
-            onClick={() => handleLike(post._id)}
-          >
-            <AiOutlineHeart size={20} />
-          </span>
-        )}
-        {post.like.like.length > 0 && (
-          <p className=" leading-none">{post.like.like.length}</p>
-        )}
-      </div>
+      <Like value={post.like.like} handleLike={() => handleLike(post._id)} />
 
-      <span className=" cursor-pointer">
+      <span
+        className=" cursor-pointer"
+        onClick={() =>
+          setOpen((prev) => ({ ...prev, active: true, post: post }))
+        }
+      >
         <FaRegComment size={20} />
       </span>
 

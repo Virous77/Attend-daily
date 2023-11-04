@@ -22,7 +22,7 @@ const Post = () => {
   const { fetchResult }: PostQueryResponse = useQueryFetch({
     endPoints: "post",
     key: "post",
-    staleTime: 5 * 60 * 100,
+    staleTime: 5 * 60 * 1000,
   });
 
   const handleRefresh = async () => {

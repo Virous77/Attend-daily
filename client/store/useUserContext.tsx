@@ -57,7 +57,7 @@ export const UserContextProvider = ({
   }: NetworkQueryResponse = useQueryFetch({
     endPoints: "user/network",
     key: "user-network",
-    staleTime: 5 * 60 * 100,
+    staleTime: 5 * 60 * 1000,
   });
 
   return (
