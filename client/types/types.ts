@@ -35,7 +35,7 @@ export type UserNetwork = common & {
       followedAt: string;
     }
   ];
-  bookmarks: string[];
+  bookMarks: string[];
 };
 
 export type Post = common & {
@@ -44,6 +44,11 @@ export type Post = common & {
   video: string[];
   title: string;
   pin: boolean;
+};
+
+export type Like = common & {
+  postId: string;
+  like: string[];
 };
 
 export type QueryResponse = {

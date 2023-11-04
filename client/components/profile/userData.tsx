@@ -44,7 +44,7 @@ const UserData = () => {
   };
 
   return (
-    <div className="p-5 absolute w-full top-[160px] z-[3] rounded-t-3xl bg-background">
+    <div className="p-5 absolute w-full top-[160px] z-[3] rounded-t-3xl bg-background pb-20">
       <div className="flex items-center justify-between">
         <div className="-mt-[60px]">
           <Avatar

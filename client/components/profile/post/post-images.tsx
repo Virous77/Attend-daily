@@ -1,0 +1,32 @@
+import { Image } from "@nextui-org/react";
+import React from "react";
+
+type PostImagesProps = {
+  image: string[];
+};
+
+const PostImages: React.FC<PostImagesProps> = ({ image }) => {
+  return (
+    <>
+      {image.length > 0 && (
+        <div>
+          <ul className=" grid grid-cols-2 gap-2 mt-2">
+            {image.map((img, idx) => (
+              <Image
+                src={img}
+                alt={"post"}
+                key={idx}
+                width="100%"
+                height="100%"
+                className=" max-h-96 cursor-pointer hover:scroll-smooth"
+                shadow="sm"
+              />
+            ))}
+          </ul>
+        </div>
+      )}
+    </>
+  );
+};
+
+export default PostImages;

@@ -6,12 +6,19 @@ import commentReplies from "../models/commentReplies.js";
 import postLikeModel from "../models/postLikeModel.js";
 
 /// Utility Function
-const toggleLikeInComment = async ({ model, commentId, userId, active }) => {
+export const toggleLikeInComment = async ({
+  model,
+  commentId,
+  userId,
+  active,
+}) => {
   try {
     let comment;
 
-    if (active) {
+    if (active === "true") {
       comment = await model.findOne({ postId: commentId });
+    } else if (active === "yes") {
+      comment = await model.findOne({ userId });
     } else {
       comment = await model.findOne({ _id: commentId });
     }
@@ -20,12 +27,24 @@ const toggleLikeInComment = async ({ model, commentId, userId, active }) => {
       throw new Error("Comment not found");
     }
 
-    const likeIndex = comment.like.indexOf(userId);
+    let likeIndex;
 
-    if (likeIndex !== -1) {
-      comment.like.splice(likeIndex, 1);
+    if (active === "yes") {
+      likeIndex = comment.bookMarks.indexOf(commentId);
+
+      if (likeIndex !== -1) {
+        comment.bookMarks.splice(likeIndex, 1);
+      } else {
+        comment.bookMarks.push(commentId);
+      }
     } else {
-      comment.like.push(userId);
+      likeIndex = comment.like.indexOf(userId);
+
+      if (likeIndex !== -1) {
+        comment.like.splice(likeIndex, 1);
+      } else {
+        comment.like.push(userId);
+      }
     }
 
     const updatedComment = await comment.save();
@@ -139,7 +158,7 @@ export const addPostLike = handleCallback(async (req, res) => {
     model: postLikeModel,
     userId: likeUser._id,
     commentId: postId,
-    active: true,
+    active: "true",
   });
 
   sendResponse({

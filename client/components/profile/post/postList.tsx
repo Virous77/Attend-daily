@@ -1,4 +1,4 @@
-import { Post } from "@/types/types";
+import { Like, Post } from "@/types/types";
 import React from "react";
 import {
   Card,
@@ -12,9 +12,11 @@ import { useAppContext } from "@/store/useAppContext";
 import { formatTimeAgo } from "@/utils/utils";
 import { BsThreeDots } from "react-icons/bs";
 import PostAction from "./postAction";
+import PostImages from "./post-images";
+import PostVideos from "./post-videos";
 
 export type PostListProps = {
-  post: Post;
+  post: Post & { like: Like };
 };
 const PostList: React.FC<PostListProps> = ({ post }) => {
   const {
@@ -39,23 +41,8 @@ const PostList: React.FC<PostListProps> = ({ post }) => {
       <CardBody className=" p-0 pt-5">
         <p>{post.title}</p>
 
-        {post.image.length > 0 && (
-          <div>
-            <ul className=" grid grid-cols-2 gap-2 mt-2">
-              {post.image.map((img) => (
-                <Image
-                  src={img}
-                  alt={post.title}
-                  key={img}
-                  width="100%"
-                  height="100%"
-                  className=" max-h-96 cursor-pointer hover:scroll-smooth"
-                  shadow="sm"
-                />
-              ))}
-            </ul>
-          </div>
-        )}
+        <PostImages image={post.image} />
+        <PostVideos video={post.video} />
       </CardBody>
       <CardFooter className="p-0 pt-2">
         <PostAction post={post} />

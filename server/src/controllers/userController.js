@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js";
 import { uploadImage, deleteImages } from "../utils/imageUpload.js";
 import { createError, handleCallback, sendResponse } from "../utils/utils.js";
 import userNetwork from "../models/userNetwork.js";
+import { toggleLikeInComment } from "./postController.js";
 
 export const updateUser = handleCallback(async (req, res, next) => {
   let { image, ...rest } = req.body;
@@ -36,5 +37,25 @@ export const userNetworkData = handleCallback(async (req, res) => {
     message: "User network data successfully fetched",
     status: true,
     code: 200,
+  });
+});
+
+export const userBookmark = handleCallback(async (req, res) => {
+  const bookmarkUser = req.user;
+  const { postId } = req.body;
+
+  const newBookmark = await toggleLikeInComment({
+    model: userNetwork,
+    userId: bookmarkUser._id,
+    commentId: postId,
+    active: "yes",
+  });
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "You have Bookmarked post Successfully",
+    data: newBookmark,
+    res,
   });
 });

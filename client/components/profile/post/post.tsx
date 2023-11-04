@@ -3,12 +3,14 @@ import PostList from "./postList";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import Loader from "@/components/ui/loader/Loader";
 import useQueryFetch from "@/hooks/useQueryFetch";
-import { QueryResponse, QueryData, Post } from "@/types/types";
+import { QueryResponse, QueryData, Post, Like } from "@/types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { Card } from "@nextui-org/react";
 
+type response = Post & { like: Like };
+
 type PostDataType = QueryData & {
-  data: Post[] | null;
+  data: response[] | null;
 };
 
 type PostQueryResponse = QueryResponse & {
@@ -17,7 +19,7 @@ type PostQueryResponse = QueryResponse & {
 
 const Post = () => {
   const client = useQueryClient();
-  const { fetchResult, isPending, refetch }: PostQueryResponse = useQueryFetch({
+  const { fetchResult }: PostQueryResponse = useQueryFetch({
     endPoints: "post",
     key: "post",
     staleTime: 5 * 60 * 100,
