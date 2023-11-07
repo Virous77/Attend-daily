@@ -1,0 +1,36 @@
+"use client";
+
+import { Card, CardBody, CardFooter } from "@nextui-org/react";
+import React from "react";
+import Author from "./author";
+import { Like, Post } from "@/types/types";
+import PostImages from "./post-images";
+import PostVideos from "./post-videos";
+import PostAction from "./postAction";
+import { useRouter } from "next/navigation";
+
+type PostProps = {
+  post: Post & { like: Like };
+};
+
+const PostCommon: React.FC<PostProps> = ({ post }) => {
+  const router = useRouter();
+  return (
+    <Card className=" p-4 cursor-pointer" shadow="sm">
+      <div onClick={() => router.push(`/post/${post._id}`)}>
+        <Author date={post.createdAt} />
+        <CardBody className=" p-0 pt-5">
+          <p>{post.title}</p>
+
+          <PostImages image={post.image} />
+          <PostVideos video={post.video} />
+        </CardBody>
+        <CardFooter className="p-0 pt-2">
+          <PostAction post={post} />
+        </CardFooter>
+      </div>
+    </Card>
+  );
+};
+
+export default PostCommon;

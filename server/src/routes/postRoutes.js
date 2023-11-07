@@ -7,6 +7,8 @@ import {
   addPostLike,
   createPost,
   getComments,
+  getSingleComment,
+  getSinglePost,
   getUserPosts,
 } from "../controllers/postController.js";
 
@@ -14,8 +16,10 @@ const router = express.Router();
 
 router.post("/post", [authenticate], createPost);
 router.get("/post", [authenticate], getUserPosts);
+router.get("/post/:id", [authenticate], getSinglePost);
 router.post("/comment", [authenticate], addComment);
 router.get("/comment/:postId", [authenticate], getComments);
+router.get("/comment/single/:id/:type", [authenticate], getSingleComment);
 router.post("/comment/replies", [authenticate], addCommentReplies);
 router.put("/comment/like", [authenticate], addCommentLike);
 router.put("/like", [authenticate], addPostLike);

@@ -38,7 +38,7 @@ const Dropdown = () => {
             <span>Copy Link</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem className=" cursor-pointer">
+          <DropdownMenuItem className=" cursor-pointer text-red-500">
             <MdReportGmailerrorred className="mr-2" size={20} />
             <span>Report</span>
           </DropdownMenuItem>

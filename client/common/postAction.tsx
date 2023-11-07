@@ -1,5 +1,5 @@
 import React from "react";
-import { PostListProps, StateType } from "./postList";
+import { PostListProps, StateType } from "../components/profile/post/postList";
 import { FaRegComment, FaRetweet } from "react-icons/fa";
 import { BsBookmarkCheckFill, BsBookmarkCheck } from "react-icons/bs";
 import { useUserContext } from "@/store/useUserContext";
@@ -7,13 +7,10 @@ import useProfileAction from "@/hooks/useProfileAction";
 import Like from "@/common/like";
 
 type PostActionProps = {
-  setOpen: React.Dispatch<React.SetStateAction<StateType>>;
+  setOpen?: React.Dispatch<React.SetStateAction<StateType>>;
 };
 
-const PostAction: React.FC<PostListProps & PostActionProps> = ({
-  post,
-  setOpen,
-}) => {
+const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
   const { networkData } = useUserContext();
   const { mutate, setQuery } = useProfileAction();
 
@@ -32,12 +29,7 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({
       <Like value={post.like.like} handleLike={() => handleLike(post._id)} />
 
       <div className="flex items-center gap-1">
-        <span
-          className=" cursor-pointer"
-          onClick={() =>
-            setOpen((prev) => ({ ...prev, active: true, post: post }))
-          }
-        >
+        <span className=" cursor-pointer">
           <FaRegComment size={20} />
         </span>
         {post.totalComments > 0 && (
@@ -45,7 +37,12 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({
         )}
       </div>
 
-      <span className=" cursor-pointer">
+      <span
+        className=" cursor-pointer"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
         <FaRetweet size={20} />
       </span>
 
@@ -53,14 +50,20 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({
         {networkData?.data?.bookMarks?.includes(post._id) ? (
           <span
             className=" cursor-pointer"
-            onClick={() => handleBookmark(post._id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBookmark(post._id);
+            }}
           >
             <BsBookmarkCheckFill size={20} />
           </span>
         ) : (
           <span
             className=" cursor-pointer"
-            onClick={() => handleBookmark(post._id)}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleBookmark(post._id);
+            }}
           >
             <BsBookmarkCheck size={20} />
           </span>

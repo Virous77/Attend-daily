@@ -16,6 +16,7 @@ export const localAppError = {
     status: 400,
     success: false,
     stack: "",
+    data: null,
   },
 };
 

@@ -1,42 +1,37 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { IoMdSend } from "react-icons/io";
 import Loader from "@/components/ui/loader/Loader";
 import useQueryPost from "@/hooks/useQueryPost";
 import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
 
 type CommentFormType = {
   postId: string;
-  comment: {
-    comment: string;
-    commentReplies: boolean;
-    commentId: string;
-  };
-  setComment: React.Dispatch<
-    React.SetStateAction<{
-      comment: string;
-      commentReplies: boolean;
-      commentId: string;
-    }>
-  >;
+  commentId?: string | string[];
+  type?: string;
 };
 
 const CommentForm: React.FC<CommentFormType> = ({
   postId,
-  comment,
-  setComment,
+  commentId,
+  type,
 }) => {
   const { mutateAsync, isPending, setKey } = useQueryPost();
   const client = useQueryClient();
+  const [content, setContent] = useState("");
 
   const handleComment = async () => {
     setKey(`${postId}-comment`);
     const packet = {
-      endPoint: comment.commentReplies ? "comment/replies" : "comment",
+      endPoint: commentId ? "comment/replies" : "comment",
       data: {
-        content: comment.comment,
+        content,
         postId: postId,
-        commentId: comment.commentId ? comment.commentId : null,
+        commentId: commentId ? commentId : null,
+        type: type ? type : "parent",
       },
     };
     const data = await mutateAsync(packet);
@@ -46,12 +41,14 @@ const CommentForm: React.FC<CommentFormType> = ({
         refetchType: "all",
         exact: true,
       });
-      setComment((prev) => ({
-        ...prev,
-        comment: "",
-        commentId: "",
-        commentReplies: false,
-      }));
+      if (commentId) {
+        client.invalidateQueries({
+          queryKey: [`${commentId}-comment`],
+          refetchType: "all",
+          exact: true,
+        });
+      }
+      setContent("");
     }
   };
 
@@ -62,10 +59,8 @@ const CommentForm: React.FC<CommentFormType> = ({
     >
       <Input
         placeholder="Add a comment..."
-        value={comment.comment}
-        onChange={(e) =>
-          setComment((prev) => ({ ...prev, comment: e.target.value }))
-        }
+        value={content}
+        onChange={(e) => setContent(e.target.value)}
       />
       <Button className="w-[60px]" onClick={handleComment} disabled={isPending}>
         {isPending ? <Loader /> : <IoMdSend />}

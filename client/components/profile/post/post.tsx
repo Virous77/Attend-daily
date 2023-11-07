@@ -5,7 +5,6 @@ import Loader from "@/components/ui/loader/Loader";
 import useQueryFetch from "@/hooks/useQueryFetch";
 import { QueryResponse, QueryData, Post, Like } from "@/types/types";
 import { useQueryClient } from "@tanstack/react-query";
-import { Card } from "@nextui-org/react";
 
 type response = Post & { like: Like };
 

@@ -10,7 +10,10 @@ const PostImages: React.FC<PostImagesProps> = ({ image }) => {
     <>
       {image.length > 0 && (
         <div>
-          <ul className=" grid grid-cols-2 gap-2 mt-2">
+          <ul
+            className=" grid  gap-2 mt-2 grid-cols-2"
+            style={{ gridTemplateColumns: "1fr 1fr" }}
+          >
             {image.map((img, idx) => (
               <Image
                 src={img}

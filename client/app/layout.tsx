@@ -22,8 +22,6 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Attend-daily",
   description: "ChatX: Share your daily memories globally with your friends.",
-  viewport:
-    "width=device-width; initial-scale=1; viewport-fit=cover; maximum-scale=1; user-scalable=no",
   keywords: "social, messaging, connect, network",
   authors: [
     { name: "Reetesh Kumar", url: "https://reetesh-virous.netlify.app/" },
@@ -39,6 +37,12 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <meta
+          name="viewport"
+          content="width=device-width; initial-scale=1; viewport-fit=cover; maximum-scale=1; user-scalable=no"
+        />
+      </head>
       <body className={inter.className}>
         <ThemeProvider
           attribute="class"

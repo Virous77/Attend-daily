@@ -104,7 +104,7 @@ export const addComment = handleCallback(async (req, res) => {
 
 export const addCommentReplies = handleCallback(async (req, res) => {
   const commentReplyUser = req.user;
-  const { content, postId, commentId } = req.body;
+  const { content, postId, commentId, type } = req.body;
 
   const packet = {
     commentedUser: commentReplyUser._id,
@@ -118,6 +118,15 @@ export const addCommentReplies = handleCallback(async (req, res) => {
   await postModel.findByIdAndUpdate(postId, {
     $inc: { totalComments: 1 },
   });
+  if (type === "parent") {
+    await commentModel.findByIdAndUpdate(commentId, {
+      $inc: { totalComments: 1 },
+    });
+  } else {
+    await commentReplies.findByIdAndUpdate(commentId, {
+      $inc: { totalComments: 1 },
+    });
+  }
 
   sendResponse({
     status: true,
@@ -177,6 +186,66 @@ export const addPostLike = handleCallback(async (req, res) => {
   });
 });
 
+export const getSinglePost = handleCallback(async (req, res, next) => {
+  const { id } = req.params;
+  const post = await postModel.findById(id).populate("like").exec();
+
+  if (!post)
+    return next(createError({ status: 400, message: "Post not found" }));
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Post fetched Successfully",
+    data: post,
+    res,
+  });
+});
+
+export const getSingleComment = handleCallback(async (req, res) => {
+  const { id, type } = req.params;
+
+  let comment;
+  let commentChild;
+
+  if (type === "parent") {
+    comment = await commentModel.findById(id).populate({
+      path: "commentedUser",
+      select: "image name userName",
+    });
+    commentChild = await commentReplies
+      .find({ commentId: comment._id })
+      .populate({
+        path: "commentedUser",
+        select: "image name userName",
+      })
+      .sort({ createdAt: -1 });
+  } else {
+    comment = await commentReplies.findById(id).populate({
+      path: "commentedUser",
+      select: "image name userName",
+    });
+    commentChild = await commentReplies
+      .find({ commentId: comment._id })
+      .populate({
+        path: "commentedUser",
+        select: "image name userName",
+      })
+      .sort({ createdAt: -1 });
+  }
+
+  if (!comment)
+    return next(createError({ status: 400, message: "Comment not found" }));
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Comments fetched Successfully",
+    data: { comment, commentChild },
+    res,
+  });
+});
+
 export const getUserPosts = handleCallback(async (req, res, next) => {
   const user = req.user;
 
@@ -197,23 +266,19 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
 export const getComments = handleCallback(async (req, res) => {
   const { postId } = req.params;
 
-  const comments = await commentModel.find({ postId: postId }).populate({
-    path: "commentedUser",
-    select: "image name userName",
-  });
-
-  const commentsReplies = await commentReplies
+  const comments = await commentModel
     .find({ postId: postId })
     .populate({
       path: "commentedUser",
       select: "image name userName",
-    });
+    })
+    .sort({ createdAt: -1 });
 
   sendResponse({
     status: true,
     code: 200,
     message: "Post comments fetched Successfully",
-    data: { comments, commentsReplies },
+    data: comments,
     res,
   });
 });

@@ -1,33 +1,37 @@
 import { FaRegComment } from "react-icons/fa";
 import Like from "@/common/like";
-import { MainComments } from "@/types/types";
 import useProfileAction from "@/hooks/useProfileAction";
 import { CommentProps } from "./mainCommentList";
+import { useParams, useRouter } from "next/navigation";
 
-const CommentAction: React.FC<CommentProps> = ({ comment, setComment }) => {
+const CommentAction: React.FC<CommentProps> = ({ comment, type }) => {
   const { mutate, setQuery } = useProfileAction();
+  const router = useRouter();
+  const { id } = useParams();
 
   const handleLike = (commentId: string) => {
-    setQuery(`${comment.postId}-comment`);
-    mutate({ postId: commentId, endPoints: "/comment/like", type: "parent" });
+    setQuery(`${id}-comment`);
+    mutate({
+      postId: commentId,
+      endPoints: "/comment/like",
+      type: type === "p" ? "parent" : "child",
+    });
   };
   return (
     <div className=" pl-12 flex items-center gap-8">
       <Like value={comment.like} handleLike={() => handleLike(comment._id)} />
 
-      <span
-        className=" cursor-pointer"
-        onClick={() =>
-          setComment((prev) => ({
-            ...prev,
-            commentReplies: true,
-            comment: `@${comment.commentedUser.userName}  `,
-            commentId: comment._id,
-          }))
-        }
-      >
-        <FaRegComment size={20} />
-      </span>
+      <div className=" flex items-center gap-2">
+        <span
+          className=" cursor-pointer"
+          onClick={() => router.push(`/comment/${type}/${comment._id}`)}
+        >
+          <FaRegComment size={20} />
+        </span>
+        {comment.totalComments > 0 && (
+          <p className=" leading-none">{comment.totalComments}</p>
+        )}
+      </div>
     </div>
   );
 };

@@ -22,7 +22,7 @@ const Navbar: React.FC<NavbarProps> = ({ isLoggedIn }) => {
   return (
     <nav
       className={`bg-background ${
-        pathName !== "/feed" && pathName !== "/" ? "hidden md:flex" : "flex"
+        pathName === "/feed" || pathName === "/" ? "flex" : "hidden md:flex"
       } fixed left-0 md:left-2/4 w-full md:w-[80%] md:transform -translate-x-1/2 -translate-y-1/2 transform-none items-center justify-between md:top-[7%] top-0 z-10 px-5 py-[10px] md:rounded-[40px]`}
       style={{ boxShadow: "var(--shadow)" }}
     >

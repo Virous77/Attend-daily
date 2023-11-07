@@ -15,7 +15,7 @@ import {
 } from "@/types/types";
 import { Image } from "@nextui-org/react";
 import noComment from "../../../public/comment.svg";
-import CommentForm from "./commentForm";
+import CommentForm from "../../../common/commentForm";
 import MainCommentList from "./mainCommentList";
 
 type CommentProps = {
@@ -67,14 +67,7 @@ const Comment: React.FC<CommentProps> = ({ open, setOpen }) => {
           {fetchResult?.data?.comments?.length > 0 ? (
             <div className=" overflow-scroll h-[84vh] pb-4">
               {fetchResult?.data.comments?.map((comment) => (
-                <MainCommentList
-                  key={comment._id}
-                  comment={comment}
-                  setComment={setComment}
-                  commentReplies={fetchResult?.data?.commentsReplies.filter(
-                    (reply) => reply.commentId === comment._id
-                  )}
-                />
+                <MainCommentList key={comment._id} comment={comment} />
               ))}
             </div>
           ) : (
@@ -88,11 +81,7 @@ const Comment: React.FC<CommentProps> = ({ open, setOpen }) => {
               />
             </div>
           )}
-          <CommentForm
-            postId={open.post?._id || ""}
-            comment={newComment}
-            setComment={setComment}
-          />
+          <CommentForm postId={open.post?._id || ""} />
         </SheetContent>
       </Sheet>
     </div>

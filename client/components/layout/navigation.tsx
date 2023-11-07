@@ -16,7 +16,11 @@ const Navigation: React.FC<NavigationProps> = ({ isLoggedIn }) => {
 
   return (
     <aside
-      className={`block md:hidden fixed bottom-0 left-0 w-full shadow-current bg-background z-40`}
+      className={`block md:hidden fixed bottom-0 left-0 w-full shadow-current bg-background z-40 ${
+        pathName.includes("post") || pathName.includes("comment")
+          ? "hidden"
+          : "block"
+      }`}
       style={{
         boxShadow: "var(--shadow)",
         padding: "10px 20px",

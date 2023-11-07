@@ -20,6 +20,14 @@ const CommentSchema = new mongoose.Schema(
       type: [String],
       required: false,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    totalComments: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

@@ -1,5 +1,4 @@
 import Like from "@/common/like";
-import { Separator } from "@/components/ui/separator";
 import useProfileAction from "@/hooks/useProfileAction";
 import { CommentReplies } from "@/types/types";
 import React from "react";

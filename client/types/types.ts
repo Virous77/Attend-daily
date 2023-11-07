@@ -1,5 +1,3 @@
-import { type } from "os";
-
 export type AppError = {
   message: string;
   stack: string;
@@ -63,7 +61,7 @@ export type QueryResponse = {
 
 export type QueryData = {
   message: string;
-  state: boolean;
+  status: boolean;
 };
 
 export type MainComments = common & {
@@ -76,6 +74,8 @@ export type MainComments = common & {
   };
   content: string;
   like: string[];
+  isDeleted: boolean;
+  totalComments: number;
 };
 
 export type CommentReplies = MainComments & {
