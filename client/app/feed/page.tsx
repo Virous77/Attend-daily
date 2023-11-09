@@ -1,7 +1,7 @@
-import React from "react";
+import FeedComp from "@/components/feed/feed";
 
 const Feed = () => {
-  return <div>Feed</div>;
+  return <FeedComp />;
 };
 
 export default Feed;

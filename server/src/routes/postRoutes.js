@@ -7,6 +7,7 @@ import {
   addPostLike,
   createPost,
   getComments,
+  getPosts,
   getSingleComment,
   getSinglePost,
   getUserPosts,
@@ -16,6 +17,7 @@ const router = express.Router();
 
 router.post("/post", [authenticate], createPost);
 router.get("/post", [authenticate], getUserPosts);
+router.get("/feed/post", [authenticate], getPosts);
 router.get("/post/:id", [authenticate], getSinglePost);
 router.post("/comment", [authenticate], addComment);
 router.get("/comment/:postId", [authenticate], getComments);

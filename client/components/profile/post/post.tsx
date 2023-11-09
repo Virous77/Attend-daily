@@ -3,18 +3,8 @@ import PostList from "./postList";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import Loader from "@/components/ui/loader/Loader";
 import useQueryFetch from "@/hooks/useQueryFetch";
-import { QueryResponse, QueryData, Post, Like } from "@/types/types";
 import { useQueryClient } from "@tanstack/react-query";
-
-type response = Post & { like: Like };
-
-type PostDataType = QueryData & {
-  data: response[] | null;
-};
-
-type PostQueryResponse = QueryResponse & {
-  fetchResult: PostDataType;
-};
+import { PostQueryResponse } from "@/components/feed/feed";
 
 const Post = () => {
   const client = useQueryClient();

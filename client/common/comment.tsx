@@ -1,4 +1,4 @@
-import MainCommentList from "@/components/profile/post/mainCommentList";
+import MainCommentList from "@/common/mainCommentList";
 import { CommentReplies } from "@/types/types";
 import { Image } from "@nextui-org/react";
 import React from "react";

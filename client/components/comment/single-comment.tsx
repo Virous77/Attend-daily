@@ -16,7 +16,7 @@ import { usePathname } from "next/navigation";
 import CommonComment from "@/common/comment";
 import Author from "@/common/author";
 import { Card, CardBody, CardFooter } from "@nextui-org/react";
-import CommentAction from "../profile/post/commentAction";
+import CommentAction from "../../common/commentAction";
 import { useRouter } from "next/navigation";
 
 type Response = QueryResponse & {

@@ -252,12 +252,35 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
   const posts = await postModel
     .find({ userId: user._id })
     .populate("like")
+    .sort({ createdAt: -1 })
     .exec();
 
   sendResponse({
     status: true,
     code: 200,
     message: "User Posts fetched Successfully",
+    data: posts,
+    res,
+  });
+});
+
+export const getPosts = handleCallback(async (req, res, next) => {
+  const user = req.user;
+
+  const posts = await postModel
+    .find()
+    .populate("like")
+    .populate({
+      path: "userId",
+      select: "image name userName",
+    })
+    .sort({ createdAt: -1 })
+    .exec();
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Posts fetched Successfully",
     data: posts,
     res,
   });

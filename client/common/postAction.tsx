@@ -5,6 +5,7 @@ import { BsBookmarkCheckFill, BsBookmarkCheck } from "react-icons/bs";
 import { useUserContext } from "@/store/useUserContext";
 import useProfileAction from "@/hooks/useProfileAction";
 import Like from "@/common/like";
+import { usePathname } from "next/navigation";
 
 type PostActionProps = {
   setOpen?: React.Dispatch<React.SetStateAction<StateType>>;
@@ -13,9 +14,15 @@ type PostActionProps = {
 const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
   const { networkData } = useUserContext();
   const { mutate, setQuery } = useProfileAction();
+  const path = usePathname();
 
   const handleLike = (postId: string) => {
-    setQuery("post");
+    const key = path.includes("/profile")
+      ? "post"
+      : path.includes("/feed")
+      ? "feed"
+      : `${postId}-post`;
+    setQuery(key);
     mutate({ postId: postId, endPoints: "/like" });
   };
 

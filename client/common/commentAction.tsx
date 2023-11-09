@@ -1,8 +1,8 @@
 import { FaRegComment } from "react-icons/fa";
 import Like from "@/common/like";
 import useProfileAction from "@/hooks/useProfileAction";
-import { CommentProps } from "./mainCommentList";
 import { useParams, useRouter } from "next/navigation";
+import { CommentProps } from "./mainCommentList";
 
 const CommentAction: React.FC<CommentProps> = ({ comment, type }) => {
   const { mutate, setQuery } = useProfileAction();
