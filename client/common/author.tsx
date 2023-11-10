@@ -4,16 +4,14 @@ import { Avatar, CardHeader } from "@nextui-org/react";
 import React from "react";
 import { formatTimeAgo } from "@/utils/utils";
 import Dropdown from "@/components/ui/custom/dropdown";
-import { useAppContext } from "@/store/useAppContext";
+import { User } from "@/types/types";
 
 type AuthorProps = {
   date: string;
+  user: User;
 };
 
-const Author: React.FC<AuthorProps> = ({ date }) => {
-  const {
-    state: { user },
-  } = useAppContext();
+const Author: React.FC<AuthorProps> = ({ date, user }) => {
   return (
     <CardHeader className="flex items-start justify-between p-0">
       <div className="flex items-center gap-5">

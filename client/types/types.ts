@@ -66,12 +66,7 @@ export type QueryData = {
 
 export type MainComments = common & {
   postId: string;
-  commentedUser: {
-    _id: string;
-    name: string;
-    userName: string;
-    image: string;
-  };
+  commentedUser: User;
   content: string;
   like: string[];
   isDeleted: boolean;

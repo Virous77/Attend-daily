@@ -10,6 +10,7 @@ import Navigation from "@/components/layout/navigation";
 import { cookies } from "next/headers";
 import { Providers } from "./Providers";
 import { UserContextProvider } from "@/store/useUserContext";
+import GlobalPost from "@/components/addPost/global-button";
 
 export async function get() {
   const cookieStore = cookies();
@@ -57,6 +58,7 @@ export default async function RootLayout({
                   <Navbar isLoggedIn={value?.value} />
                   {children}
                   <Toaster />
+                  <GlobalPost />
                   <Navigation isLoggedIn={value?.value} />
                 </UserContextProvider>
               </AppContextProvider>

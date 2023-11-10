@@ -188,7 +188,14 @@ export const addPostLike = handleCallback(async (req, res) => {
 
 export const getSinglePost = handleCallback(async (req, res, next) => {
   const { id } = req.params;
-  const post = await postModel.findById(id).populate("like").exec();
+  const post = await postModel
+    .findById(id)
+    .populate("like")
+    .populate({
+      path: "userId",
+      select: "image name userName",
+    })
+    .exec();
 
   if (!post)
     return next(createError({ status: 400, message: "Post not found" }));
@@ -264,9 +271,7 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
   });
 });
 
-export const getPosts = handleCallback(async (req, res, next) => {
-  const user = req.user;
-
+export const getPosts = handleCallback(async (req, res) => {
   const posts = await postModel
     .find()
     .populate("like")

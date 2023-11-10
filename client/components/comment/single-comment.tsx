@@ -3,7 +3,6 @@
 import Header from "@/common/header";
 import HeaderChildren from "../post/headerChildren";
 import CommentForm from "@/common/commentForm";
-import CommentsList from "./commentsList";
 import useQueryFetch from "@/hooks/useQueryFetch";
 import {
   QueryResponse,
@@ -17,7 +16,6 @@ import CommonComment from "@/common/comment";
 import Author from "@/common/author";
 import { Card, CardBody, CardFooter } from "@nextui-org/react";
 import CommentAction from "../../common/commentAction";
-import { useRouter } from "next/navigation";
 
 type Response = QueryResponse & {
   fetchResult: QueryData & {
@@ -31,7 +29,6 @@ type Response = QueryResponse & {
 const SingleComment = () => {
   const params = useParams();
   const path = usePathname();
-  const router = useRouter();
 
   const { fetchResult, isPending }: Response = useQueryFetch({
     endPoints: `comment/single/${params.id}/${
@@ -50,7 +47,10 @@ const SingleComment = () => {
       </Header>
       <div>
         <Card className=" p-4">
-          <Author date={fetchResult.data.comment.createdAt} />
+          <Author
+            date={fetchResult.data.comment.createdAt}
+            user={fetchResult.data.comment.commentedUser}
+          />
           <CardBody className=" p-0 mt-3">
             <p className=" pl-[59px] leading-none">
               {fetchResult.data.comment.content}

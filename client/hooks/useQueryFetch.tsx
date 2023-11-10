@@ -15,7 +15,7 @@ const useQueryFetch = ({
   key,
   endPoints,
   staleTime = 0,
-  enabled = true,
+  enabled,
 }: QueryProps) => {
   const { state } = useAppContext();
 
@@ -42,7 +42,7 @@ const useQueryFetch = ({
         return null;
       }
     },
-    enabled: state.user?.token && enabled ? true : false,
+    enabled: state.user?.token ? true : enabled ? true : false,
     staleTime,
   });
 

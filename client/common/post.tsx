@@ -16,6 +16,7 @@ type PostProps = {
 const PostCommon: React.FC<PostProps> = ({ post }) => {
   const router = useRouter();
   const path = usePathname();
+
   return (
     <Card className=" p-4 cursor-pointer" shadow="sm">
       <div
@@ -24,7 +25,7 @@ const PostCommon: React.FC<PostProps> = ({ post }) => {
           router.push(`/post/${post._id}`);
         }}
       >
-        <Author date={post.createdAt} />
+        <Author date={post.createdAt} user={post.userId} />
         <CardBody className=" p-0 pt-5">
           <p>{post.title}</p>
 
