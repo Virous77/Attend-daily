@@ -70,3 +70,28 @@ export const formatTimeAgo = (createdAt: Date) => {
     return `${daysAgo} day${daysAgo > 1 ? "s" : ""} ago`;
   }
 };
+
+export const previewFiles = (files: File[]) => {
+  const PImages: string[] = [];
+  const PVideos: string[] = [];
+  const images: File[] = [];
+  const videos: File[] = [];
+
+  if (files) {
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+
+      if (file.type.includes("image/")) {
+        images.push(file);
+        const newFile = URL.createObjectURL(file);
+        PImages.push(newFile);
+      } else {
+        videos.push(file);
+        const newFile = URL.createObjectURL(file);
+        PVideos.push(newFile);
+      }
+    }
+  }
+
+  return { images, videos, PImages, PVideos };
+};

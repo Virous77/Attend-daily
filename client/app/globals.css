@@ -98,3 +98,7 @@
     transform: rotate(360deg);
   }
 }
+
+.border-local {
+  border: 2px dotted #84f9af;
+}
