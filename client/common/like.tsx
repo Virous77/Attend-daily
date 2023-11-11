@@ -13,23 +13,11 @@ const Like: React.FC<LikeProps> = ({ value, handleLike }) => {
   return (
     <div className=" flex items-center gap-1">
       {value.includes(user?._id || "") ? (
-        <span
-          className=" cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleLike();
-          }}
-        >
+        <span className=" cursor-pointer" onClick={handleLike}>
           <AiTwotoneHeart size={20} />
         </span>
       ) : (
-        <span
-          className=" cursor-pointer"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleLike();
-          }}
-        >
+        <span className=" cursor-pointer" onClick={handleLike}>
           <AiOutlineHeart size={20} />
         </span>
       )}

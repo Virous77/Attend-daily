@@ -76,6 +76,7 @@ export const previewFiles = (files: File[]) => {
   const PVideos: string[] = [];
   const images: File[] = [];
   const videos: File[] = [];
+  let error: string = "";
 
   if (files) {
     for (let i = 0; i < files.length; i++) {
@@ -86,12 +87,16 @@ export const previewFiles = (files: File[]) => {
         const newFile = URL.createObjectURL(file);
         PImages.push(newFile);
       } else {
-        videos.push(file);
-        const newFile = URL.createObjectURL(file);
-        PVideos.push(newFile);
+        if (file.size > 10000000) {
+          error = "File size must be below 10MB";
+        } else {
+          videos.push(file);
+          const newFile = URL.createObjectURL(file);
+          PVideos.push(newFile);
+        }
       }
     }
   }
 
-  return { images, videos, PImages, PVideos };
+  return { images, videos, PImages, PVideos, error };
 };

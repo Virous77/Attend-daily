@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 import Navbar from "@/components/layout/Navbar";
 import { AppContextProvider } from "@/store/useAppContext";
 import { ThemeProvider } from "@/components/ui/theme-provider";
@@ -11,6 +11,7 @@ import { cookies } from "next/headers";
 import { Providers } from "./Providers";
 import { UserContextProvider } from "@/store/useUserContext";
 import GlobalPost from "@/components/addPost/global-button";
+import { PostContextProvider } from "@/store/usePostContext";
 
 export async function get() {
   const cookieStore = cookies();
@@ -18,7 +19,10 @@ export async function get() {
   return cookie;
 }
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+  weight: "400",
+  subsets: ["latin"],
+});
 
 export const metadata: Metadata = {
   title: "Attend-daily",
@@ -44,7 +48,7 @@ export default async function RootLayout({
           content="width=device-width; initial-scale=1; viewport-fit=cover; maximum-scale=1; user-scalable=no"
         />
       </head>
-      <body className={inter.className}>
+      <body className={roboto.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -55,11 +59,13 @@ export default async function RootLayout({
             <ReactQueryProvider>
               <AppContextProvider>
                 <UserContextProvider>
-                  <Navbar isLoggedIn={value?.value} />
-                  {children}
-                  <Toaster />
-                  <GlobalPost />
-                  <Navigation isLoggedIn={value?.value} />
+                  <PostContextProvider>
+                    <Navbar isLoggedIn={value?.value} />
+                    {children}
+                    <Toaster />
+                    <GlobalPost />
+                    <Navigation isLoggedIn={value?.value} />
+                  </PostContextProvider>
                 </UserContextProvider>
               </AppContextProvider>
             </ReactQueryProvider>

@@ -13,7 +13,24 @@ export const uploadImage = async (image) => {
     unique_filename: false,
     overwrite: true,
   };
+  try {
+    const res = await Promise.all(
+      image.map((img) => cloudinary.uploader.upload(img, options))
+    );
 
+    return res;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const uploadVideos = async (image) => {
+  const options = {
+    resource_type: "video",
+    use_filename: true,
+    unique_filename: false,
+    overwrite: true,
+  };
   try {
     const res = await Promise.all(
       image.map((img) => cloudinary.uploader.upload(img, options))

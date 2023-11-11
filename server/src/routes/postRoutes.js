@@ -11,6 +11,7 @@ import {
   getSingleComment,
   getSinglePost,
   getUserPosts,
+  uploadFiles,
 } from "../controllers/postController.js";
 
 const router = express.Router();
@@ -25,5 +26,6 @@ router.get("/comment/single/:id/:type", [authenticate], getSingleComment);
 router.post("/comment/replies", [authenticate], addCommentReplies);
 router.put("/comment/like", [authenticate], addCommentLike);
 router.put("/like", [authenticate], addPostLike);
+router.post("/upload", [authenticate], uploadFiles);
 
 export default router;

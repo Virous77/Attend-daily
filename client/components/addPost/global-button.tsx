@@ -15,6 +15,7 @@ import { BiPoll } from "react-icons/bi";
 import Layout from "./layout";
 import { useState } from "react";
 import Header from "@/common/header";
+import { usePost } from "@/store/usePostContext";
 
 const GlobalPost = () => {
   const {
@@ -22,6 +23,7 @@ const GlobalPost = () => {
   } = useAppContext();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [activeType, setActiveType] = useState("");
+  const { reset, status } = usePost();
 
   if (!user?.token) return null;
   return (
@@ -75,7 +77,18 @@ const GlobalPost = () => {
         <ModalContent className="max-w-full md:max-w-md h-full rounded-none m-0">
           {(onClose) => (
             <>
-              <Header name={activeType.toUpperCase()} close={onClose} />
+              <Header
+                name={activeType.toUpperCase()}
+                close={() => {
+                  {
+                    !status.isLoading;
+                  }
+                  {
+                    onClose();
+                    reset();
+                  }
+                }}
+              />
               <Layout type={activeType} onClose={onClose} />
             </>
           )}

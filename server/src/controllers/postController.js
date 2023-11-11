@@ -1,9 +1,14 @@
-import { uploadImage, deleteImages } from "../utils/imageUpload.js";
+import {
+  uploadImage,
+  deleteImages,
+  uploadVideos,
+} from "../utils/imageUpload.js";
 import { createError, handleCallback, sendResponse } from "../utils/utils.js";
 import postModel from "../models/postModel.js";
 import commentModel from "../models/commentModel.js";
 import commentReplies from "../models/commentReplies.js";
 import postLikeModel from "../models/postLikeModel.js";
+import { IncomingForm } from "formidable";
 
 /// Utility Function
 export const toggleLikeInComment = async ({
@@ -61,6 +66,9 @@ export const createPost = handleCallback(async (req, res) => {
     userId: user._id,
     title: req.body.title,
     postType: req.body.type,
+    location: req.body.location,
+    image: req.body.image,
+    video: req.body.video,
   };
 
   const newPost = new postModel(packet);
@@ -307,6 +315,45 @@ export const getComments = handleCallback(async (req, res) => {
     code: 200,
     message: "Post comments fetched Successfully",
     data: comments,
+    res,
+  });
+});
+
+export const uploadFiles = handleCallback(async (req, res) => {
+  const data = await new Promise((resolve, reject) => {
+    const form = new IncomingForm();
+
+    form.parse(req, (err, fields, files) => {
+      if (err) return reject(err);
+      resolve({ fields, files });
+    });
+  });
+
+  const fileValue = Object.values(data.files);
+
+  const sortFile = () => {
+    const video = [];
+    const image = [];
+    fileValue.map((file) => {
+      if (file[0].mimetype.includes("video")) {
+        video.push(file[0].filepath);
+      } else {
+        image.push(file[0].filepath);
+      }
+    });
+    return { image, video };
+  };
+
+  const imageRef = await uploadImage(sortFile().image);
+  const videoRef = await uploadVideos(sortFile().video);
+
+  const image = imageRef.map((img) => img.secure_url);
+  const video = videoRef.map((vdo) => vdo.secure_url);
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Files uploaded Successfully",
+    data: { image, video },
     res,
   });
 });

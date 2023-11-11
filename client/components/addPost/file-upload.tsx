@@ -1,28 +1,16 @@
 import { FiFilePlus } from "react-icons/fi";
-import usePost, { TFile } from "@/hooks/usePost";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { previewFiles } from "@/utils/utils";
-
-type TempFileType = {
-  image: File[];
-  video: File[];
-};
+import { usePost } from "@/store/usePostContext";
 
 const FileUpload = () => {
-  const { setFormData, formData } = usePost();
-  const [preview, setPreview] = useState<TFile>({
-    image: [],
-    video: [],
-  });
-  const [tempFileStore, setTempFileStore] = useState<TempFileType>({
-    image: [],
-    video: [],
-  });
+  const { setPreview, setTempFileStore, preview, status } = usePost();
+  const size = preview.image.length + preview.video.length;
 
-  const handleValidate = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleValidate = (e: ChangeEvent<HTMLInputElement>, size: number) => {
     if (e.target.files && e.target.files.length > 4) {
-      getValidatedFiles([...e.target.files].slice(0, 4));
+      getValidatedFiles([...e.target.files].slice(0, 4), size);
       toast({
         title: "Only 4 files accepted.",
         variant: "destructive",
@@ -31,15 +19,54 @@ const FileUpload = () => {
       e.preventDefault();
     } else {
       if (e.target.files) {
-        getValidatedFiles([...e.target.files]);
+        getValidatedFiles([...e.target.files], size);
       }
     }
   };
 
-  const getValidatedFiles = (e: File[]) => {
-    const { images, videos, PImages, PVideos } = previewFiles(e);
-    setPreview((prev) => ({ ...prev, image: PImages, video: PVideos }));
-    setTempFileStore((prev) => ({ ...prev, video: videos, image: images }));
+  const getValidatedFiles = (e: File[], size: number) => {
+    const { images, videos, PImages, PVideos, error } = previewFiles(e);
+    const latestSelect = PImages.length + PVideos.length;
+
+    if (size < 4 && latestSelect < 4) {
+      setPreview((prev) => ({
+        ...prev,
+        image: [...prev.image, ...PImages],
+        video: [...prev.video, ...PVideos],
+      }));
+      setTempFileStore((prev) => ({
+        ...prev,
+        video: [...prev.video, ...videos],
+        image: [...prev.image, ...images],
+      }));
+    } else if (!error) {
+      setPreview((prev) => ({
+        ...prev,
+        image: PImages,
+        video: PVideos,
+      }));
+      setTempFileStore((prev) => ({
+        ...prev,
+        video: videos,
+        image: images,
+      }));
+    } else {
+      if (error) {
+        toast({
+          title: error,
+          variant: "destructive",
+          duration: 3000,
+        });
+      }
+    }
+
+    if (error) {
+      toast({
+        title: error,
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
   };
 
   return (
@@ -50,7 +77,10 @@ const FileUpload = () => {
           id="fileInput"
           multiple
           className=" hidden"
-          onChange={handleValidate}
+          onChange={(e) => handleValidate(e, size)}
+          maxLength={4}
+          max={4}
+          disabled={status.isLoading}
         />
         <label htmlFor="fileInput" className="flex items-center gap-3">
           <FiFilePlus size={22} />

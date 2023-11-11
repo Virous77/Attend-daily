@@ -32,6 +32,10 @@ const PostSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    location: {
+      type: String,
+      required: false,
+    },
     like: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "PostLikes",
