@@ -4,10 +4,18 @@ import { useAppContext } from "@/store/useAppContext";
 import { Avatar } from "@nextui-org/react";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import EditProfile from "./editProfile";
-import { User } from "@/types/types";
 import { Skeleton } from "../ui/skeleton";
 import Content from "./content";
 import { useUserContext } from "@/store/useUserContext";
+import useQueryFetch from "@/hooks/useQueryFetch";
+import { useParams } from "next/navigation";
+import { QueryData, QueryResponse, User } from "@/types/types";
+
+type Response = QueryResponse & {
+  fetchResult: QueryData & {
+    data: User;
+  };
+};
 
 export type StateType = {
   name: string;
@@ -29,6 +37,12 @@ const UserData = () => {
     previewImage: "",
   });
   const { networkData } = useUserContext();
+  const { name } = useParams();
+  const { fetchResult, isPending: isLoading }: Response = useQueryFetch({
+    endPoints: `profile/${name}`,
+    key: `${name}-user`,
+    staleTime: 5 * 60 * 100,
+  });
 
   const handleSetUserState = (user: User | null) => {
     if (!user) return;
@@ -43,6 +57,8 @@ const UserData = () => {
     }));
   };
 
+  if (isLoading) return <p>Loading....</p>;
+
   return (
     <div className="p-5 absolute w-full top-[160px] z-[3] rounded-t-3xl bg-background pb-20">
       <div className="flex items-center justify-between">
@@ -50,28 +66,32 @@ const UserData = () => {
           <Avatar
             isBordered
             color="secondary"
-            src={state.user?.image}
+            src={fetchResult.data?.image}
             className="w-[85px] h-[85px]"
           />
         </div>
 
-        <button
-          className="pl-1 w-8 h-8 rounded-full bg-accent  hover:bg-foreground hover:text-accent flex items-center justify-center"
-          onClick={() => handleSetUserState(state.user)}
-          disabled={!state.user}
-        >
-          <MdOutlineModeEditOutline size={22} />
-        </button>
+        {fetchResult.data._id === state.user?._id && (
+          <button
+            className="pl-1 w-8 h-8 rounded-full bg-accent  hover:bg-foreground hover:text-accent flex items-center justify-center"
+            onClick={() => handleSetUserState(fetchResult.data)}
+            disabled={!fetchResult.data}
+          >
+            <MdOutlineModeEditOutline size={22} />
+          </button>
+        )}
       </div>
       <div className="mt-6 flex items-start justify-between">
         <div className="flex flex-col">
-          {state.user?.userName ? (
-            <b className="text-bold text-xl">{state.user?.userName}</b>
+          {fetchResult.data?.userName ? (
+            <b className="text-bold text-xl">{fetchResult.data?.userName}</b>
           ) : (
             <Skeleton className=" mt-3 h-4 w-[100px]" />
           )}
-          {state.user?.name ? (
-            <span className="text-[14px] opacity-75">{state.user?.name}</span>
+          {fetchResult.data?.name ? (
+            <span className="text-[14px] opacity-75">
+              {fetchResult.data?.name}
+            </span>
           ) : (
             <Skeleton className=" mt-3 h-3 w-[120px]" />
           )}
@@ -90,12 +110,12 @@ const UserData = () => {
         </div>
       </div>
 
-      {state.user?.bio || !isPending ? (
-        <p className=" mt-3 text-[14px] opacity-75">{state.user?.bio}</p>
+      {fetchResult.data?.bio || !isPending ? (
+        <p className=" mt-3 text-[14px] opacity-75">{fetchResult.data?.bio}</p>
       ) : (
         <Skeleton className=" mt-[18px] h-3 w-[150px]" />
       )}
-      <Content />
+      <Content id={fetchResult.data._id} />
       <EditProfile open={open} setOpen={setOpen} />
     </div>
   );

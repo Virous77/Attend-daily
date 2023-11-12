@@ -6,17 +6,22 @@ import useQueryFetch from "@/hooks/useQueryFetch";
 import { useQueryClient } from "@tanstack/react-query";
 import { PostQueryResponse } from "@/components/feed/feed";
 
-const Post = () => {
+type PostProps = {
+  id: string;
+};
+
+const Post: React.FC<PostProps> = ({ id }) => {
   const client = useQueryClient();
   const { fetchResult }: PostQueryResponse = useQueryFetch({
-    endPoints: "post",
-    key: "post",
+    endPoints: `post/all/${id}`,
+    key: `${id}-post`,
     staleTime: 5 * 60 * 1000,
+    enabled: id ? true : false,
   });
 
   const handleRefresh = async () => {
     client.invalidateQueries({
-      queryKey: ["post"],
+      queryKey: [`${id}-post`],
       refetchType: "all",
       exact: true,
     });

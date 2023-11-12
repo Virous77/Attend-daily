@@ -14,19 +14,17 @@ type PostProps = {
 
 const PostCommon: React.FC<PostProps> = ({ post }) => {
   return (
-    <Card className=" p-4 cursor-pointer" shadow="sm">
-      <div>
-        <Author date={post.createdAt} user={post.userId} />
-        <CardBody className=" p-0 pt-5">
-          {post?.title && <p>{post?.title}</p>}
+    <Card className=" p-4 cursor-pointer" style={{ margin: "2px" }}>
+      <Author date={post.createdAt} user={post.userId} />
+      <CardBody className=" p-0 pt-5">
+        {post?.title && <p>{post?.title}</p>}
 
-          <PostImages image={post.image} />
-          <PostVideos video={post.video} />
-        </CardBody>
-        <CardFooter className="p-0 pt-4">
-          <PostAction post={post} />
-        </CardFooter>
-      </div>
+        <PostImages image={post.image} />
+        <PostVideos video={post.video} />
+      </CardBody>
+      <CardFooter className="p-0 pt-4">
+        <PostAction post={post} />
+      </CardFooter>
     </Card>
   );
 };

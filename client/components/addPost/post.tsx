@@ -68,7 +68,7 @@ const Post: React.FC<PostProps> = ({ onClose }) => {
         refetchType: "all",
       });
       client.invalidateQueries({
-        queryKey: ["post"],
+        queryKey: [`${user?._id}-post`],
         exact: true,
         refetchType: "all",
       });

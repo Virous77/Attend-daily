@@ -59,3 +59,20 @@ export const userBookmark = handleCallback(async (req, res) => {
     res,
   });
 });
+
+export const getUser = handleCallback(async (req, res, next) => {
+  const userName = req.params.id;
+
+  const user = await userModel.findOne({ userName }).select("-password");
+
+  if (!user)
+    return next(createError({ message: "User not found", status: 400 }));
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "User fetched Successfully",
+    data: user,
+    res,
+  });
+});

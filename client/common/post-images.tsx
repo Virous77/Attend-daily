@@ -15,7 +15,7 @@ const PostImages: React.FC<PostImagesProps> = ({ image }) => {
           showIndicators={true}
           infiniteLoop={true}
           dynamicHeight={true}
-          className=" mt-2 rounded-sm"
+          className=" mt-2 rounded-[15px]"
           showStatus={false}
           showThumbs={false}
         >
@@ -26,9 +26,10 @@ const PostImages: React.FC<PostImagesProps> = ({ image }) => {
               key={idx}
               width="100%"
               height="100%"
-              className=" max-h-96 cursor-pointer hover:scroll-smooth transition-opacity opacity-0 duration-[2s]"
               shadow="sm"
+              className=" rounded-[15px]"
               placeholder="blur"
+              classNames={{ wrapper: " rounded-[10px]" }}
             />
           ))}
         </Carousel>

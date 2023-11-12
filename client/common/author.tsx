@@ -5,6 +5,7 @@ import React from "react";
 import { formatTimeAgo } from "@/utils/utils";
 import Dropdown from "@/components/ui/custom/dropdown";
 import { User } from "@/types/types";
+import { useRouter } from "next/navigation";
 
 type AuthorProps = {
   date: string;
@@ -12,6 +13,7 @@ type AuthorProps = {
 };
 
 const Author: React.FC<AuthorProps> = ({ date, user }) => {
+  const router = useRouter();
   return (
     <CardHeader className="flex items-start justify-between p-0">
       <div className="flex items-center gap-5">
@@ -19,9 +21,7 @@ const Author: React.FC<AuthorProps> = ({ date, user }) => {
           src={user?.image}
           isBordered={true}
           color="default"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
+          onClick={() => router.push(`/profile/${user.userName}`)}
         />
         <div className="flex flex-col gap-1">
           <p className=" leading-none text-[15px]">{user?.name}</p>

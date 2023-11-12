@@ -19,7 +19,7 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
 
   const handleLike = (postId: string) => {
     const key = path.includes("/profile")
-      ? "post"
+      ? `${post.userId._id}-post`
       : path.includes("/feed")
       ? "feed"
       : `${postId}-post`;

@@ -262,11 +262,15 @@ export const getSingleComment = handleCallback(async (req, res) => {
 });
 
 export const getUserPosts = handleCallback(async (req, res, next) => {
-  const user = req.user;
+  const { id } = req.params;
 
   const posts = await postModel
-    .find({ userId: user._id })
+    .find({ userId: id })
     .populate("like")
+    .populate({
+      path: "userId",
+      select: "image name userName",
+    })
     .sort({ createdAt: -1 })
     .exec();
 

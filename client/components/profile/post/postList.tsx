@@ -11,11 +11,7 @@ export type StateType = {
 };
 
 const PostList: React.FC<PostListProps> = ({ post }) => {
-  return (
-    <>
-      <PostCommon post={post} />
-    </>
-  );
+  return <PostCommon post={post} />;
 };
 
 export default PostList;
