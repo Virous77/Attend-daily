@@ -76,3 +76,60 @@ export const getUser = handleCallback(async (req, res, next) => {
     res,
   });
 });
+
+const utilityFollow = async (user, followUser, type, key) => {
+  if (!type) {
+    await userNetwork.findOneAndUpdate(
+      { userId: user },
+      {
+        $push: {
+          [key]: {
+            id: followUser,
+            followedAt: new Date(),
+          },
+        },
+      }
+    );
+  } else {
+    await userNetwork.findOneAndUpdate(
+      { userId: user },
+      {
+        $pull: {
+          [key]: {
+            id: followUser,
+          },
+        },
+      }
+    );
+  }
+};
+
+export const followUser = handleCallback(async (req, res) => {
+  const user = req.user._id;
+  const { followUser } = req.body;
+
+  const isFollowing = await userNetwork.findOne(
+    {
+      userId: user,
+      "following.id": followUser,
+    },
+    { "following.$": 1 }
+  );
+
+  if (!isFollowing) {
+    await utilityFollow(user, followUser, false, "following");
+    await utilityFollow(followUser, user, false, "followers");
+  } else {
+    await utilityFollow(user, followUser, true, "following");
+    await utilityFollow(followUser, user, true, "followers");
+  }
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: `You have ${
+      !isFollowing ? "Followed" : "Unfollowed"
+    } successfully`,
+    res,
+  });
+});

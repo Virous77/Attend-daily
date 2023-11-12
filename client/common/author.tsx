@@ -6,13 +6,14 @@ import { formatTimeAgo } from "@/utils/utils";
 import Dropdown from "@/components/ui/custom/dropdown";
 import { User } from "@/types/types";
 import { useRouter } from "next/navigation";
+import { PostProps } from "./post";
 
 type AuthorProps = {
   date: string;
   user: User;
 };
 
-const Author: React.FC<AuthorProps> = ({ date, user }) => {
+const Author: React.FC<AuthorProps & PostProps> = ({ date, user, post }) => {
   const router = useRouter();
   return (
     <CardHeader className="flex items-start justify-between p-0">
@@ -31,7 +32,7 @@ const Author: React.FC<AuthorProps> = ({ date, user }) => {
         </div>
       </div>
 
-      <Dropdown />
+      <Dropdown post={post} />
     </CardHeader>
   );
 };

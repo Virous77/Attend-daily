@@ -8,14 +8,14 @@ import PostVideos from "./post-videos";
 import PostAction from "./postAction";
 import { response } from "@/components/feed/feed";
 
-type PostProps = {
+export type PostProps = {
   post: response;
 };
 
 const PostCommon: React.FC<PostProps> = ({ post }) => {
   return (
     <Card className=" p-4 cursor-pointer" style={{ margin: "2px" }}>
-      <Author date={post.createdAt} user={post.userId} />
+      <Author date={post.createdAt} user={post.userId} post={post} />
       <CardBody className=" p-0 pt-5">
         {post?.title && <p>{post?.title}</p>}
 
