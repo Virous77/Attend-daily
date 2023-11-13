@@ -16,6 +16,7 @@ import CommonComment from "@/common/comment";
 import Author from "@/common/author";
 import { Card, CardBody, CardFooter } from "@nextui-org/react";
 import CommentAction from "../../common/commentAction";
+import CommentAuthor from "@/common/commentAuthor";
 
 type Response = QueryResponse & {
   fetchResult: QueryData & {
@@ -47,7 +48,7 @@ const SingleComment = () => {
       </Header>
       <div>
         <Card className=" p-4">
-          <Author
+          <CommentAuthor
             date={fetchResult.data.comment.createdAt}
             user={fetchResult.data.comment.commentedUser}
           />
