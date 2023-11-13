@@ -35,7 +35,7 @@ const CommentForm: React.FC<CommentFormType> = ({
       },
     };
     const data = await mutateAsync(packet);
-    if (data.status === true) {
+    if (data.status) {
       client.invalidateQueries({
         queryKey: [`${postId}-post`],
         refetchType: "all",

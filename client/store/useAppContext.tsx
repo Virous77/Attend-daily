@@ -27,7 +27,13 @@ export type stateType = {
   open: string;
 };
 
-type TActive = "poll" | "post" | "edit-post" | "edit-poll" | "";
+export type TActive =
+  | "poll"
+  | "post"
+  | "edit-post"
+  | "edit-poll"
+  | "alert-delete"
+  | "";
 
 type ContextType = {
   state: stateType;

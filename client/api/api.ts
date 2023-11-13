@@ -63,3 +63,23 @@ export const putData = async ({ endPoints, params, token = "" }: PostProps) => {
     throw error.response ? error.response.data : localAppError;
   }
 };
+
+export const deleteData = async ({
+  endPoints,
+  token = "",
+}: {
+  endPoints: string;
+  token?: string;
+}) => {
+  try {
+    const { data } = await axios.delete(`${base_url}${endPoints}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return data;
+  } catch (error: any) {
+    throw error.response ? error.response.data : localAppError;
+  }
+};

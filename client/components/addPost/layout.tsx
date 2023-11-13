@@ -2,8 +2,10 @@ import Poll from "./poll";
 import Post from "./post";
 import EditPost from "../editPost/editPost";
 
+import { TActive } from "@/store/useAppContext";
+
 type LayoutProps = {
-  type: string;
+  type: TActive;
   onClose: () => void;
 };
 const Layout: React.FC<LayoutProps> = ({ type, onClose }) => {

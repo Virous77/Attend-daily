@@ -86,12 +86,12 @@ export const createPost = handleCallback(async (req, res) => {
   });
 });
 
-export const updatePost = handleCallback(async (req, res) => {
+export const updatePost = handleCallback(async (req, res, next) => {
   const user = req.user;
   const { title, postType, location, image, video, id, deleteFiles } = req.body;
 
   const isUserPost = await postModel.findById(id);
-  if (!isUserPost.userId === user._id)
+  if (!isUserPost.userId.equals(user._id))
     return next(
       createError({
         message: "You are not authorized for this action",
@@ -117,6 +117,37 @@ export const updatePost = handleCallback(async (req, res) => {
     status: true,
     code: 200,
     message: "Post updated Successfully",
+    res,
+  });
+});
+
+export const deletePost = handleCallback(async (req, res, next) => {
+  const user = req.user;
+  const { id } = req.params;
+
+  const isUserPost = await postModel.findById(id);
+  if (!isUserPost.userId.equals(user._id))
+    return next(
+      createError({
+        message: "You are not authorized for this action",
+        status: 400,
+      })
+    );
+
+  const files = [...isUserPost.image, ...isUserPost.video];
+
+  if (files.length > 0) {
+    await deleteImages(files);
+  }
+
+  await postModel.findByIdAndDelete(id);
+  await commentModel.deleteMany({ postId: id });
+  await commentReplies.deleteMany({ postId: id });
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Post deleted Successfully",
     res,
   });
 });

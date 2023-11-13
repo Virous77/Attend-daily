@@ -20,6 +20,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
   const {
     state: { user },
     setActiveType,
+    setState,
   } = useAppContext();
   const { networkData, handleFollow } = useUserContext();
   const { modal, setPreview, setFormData } = usePost();
@@ -112,7 +113,13 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
           {post.userId._id === user?._id && (
             <>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className=" bg-red-500 hover:bg-red-400 cursor-pointer">
+              <DropdownMenuItem
+                className=" bg-red-500 hover:bg-red-400 cursor-pointer"
+                onClick={() => {
+                  setState((prev) => ({ ...prev, open: post._id }));
+                  setActiveType("alert-delete");
+                }}
+              >
                 <MdReportGmailerrorred className="mr-2 " size={20} />
                 <span>Delete Post</span>
               </DropdownMenuItem>

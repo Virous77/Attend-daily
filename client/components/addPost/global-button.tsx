@@ -4,7 +4,6 @@ import {
   Popover,
   PopoverTrigger,
   PopoverContent,
-  useDisclosure,
   Modal,
   ModalContent,
 } from "@nextui-org/react";
@@ -13,10 +12,9 @@ import { HiOutlinePlus } from "react-icons/hi";
 import { BsFilePost } from "react-icons/bs";
 import { BiPoll } from "react-icons/bi";
 import Layout from "./layout";
-import { useState } from "react";
 import Header from "@/common/header";
 import { usePost } from "@/store/usePostContext";
-import EditPost from "../editPost/editPost";
+import DeletePost from "../deletePost/deletePost";
 
 const GlobalPost = () => {
   const {
@@ -65,6 +63,8 @@ const GlobalPost = () => {
           </Popover>
         </div>
       )}
+
+      {activeType === "alert-delete" && <DeletePost />}
 
       <Modal
         isOpen={isOpen}
