@@ -21,7 +21,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
   } = useAppContext();
   const { networkData, handleFollow } = useUserContext();
 
-  const followedId = networkData.data?.following.map((id) => id.id);
+  const followedId = networkData?.data?.following?.map((id) => id.id);
 
   return (
     <DropdownMenu>
@@ -38,7 +38,9 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
                 <>
                   <DropdownMenuItem
                     className=" cursor-pointer"
-                    onClick={() => handleFollow(post.userId._id)}
+                    onClick={() =>
+                      handleFollow(post.userId._id, post.userId.userName)
+                    }
                   >
                     <User className="mr-2" size={20} />
                     <span>Follow</span>
@@ -49,7 +51,9 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
                 <>
                   <DropdownMenuItem
                     className=" cursor-pointer"
-                    onClick={() => handleFollow(post.userId._id)}
+                    onClick={() =>
+                      handleFollow(post.userId._id, post.userId.userName)
+                    }
                   >
                     <UserMinus className="mr-2" size={20} />
                     <span style={{ whiteSpace: "nowrap" }}>

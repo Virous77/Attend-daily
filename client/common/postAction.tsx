@@ -6,12 +6,16 @@ import { useUserContext } from "@/store/useUserContext";
 import useProfileAction from "@/hooks/useProfileAction";
 import Like from "@/common/like";
 import { usePathname, useRouter } from "next/navigation";
+import { MdIosShare } from "react-icons/md";
+import Share from "./share";
+import { useDisclosure } from "@nextui-org/react";
 
 type PostActionProps = {
   setOpen?: React.Dispatch<React.SetStateAction<StateType>>;
 };
 
 const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { networkData } = useUserContext();
   const { mutate, setQuery } = useProfileAction();
   const path = usePathname();
@@ -72,6 +76,11 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
           </span>
         )}
       </div>
+
+      <div className=" cursor-pointer" onClick={onOpen}>
+        <MdIosShare size={20} />
+      </div>
+      <Share onOpen={onOpen} onOpenChange={onOpenChange} isOpen={isOpen} />
     </div>
   );
 };

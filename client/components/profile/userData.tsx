@@ -9,11 +9,17 @@ import Content from "./content";
 import { useUserContext } from "@/store/useUserContext";
 import useQueryFetch from "@/hooks/useQueryFetch";
 import { useParams } from "next/navigation";
-import { QueryData, QueryResponse, User } from "@/types/types";
+import { QueryData, QueryResponse, User, UserNetwork } from "@/types/types";
 
 type Response = QueryResponse & {
   fetchResult: QueryData & {
     data: User;
+  };
+};
+
+type NetworkResponse = QueryResponse & {
+  fetchResult: QueryData & {
+    data: UserNetwork;
   };
 };
 
@@ -37,11 +43,20 @@ const UserData = () => {
     previewImage: "",
   });
   const { networkData } = useUserContext();
-  const { name } = useParams();
+  const { name }: { name: string } = useParams();
   const { fetchResult, isPending: isLoading }: Response = useQueryFetch({
     endPoints: `profile/${name}`,
     key: `${name}-user`,
-    staleTime: 5 * 60 * 100,
+    staleTime: 5 * 60 * 1000,
+  });
+
+  const isOtherUserMount = state.user?.userName !== name ? true : false;
+
+  const { fetchResult: otherUserNetworkData }: NetworkResponse = useQueryFetch({
+    endPoints: `user/network/${name}`,
+    key: `${name}-userNetwork`,
+    staleTime: 5 * 60 * 1000,
+    enabled: isOtherUserMount && state.user?.token ? true : false,
   });
 
   const handleSetUserState = (user: User | null) => {
@@ -99,12 +114,20 @@ const UserData = () => {
 
         <div className="flex items-center gap-4">
           <div className=" flex flex-col  items-end">
-            <b>{networkData?.data?.followers.length || 0}</b>
+            <b>
+              {isOtherUserMount
+                ? otherUserNetworkData?.data?.followers.length
+                : networkData?.data?.followers.length || 0}
+            </b>
             <span className=" text-[14px] opacity-75">Followers</span>
           </div>
 
           <div className=" flex flex-col items-end">
-            <b>{networkData?.data?.following.length || 0}</b>
+            <b>
+              {isOtherUserMount
+                ? otherUserNetworkData?.data?.following.length
+                : networkData?.data?.following.length || 0}
+            </b>
             <span className=" text-[14px] opacity-75">Following</span>
           </div>
         </div>

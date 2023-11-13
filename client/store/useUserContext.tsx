@@ -13,9 +13,10 @@ import useQueryPost from "@/hooks/useQueryPost";
 import { QueryResponse, QueryData } from "@/types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/components/ui/use-toast";
+import { useAppContext } from "./useAppContext";
 
 export type stateType = {
-  network: UserNetwork | null;
+  networkUser: string | null;
 };
 
 type NetworkDataType = QueryData & {
@@ -32,7 +33,7 @@ type ContextType = {
   networkData: NetworkDataType;
   refetch: () => void;
   isPending: boolean;
-  handleFollow: (id: string) => void;
+  handleFollow: (id: string, userName: string) => void;
 };
 
 const initialState: ContextType = {
@@ -52,22 +53,26 @@ export const UserContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [userData, setUserData] = useState<stateType>({
-    network: null,
+    networkUser: null,
   });
   const client = useQueryClient();
+  const {
+    state: { user },
+  } = useAppContext();
 
   const {
     fetchResult: networkData,
     isPending,
     refetch,
   }: NetworkQueryResponse = useQueryFetch({
-    endPoints: "user/network",
+    endPoints: `user/network/${user?.userName}`,
     key: "user-network",
     staleTime: 5 * 60 * 1000,
+    enabled: user?.userName ? true : false,
   });
 
   const { mutateAsync } = useQueryPost();
-  const handleFollow = async (id: string) => {
+  const handleFollow = async (id: string, userName: string) => {
     const data = await mutateAsync({
       data: { followUser: id },
       endPoint: "follow",
@@ -75,6 +80,13 @@ export const UserContextProvider = ({
     if (data.status) {
       client.invalidateQueries({
         queryKey: ["user-network"],
+        refetchType: "all",
+        exact: true,
+      });
+      client.invalidateQueries({
+        queryKey: [`${userName}-userNetwork`],
+        refetchType: "all",
+        exact: true,
       });
       toast({
         title: data.message,

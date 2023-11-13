@@ -20,7 +20,7 @@ const ModalComp = () => {
       <ModalContent className="max-w-full md:max-w-md">
         {(onClose) => (
           <>
-            <ModalBody className="w-full">
+            <ModalBody className="w-full pl-0 pr-0">
               <span className=" p-3 text-center cursor-pointer font-bold">
                 Share
               </span>

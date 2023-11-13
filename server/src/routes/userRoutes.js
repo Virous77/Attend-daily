@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.put("/user", [authenticate], updateUser);
 router.get("/profile/:id", [authenticate], getUser);
-router.get("/user/network", [authenticate], userNetworkData);
+router.get("/user/network/:userName", [authenticate], userNetworkData);
 router.put("/bookmark", [authenticate], userBookmark);
 router.post("/follow", [authenticate], followUser);
 

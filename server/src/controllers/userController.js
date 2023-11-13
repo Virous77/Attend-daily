@@ -29,7 +29,9 @@ export const updateUser = handleCallback(async (req, res, next) => {
 });
 
 export const userNetworkData = handleCallback(async (req, res) => {
-  const network = await userNetwork.findOne({ userId: req.user._id });
+  const { userName } = req.params;
+  const user = await userModel.findOne({ userName });
+  const network = await userNetwork.findOne({ userId: user._id });
 
   sendResponse({
     res,
