@@ -1,6 +1,7 @@
 "use client";
 
-import { useAppContext } from "./useAppContext";
+import { useDisclosure } from "@nextui-org/react";
+import { ModalType, useAppContext } from "./useAppContext";
 import {
   createContext,
   useState,
@@ -23,8 +24,9 @@ type TempFileType = {
 type FormDataType = TFile & {
   title: string;
   pin: boolean;
-  postType: "poll" | "post";
+  postType: string;
   location: string;
+  id: string;
 };
 
 type StatusType = {
@@ -45,6 +47,7 @@ type ContextType = {
     }>
   >;
   status: StatusType;
+  modal: ModalType;
 };
 
 const initialValue = {
@@ -57,6 +60,7 @@ const initialValue = {
   reset: () => {},
   status: {} as StatusType,
   setStatus: () => {},
+  modal: {} as ModalType,
 };
 
 const PostContext = createContext<ContextType>(initialValue);
@@ -67,8 +71,9 @@ export const PostContextProvider = ({ children }: { children: ReactNode }) => {
     image: [],
     video: [],
     pin: false,
-    postType: "post",
+    postType: "",
     location: "",
+    id: "",
   };
 
   const previewInitialState: TFile = {
@@ -86,6 +91,8 @@ export const PostContextProvider = ({ children }: { children: ReactNode }) => {
   const [status, setStatus] = useState({
     isLoading: false,
   });
+  const { isOpen, onOpen, onOpenChange }: ModalType = useDisclosure();
+  const modal = { isOpen, onOpen, onOpenChange };
 
   const reset = () => {
     setFormData(formInitialState);
@@ -105,6 +112,7 @@ export const PostContextProvider = ({ children }: { children: ReactNode }) => {
         reset,
         setStatus,
         status,
+        modal,
       }}
     >
       {children}

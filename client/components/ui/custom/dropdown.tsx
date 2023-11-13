@@ -14,14 +14,30 @@ import { BsThreeDots } from "react-icons/bs";
 import { useAppContext } from "@/store/useAppContext";
 import { PostProps } from "@/common/post";
 import { useUserContext } from "@/store/useUserContext";
+import { usePost } from "@/store/usePostContext";
 
 const Dropdown: React.FC<PostProps> = ({ post }) => {
   const {
     state: { user },
+    setActiveType,
   } = useAppContext();
   const { networkData, handleFollow } = useUserContext();
-
+  const { modal, setPreview, setFormData } = usePost();
   const followedId = networkData?.data?.following?.map((id) => id.id);
+
+  const handleEdit = ({ post }: PostProps) => {
+    setActiveType("edit-post");
+    setPreview((prev) => ({ ...prev, image: post.image, video: post.video }));
+    setFormData((prev) => ({
+      ...prev,
+      title: post.title,
+      pin: post.pin,
+      location: post.location,
+      postType: post.postType,
+      id: post._id,
+    }));
+    modal.onOpen();
+  };
 
   return (
     <DropdownMenu>
@@ -30,7 +46,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
           <BsThreeDots size={20} cursor="pointer" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className=" w-40 mr-2">
+      <DropdownMenuContent className=" w-fit mr-2">
         <DropdownMenuGroup>
           {post.userId._id !== user?._id && (
             <>
@@ -71,7 +87,12 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
 
           {post.userId._id === user?._id && (
             <>
-              <DropdownMenuItem className="cursor-pointer">
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => {
+                  handleEdit({ post });
+                }}
+              >
                 <MdReportGmailerrorred className="mr-2 " size={20} />
                 <span>Edit Post</span>
               </DropdownMenuItem>

@@ -61,14 +61,14 @@ export const toggleLikeInComment = async ({
 
 export const createPost = handleCallback(async (req, res) => {
   const user = req.user;
-
+  const { title, postType, location, image, video } = req.body;
   const packet = {
     userId: user._id,
-    title: req.body.title,
-    postType: req.body.type,
-    location: req.body.location,
-    image: req.body.image,
-    video: req.body.video,
+    title,
+    postType,
+    location,
+    image,
+    video,
   };
 
   const newPost = new postModel(packet);
@@ -82,6 +82,41 @@ export const createPost = handleCallback(async (req, res) => {
     code: 201,
     message: "Post created Successfully",
     data: newPost,
+    res,
+  });
+});
+
+export const updatePost = handleCallback(async (req, res) => {
+  const user = req.user;
+  const { title, postType, location, image, video, id, deleteFiles } = req.body;
+
+  const isUserPost = await postModel.findById(id);
+  if (!isUserPost.userId === user._id)
+    return next(
+      createError({
+        message: "You are not authorized for this action",
+        status: 400,
+      })
+    );
+
+  const packet = {
+    userId: user._id,
+    title,
+    postType,
+    location,
+    image,
+    video,
+  };
+
+  await postModel.findByIdAndUpdate(id, packet);
+  if (deleteFiles.length > 0) {
+    await deleteImages(deleteFiles);
+  }
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Post updated Successfully",
     res,
   });
 });

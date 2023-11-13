@@ -7,48 +7,81 @@ import React from "react";
 import { usePost } from "@/store/usePostContext";
 import Preview from "./preview";
 import { toast } from "../ui/use-toast";
-import { postData } from "@/api/api";
+import { postData, putData } from "@/api/api";
 import { useQueryClient } from "@tanstack/react-query";
 import Loader from "../ui/loader/Loader";
 
 type PostProps = {
   onClose: () => void;
+  name: string;
 };
 
-const Post: React.FC<PostProps> = ({ onClose }) => {
+const Post: React.FC<PostProps> = ({ onClose, name }) => {
   const {
     state: { user },
+    activeType,
   } = useAppContext();
   const { formData, setFormData, tempFileStore, preview, setStatus, status } =
     usePost();
-  const { title, pin, location } = formData;
+  const { title, pin, location, id, image, video } = formData;
   const client = useQueryClient();
   const size = preview.image.length + preview.video.length;
+
+  const commonAction = () => {
+    setStatus((prev) => ({ ...prev, isLoading: false }));
+    client.invalidateQueries({
+      queryKey: ["feed"],
+      exact: true,
+      refetchType: "all",
+    });
+    client.invalidateQueries({
+      queryKey: [`${user?._id}-post`],
+      exact: true,
+      refetchType: "all",
+    });
+    onClose();
+  };
 
   const handleSavePost = async () => {
     const file = [...tempFileStore.image, ...tempFileStore.video];
     const formData = new FormData();
-    formData.append("file1", file[0]);
-    formData.append("file2", file[1]);
-    formData.append("file3", file[2]);
-    formData.append("file4", file[3]);
+    const uploadedImg = preview.image.filter((img) =>
+      img.includes("https://res.cloudinary.com")
+    );
+    const uploadedVideo = preview.video.filter((vdo) =>
+      vdo.includes("https://res.cloudinary.com")
+    );
+
+    if (file.length > 0) {
+      formData.append("file1", file[0]);
+      formData.append("file2", file[1]);
+      formData.append("file3", file[2]);
+      formData.append("file4", file[3]);
+    }
 
     try {
+      let data;
       setStatus((prev) => ({ ...prev, isLoading: true }));
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/upload`,
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${user?.token}`,
-          },
-        }
-      );
-      const data = await response.json();
+
+      if (file.length > 0) {
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/upload`,
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `Bearer ${user?.token}`,
+            },
+          }
+        );
+        data = await response.json();
+      }
+      const isNewData = data?.data
+        ? { image: data.data.image, video: data.data.video }
+        : { image: [], video: [] };
       const packet = {
-        image: data.data.image,
-        video: data.data.video,
+        image: [...isNewData.image, ...uploadedImg],
+        video: [...isNewData.video, ...uploadedVideo],
         title,
         pin,
         location,
@@ -56,23 +89,27 @@ const Post: React.FC<PostProps> = ({ onClose }) => {
         postType: "post",
       };
 
-      await postData({
-        endPoints: "post",
-        params: packet,
-        token: user?.token,
-      });
-      setStatus((prev) => ({ ...prev, isLoading: false }));
-      client.invalidateQueries({
-        queryKey: ["feed"],
-        exact: true,
-        refetchType: "all",
-      });
-      client.invalidateQueries({
-        queryKey: [`${user?._id}-post`],
-        exact: true,
-        refetchType: "all",
-      });
-      onClose();
+      const updatePacket = {
+        ...packet,
+        id,
+        deleteFiles: [...image, ...video],
+      };
+
+      if (activeType === "post") {
+        await postData({
+          endPoints: "post",
+          params: packet,
+          token: user?.token,
+        });
+        commonAction();
+      } else {
+        await putData({
+          endPoints: "post",
+          params: updatePacket,
+          token: user?.token,
+        });
+        commonAction();
+      }
     } catch (error) {
       setStatus((prev) => ({ ...prev, isLoading: false }));
 
@@ -111,6 +148,7 @@ const Post: React.FC<PostProps> = ({ onClose }) => {
           }}
           onValueChange={(e) => setFormData((prev) => ({ ...prev, pin: e }))}
           isDisabled={status.isLoading}
+          isSelected={pin}
         >
           Pin this post to your profile.
         </Switch>
@@ -130,7 +168,7 @@ const Post: React.FC<PostProps> = ({ onClose }) => {
       <Preview />
 
       <Action
-        name={status.isLoading ? <Loader /> : "Post"}
+        name={status.isLoading ? <Loader /> : name}
         onClick={handleSavePost}
         onClose={onClose}
         active={

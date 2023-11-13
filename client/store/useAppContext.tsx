@@ -12,7 +12,7 @@ import {
 import { User } from "@/types/types";
 import { useDisclosure } from "@nextui-org/react";
 
-type ModalType = {
+export type ModalType = {
   isOpen: boolean;
   onOpen: () => void;
   onOpenChange: () => void;
@@ -27,12 +27,16 @@ export type stateType = {
   open: string;
 };
 
+type TActive = "poll" | "post" | "edit-post" | "edit-poll" | "";
+
 type ContextType = {
   state: stateType;
   setState: Dispatch<SetStateAction<stateType>>;
   refetch: () => void;
   modal: ModalType;
   isPending: boolean;
+  activeType: TActive;
+  setActiveType: Dispatch<SetStateAction<TActive>>;
 };
 
 type StatusType = {
@@ -50,6 +54,8 @@ const initialValue = {
   refetch: () => {},
   modal: {} as ModalType,
   isPending: false,
+  activeType: "" as TActive,
+  setActiveType: () => {},
 };
 
 const AppContext = createContext<ContextType>(initialValue);
@@ -67,6 +73,7 @@ export const AppContextProvider = ({
     isLoading: "",
     open: "",
   });
+  const [activeType, setActiveType] = useState<TActive>("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const modal = {
     isOpen,
@@ -98,7 +105,17 @@ export const AppContextProvider = ({
   });
 
   return (
-    <AppContext.Provider value={{ setState, state, refetch, modal, isPending }}>
+    <AppContext.Provider
+      value={{
+        setState,
+        state,
+        refetch,
+        modal,
+        isPending,
+        activeType,
+        setActiveType,
+      }}
+    >
       {children}
     </AppContext.Provider>
   );

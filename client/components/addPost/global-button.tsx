@@ -16,14 +16,16 @@ import Layout from "./layout";
 import { useState } from "react";
 import Header from "@/common/header";
 import { usePost } from "@/store/usePostContext";
+import EditPost from "../editPost/editPost";
 
 const GlobalPost = () => {
   const {
     state: { user },
+    activeType,
+    setActiveType,
   } = useAppContext();
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [activeType, setActiveType] = useState("");
-  const { reset, status } = usePost();
+  const { reset, status, modal } = usePost();
+  const { isOpen, onOpen, onOpenChange } = modal;
 
   if (!user?.token) return null;
   return (
@@ -80,10 +82,7 @@ const GlobalPost = () => {
               <Header
                 name={activeType.toUpperCase()}
                 close={() => {
-                  {
-                    !status.isLoading;
-                  }
-                  {
+                  if (!status.isLoading) {
                     onClose();
                     reset();
                   }

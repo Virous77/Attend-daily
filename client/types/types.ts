@@ -45,6 +45,8 @@ export type Post = common & {
   title: string;
   pin: boolean;
   totalComments: number;
+  location: string;
+  postType: string;
 };
 
 export type Like = common & {

@@ -41,8 +41,12 @@ const Share: React.FC<ShareProps & PostListProps> = ({
       backdrop="opaque"
       className="bg-background text-foreground !w-full"
       hideCloseButton={true}
+      classNames={{
+        backdrop: "z-[101]",
+        wrapper: "z-[1000]",
+      }}
     >
-      <ModalContent className="max-w-full md:max-w-m ">
+      <ModalContent className="max-w-full md:max-w-m z-[102]">
         {(onClose) => (
           <>
             <ModalHeader className="  justify-center">
@@ -55,14 +59,15 @@ const Share: React.FC<ShareProps & PostListProps> = ({
                   display: "grid",
                   gridTemplateColumns: "repeat(6, 1fr)",
                   gap: "10px",
+                  padding: "4px",
                 }}
               >
-                <Card className=" w-[100px] h-[80px] cursor-pointer">
+                <Card className=" w-[100px] h-[80px] cursor-pointer box-shadow-local">
                   <CardBody className=" flex items-center" onClick={handleCopy}>
                     {!copy ? <LuCopy size={30} /> : <LuCopyCheck size={30} />}
                   </CardBody>
                 </Card>
-                <Card className=" w-[100px] h-[80px] cursor-pointer">
+                <Card className=" w-[100px] h-[80px] cursor-pointer  box-shadow-local">
                   <a
                     className="shareListItem"
                     href={`https://api.whatsapp.com/send?text=${base_url}/post/${post._id}`}
@@ -75,7 +80,7 @@ const Share: React.FC<ShareProps & PostListProps> = ({
                     </CardBody>
                   </a>
                 </Card>
-                <Card className=" w-[100px] h-[80px] cursor-pointer">
+                <Card className=" w-[100px] h-[80px] cursor-pointer box-shadow-local">
                   <a
                     href={`http://twitter.com/share?text=ChatX Post&url=${base_url}/post/${post._id}&hashtags=#ChatX #share`}
                     target="_blank"
@@ -86,7 +91,7 @@ const Share: React.FC<ShareProps & PostListProps> = ({
                     </CardBody>
                   </a>
                 </Card>
-                <Card className=" w-[100px] h-[80px] cursor-pointer">
+                <Card className=" w-[100px] h-[80px] cursor-pointer box-shadow-local">
                   <a
                     href={`mailto:?subject=ChatX Post&body=${base_url}/post/${post._id}`}
                     target="_blank"
@@ -98,7 +103,7 @@ const Share: React.FC<ShareProps & PostListProps> = ({
                     </CardBody>
                   </a>
                 </Card>
-                <Card className=" w-[100px] h-[80px] cursor-pointer">
+                <Card className=" w-[100px] h-[80px] cursor-pointer box-shadow-local">
                   <a
                     href={`https://telegram.me/share/url?url=${base_url}/post/${post._id}&text=ChatX post`}
                     target={"_blank"}
@@ -109,7 +114,7 @@ const Share: React.FC<ShareProps & PostListProps> = ({
                     </CardBody>
                   </a>
                 </Card>
-                <Card className=" w-[100px] h-[80px] cursor-pointer">
+                <Card className=" w-[100px] h-[80px] cursor-pointer box-shadow-local">
                   <a
                     href={`https://www.linkedin.com/feed/?shareActive=true&text=${base_url}/post/${post._id}`}
                     target={"_blank"}

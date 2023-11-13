@@ -25,7 +25,7 @@ const PostSchema = new mongoose.Schema(
       required: false,
     },
     postType: {
-      type: ["post", "poll"],
+      type: String,
       required: true,
     },
     totalComments: {

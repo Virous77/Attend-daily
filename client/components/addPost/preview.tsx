@@ -1,15 +1,26 @@
 /* eslint-disable @next/next/no-img-element */
 import { usePost } from "@/store/usePostContext";
 import { AiTwotoneDelete } from "react-icons/ai";
+import { useAppContext } from "@/store/useAppContext";
 
 const Preview = () => {
-  const { preview, setPreview, tempFileStore, setTempFileStore, status } =
-    usePost();
+  const {
+    preview,
+    setPreview,
+    tempFileStore,
+    setTempFileStore,
+    status,
+    setFormData,
+  } = usePost();
+  const { activeType } = useAppContext();
   const { image, video } = preview;
 
   const handleDelete = (url: string, idx: number, type: string) => {
     if (status.isLoading) return;
     if (type === "video") {
+      if (activeType === "edit-post") {
+        setFormData((prev) => ({ ...prev, video: [...prev.image, url] }));
+      }
       const filterPreview = video.filter((vdo) => vdo !== url);
       const tempFilter = tempFileStore.video.filter(
         (vdo, index) => index !== idx
@@ -17,6 +28,9 @@ const Preview = () => {
       setPreview((prev) => ({ ...prev, video: filterPreview }));
       setTempFileStore((prev) => ({ ...prev, video: tempFilter }));
     } else {
+      if (activeType === "edit-post") {
+        setFormData((prev) => ({ ...prev, image: [...prev.image, url] }));
+      }
       const filterPreview = image.filter((img) => img !== url);
       const tempFilter = tempFileStore.image.filter(
         (img, index) => index !== idx
@@ -31,7 +45,7 @@ const Preview = () => {
       {video.length > 0 && (
         <ul className=" flex flex-col w-full gap-2">
           {video.map((vdo, idx) => (
-            <li key={vdo} className=" shadow rounded relative">
+            <li key={idx} className=" shadow rounded relative">
               <video
                 src={vdo}
                 autoPlay={true}
@@ -53,8 +67,8 @@ const Preview = () => {
       {image.length > 0 && (
         <ul className=" flex flex-col gap-2 w-full">
           {image.map((img, idx) => (
-            <li key={img} className=" shadow rounded relative">
-              <img src={img} alt="preview" className=" rounded" />
+            <li key={idx} className=" shadow rounded relative">
+              <img src={img} alt="preview" className=" rounded w-full" />
 
               <span
                 className=" absolute bottom-2 left-2 w-8 h-8 rounded-full bg-red-600 text-white z-10 flex items-center justify-center cursor-pointer transition hover:scale-[1.03]"

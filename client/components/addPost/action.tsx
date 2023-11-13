@@ -35,6 +35,7 @@ const Action: React.FC<ActionProps> = ({
         }}
         variant="link"
         className=" w-full"
+        disabled={disabled}
       >
         Cancel
       </Button>

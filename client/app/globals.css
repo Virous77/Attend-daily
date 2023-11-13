@@ -111,3 +111,7 @@
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+.box-shadow-local {
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15);
+}
