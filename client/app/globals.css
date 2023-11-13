@@ -102,3 +102,12 @@
 .border-local {
   border: 2px dotted #84f9af;
 }
+
+.hideScroll::-webkit-scrollbar {
+  display: none;
+}
+
+.hideScroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

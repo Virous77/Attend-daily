@@ -80,7 +80,7 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
       <div className=" cursor-pointer" onClick={onOpen}>
         <MdIosShare size={20} />
       </div>
-      <Share onOpen={onOpen} onOpenChange={onOpenChange} isOpen={isOpen} />
+      <Share onOpenChange={onOpenChange} isOpen={isOpen} post={post} />
     </div>
   );
 };
