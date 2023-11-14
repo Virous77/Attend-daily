@@ -83,6 +83,8 @@ const UserData = () => {
             color="secondary"
             src={fetchResult.data?.image}
             className="w-[85px] h-[85px]"
+            showFallback={true}
+            name={fetchResult.data.name}
           />
         </div>
 

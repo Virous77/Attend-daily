@@ -23,9 +23,16 @@ const Author: React.FC<AuthorProps & PostProps> = ({ date, user, post }) => {
           isBordered={true}
           color="default"
           onClick={() => router.push(`/profile/${user.userName}`)}
+          name={user.name}
+          showFallback={true}
         />
         <div className="flex flex-col gap-1">
-          <p className=" leading-none text-[15px]">{user?.name}</p>
+          <p
+            className=" leading-none text-[15px]"
+            onClick={() => router.push(`/profile/${user.userName}`)}
+          >
+            {user?.name}
+          </p>
           <span className="text-[12px] opacity-60">
             {formatTimeAgo(new Date(date))}
           </span>

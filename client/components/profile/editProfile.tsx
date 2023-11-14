@@ -12,6 +12,7 @@ import { putData } from "@/api/api";
 import { useAppContext } from "@/store/useAppContext";
 import Loader from "../ui/loader/Loader";
 import { useQueryClient } from "@tanstack/react-query";
+import { useParams } from "next/navigation";
 
 type EditProfileProps = {
   open: StateType;
@@ -22,6 +23,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
   const [color, setColor] = useState<"primary" | "success" | undefined>(
     "primary"
   );
+  const { name }: { name: string } = useParams();
   const { state } = useAppContext();
   const client = useQueryClient();
 
@@ -41,6 +43,11 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
     onSuccess: () => {
       client.invalidateQueries({
         queryKey: ["user"],
+        exact: true,
+        refetchType: "all",
+      });
+      client.invalidateQueries({
+        queryKey: [`${name}-user`],
         exact: true,
         refetchType: "all",
       });

@@ -18,7 +18,7 @@ const CommentAction: React.FC<CommentProps> = ({ comment, type }) => {
     });
   };
   return (
-    <div className=" pl-12 flex items-center gap-8">
+    <div className=" flex items-center gap-8" style={{ paddingLeft: "3rem" }}>
       <Like value={comment.like} handleLike={() => handleLike(comment._id)} />
 
       <div className=" flex items-center gap-2">

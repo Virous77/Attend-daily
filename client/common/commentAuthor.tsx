@@ -21,9 +21,11 @@ const CommentAuthor: React.FC<AuthorProps> = ({ date, user }) => {
           isBordered={true}
           color="default"
           onClick={() => router.push(`/profile/${user.userName}`)}
+          showFallback={true}
+          name={user.name}
         />
         <div className="flex flex-col gap-1">
-          <p className=" leading-none text-[15px]">{user?.name}</p>
+          <p className=" pl-0 leading-none text-[15px]">{user?.name}</p>
           <span className="text-[12px] opacity-60">
             {formatTimeAgo(new Date(date))}
           </span>

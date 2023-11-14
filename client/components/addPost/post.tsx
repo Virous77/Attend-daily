@@ -21,14 +21,22 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
     state: { user },
     activeType,
   } = useAppContext();
-  const { formData, setFormData, tempFileStore, preview, setStatus, status } =
-    usePost();
+  const {
+    formData,
+    setFormData,
+    tempFileStore,
+    preview,
+    setStatus,
+    status,
+    reset,
+  } = usePost();
   const { title, pin, location, id, image, video } = formData;
   const client = useQueryClient();
   const size = preview.image.length + preview.video.length;
 
   const commonAction = () => {
     setStatus((prev) => ({ ...prev, isLoading: false }));
+    reset();
     client.invalidateQueries({
       queryKey: ["feed"],
       exact: true,

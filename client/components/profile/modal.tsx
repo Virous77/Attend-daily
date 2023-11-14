@@ -1,12 +1,15 @@
-import React from "react";
 import { Modal, ModalContent, ModalBody, Divider } from "@nextui-org/react";
 import { useAppContext } from "@/store/useAppContext";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 
 const ModalComp = () => {
-  const { modal } = useAppContext();
+  const {
+    modal,
+    state: { user },
+  } = useAppContext();
   const { isOpen, onOpenChange } = modal;
   const router = useRouter();
+  const { name }: { name: string } = useParams();
 
   return (
     <Modal
@@ -24,16 +27,20 @@ const ModalComp = () => {
               <span className=" p-3 text-center cursor-pointer font-bold">
                 Share
               </span>
-              <Divider />
-              <span
-                className="p-3 text-center cursor-pointer font-bold"
-                onClick={() => {
-                  router.push("/settings");
-                  onClose();
-                }}
-              >
-                Settings
-              </span>
+              {user?.userName === name && (
+                <>
+                  <Divider />
+                  <span
+                    className="p-3 text-center cursor-pointer font-bold"
+                    onClick={() => {
+                      router.push("/settings");
+                      onClose();
+                    }}
+                  >
+                    Settings
+                  </span>
+                </>
+              )}
             </ModalBody>
           </>
         )}
