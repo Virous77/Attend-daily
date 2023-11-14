@@ -10,6 +10,7 @@ import { useUserContext } from "@/store/useUserContext";
 import useQueryFetch from "@/hooks/useQueryFetch";
 import { useParams } from "next/navigation";
 import { QueryData, QueryResponse, User, UserNetwork } from "@/types/types";
+import Network from "./network";
 
 type Response = QueryResponse & {
   fetchResult: QueryData & {
@@ -114,25 +115,11 @@ const UserData = () => {
           )}
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className=" flex flex-col  items-end">
-            <b>
-              {isOtherUserMount
-                ? otherUserNetworkData?.data?.followers.length
-                : networkData?.data?.followers.length || 0}
-            </b>
-            <span className=" text-[14px] opacity-75">Followers</span>
-          </div>
-
-          <div className=" flex flex-col items-end">
-            <b>
-              {isOtherUserMount
-                ? otherUserNetworkData?.data?.following.length
-                : networkData?.data?.following.length || 0}
-            </b>
-            <span className=" text-[14px] opacity-75">Following</span>
-          </div>
-        </div>
+        <Network
+          isOtherUserMount={isOtherUserMount}
+          data={otherUserNetworkData?.data}
+          userData={networkData?.data}
+        />
       </div>
 
       {fetchResult.data?.bio || !isPending ? (

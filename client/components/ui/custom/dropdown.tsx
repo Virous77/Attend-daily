@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { User, UserMinus } from "lucide-react";
 import { MdReportGmailerrorred } from "react-icons/md";
-import { TbCopy } from "react-icons/tb";
 import { BsThreeDots } from "react-icons/bs";
 import { useAppContext } from "@/store/useAppContext";
 import { PostProps } from "@/common/post";
@@ -24,7 +23,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
   } = useAppContext();
   const { networkData, handleFollow } = useUserContext();
   const { modal, setPreview, setFormData } = usePost();
-  const followedId = networkData?.data?.following?.map((id) => id.id);
+  const followedId = networkData?.data?.following?.map((id) => id.id._id);
 
   const handleEdit = ({ post }: PostProps) => {
     setActiveType("edit-post");

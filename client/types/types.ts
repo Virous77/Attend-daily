@@ -25,13 +25,13 @@ export type UserNetwork = common & {
   totalPost: number;
   followers: [
     {
-      id: string;
+      id: User;
       followedAt: string;
     }
   ];
   following: [
     {
-      id: string;
+      id: User;
       followedAt: string;
     }
   ];

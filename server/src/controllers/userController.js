@@ -31,7 +31,16 @@ export const updateUser = handleCallback(async (req, res, next) => {
 export const userNetworkData = handleCallback(async (req, res) => {
   const { userName } = req.params;
   const user = await userModel.findOne({ userName });
-  const network = await userNetwork.findOne({ userId: user._id });
+  const network = await userNetwork
+    .findOne({ userId: user._id })
+    .populate({
+      path: "followers.id",
+      select: "image name userName",
+    })
+    .populate({
+      path: "following.id",
+      select: "image name userName",
+    });
 
   sendResponse({
     res,

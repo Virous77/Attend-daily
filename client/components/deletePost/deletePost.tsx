@@ -5,7 +5,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 const DeletePost = () => {
   const {
-    state: { open },
+    state: { open, user },
     setActiveType,
   } = useAppContext();
   const client = useQueryClient();
@@ -18,6 +18,11 @@ const DeletePost = () => {
       setActiveType("");
       client.invalidateQueries({
         queryKey: ["feed"],
+        refetchType: "all",
+        exact: true,
+      });
+      client.invalidateQueries({
+        queryKey: [`${user?._id}-post`],
         refetchType: "all",
         exact: true,
       });

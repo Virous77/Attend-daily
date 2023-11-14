@@ -19,6 +19,10 @@ const ModalComp = () => {
       backdrop="opaque"
       className="bg-background text-foreground !w-full"
       hideCloseButton={true}
+      classNames={{
+        backdrop: "z-[10000]",
+        wrapper: "z-[100000]",
+      }}
     >
       <ModalContent className="max-w-full md:max-w-md">
         {(onClose) => (
