@@ -34,6 +34,7 @@ type ContextType = {
   refetch: () => void;
   isPending: boolean;
   handleFollow: (id: string, userName: string) => void;
+  isFollowing: boolean;
 };
 
 const initialState: ContextType = {
@@ -43,6 +44,7 @@ const initialState: ContextType = {
   refetch: () => {},
   isPending: false,
   handleFollow: () => {},
+  isFollowing: false,
 };
 
 const UserContext = createContext(initialState);
@@ -71,7 +73,7 @@ export const UserContextProvider = ({
     enabled: user?.userName ? true : false,
   });
 
-  const { mutateAsync } = useQueryPost();
+  const { mutateAsync, isPending: isFollowing } = useQueryPost();
   const handleFollow = async (id: string, userName: string) => {
     const data = await mutateAsync({
       data: { followUser: id },
@@ -104,6 +106,7 @@ export const UserContextProvider = ({
         refetch,
         networkData,
         handleFollow,
+        isFollowing,
       }}
     >
       {children}

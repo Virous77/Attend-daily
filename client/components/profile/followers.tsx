@@ -1,10 +1,10 @@
-import { Card, CardBody, Tab, Tabs, User } from "@nextui-org/react";
+import { Tab, Tabs } from "@nextui-org/react";
 import { Sheet, SheetContent } from "../ui/sheet";
 import { useAppContext } from "@/store/useAppContext";
-import { Button } from "../ui/button";
 import { UserNetwork } from "@/types/types";
 import { useParams } from "next/navigation";
 import { useUserContext } from "@/store/useUserContext";
+import UserNetworkComp from "@/common/user-network";
 
 const Followers = ({
   userData,
@@ -21,9 +21,9 @@ const Followers = ({
   const { networkData } = useUserContext();
 
   const followers =
-    name === user?.userName ? userData?.followers : otherUserData.followers;
+    name === user?.userName ? userData?.followers : otherUserData?.followers;
   const following =
-    name === user?.userName ? userData?.following : otherUserData.following;
+    name === user?.userName ? userData?.following : otherUserData?.following;
 
   return (
     <Sheet
@@ -52,79 +52,16 @@ const Followers = ({
         </div>
         <>
           {open === "followers" && followers && followers?.length > 0 && (
-            <Card className=" mt-3">
-              <CardBody className=" p-3">
-                <ul className=" flex flex-col w-full">
-                  {followers?.map((follower) => (
-                    <li
-                      key={follower.id._id}
-                      className=" flex items-center justify-between"
-                    >
-                      <User
-                        name={follower.id.name}
-                        description={`@${follower.id.userName}`}
-                        avatarProps={{
-                          src: follower.id.image,
-                          showFallback: true,
-                          classNames: {
-                            base: "w-[45px] h-[45px]",
-                          },
-                        }}
-                      />
-
-                      {networkData.data?.userId !== follower.id._id && (
-                        <>
-                          {networkData?.data?.following?.find(
-                            (follow) => follow.id._id === follower.id._id
-                          ) ? (
-                            <Button>Unfollow</Button>
-                          ) : (
-                            <Button>Follow</Button>
-                          )}
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </CardBody>
-            </Card>
+            <UserNetworkComp
+              data={followers}
+              compareData={networkData.data?.following}
+            />
           )}
           {open === "following" && following && following.length > 0 && (
-            <Card className=" mt-3">
-              <CardBody className=" p-3">
-                <ul className=" flex flex-col w-full">
-                  {following?.map((follower) => (
-                    <li
-                      key={follower.id._id}
-                      className=" flex items-center justify-between"
-                    >
-                      <User
-                        name={follower.id.name}
-                        description={`@${follower.id.userName}`}
-                        avatarProps={{
-                          src: follower.id.image,
-                          showFallback: true,
-                          classNames: {
-                            base: "w-[45px] h-[45px]",
-                          },
-                        }}
-                      />
-                      {networkData.data?.userId !== follower.id._id && (
-                        <>
-                          {networkData?.data?.followers?.find(
-                            (follow) => follow.id._id === follower.id._id
-                          ) ? (
-                            <Button>Unfollow</Button>
-                          ) : (
-                            <Button>Follow</Button>
-                          )}
-                        </>
-                      )}
-                    </li>
-                  ))}
-                </ul>
-              </CardBody>
-            </Card>
+            <UserNetworkComp
+              data={following}
+              compareData={networkData.data?.followers}
+            />
           )}
         </>
       </SheetContent>

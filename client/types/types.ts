@@ -20,21 +20,16 @@ export type User = common & {
   token: string;
 };
 
+export type NetworkUser = {
+  id: User;
+  followedAt: string;
+}[];
+
 export type UserNetwork = common & {
   userId: string;
   totalPost: number;
-  followers: [
-    {
-      id: User;
-      followedAt: string;
-    }
-  ];
-  following: [
-    {
-      id: User;
-      followedAt: string;
-    }
-  ];
+  followers: NetworkUser;
+  following: NetworkUser;
   bookMarks: string[];
 };
 
