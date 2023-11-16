@@ -10,6 +10,8 @@ import { toast } from "../ui/use-toast";
 import { postData, putData } from "@/api/api";
 import { useQueryClient } from "@tanstack/react-query";
 import Loader from "../ui/loader/Loader";
+import Info from "./info";
+import { processFile, uploadFiles } from "./utils";
 
 type PostProps = {
   onClose: () => void;
@@ -51,39 +53,20 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
   };
 
   const handleSavePost = async () => {
-    const file = [...tempFileStore.image, ...tempFileStore.video];
-    const formData = new FormData();
-    const uploadedImg = preview.image.filter((img) =>
-      img.includes("https://res.cloudinary.com")
-    );
-    const uploadedVideo = preview.video.filter((vdo) =>
-      vdo.includes("https://res.cloudinary.com")
-    );
-
-    if (file.length > 0) {
-      formData.append("file1", file[0]);
-      formData.append("file2", file[1]);
-      formData.append("file3", file[2]);
-      formData.append("file4", file[3]);
-    }
+    const { formData, file, uploadedImg, uploadedVideo } = processFile({
+      image: tempFileStore.image,
+      video: tempFileStore.video,
+      previewImage: preview.image,
+      previewVideo: preview.video,
+    });
 
     try {
-      let data;
       setStatus((prev) => ({ ...prev, isLoading: true }));
-
-      if (file.length > 0) {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_SERVER_URL}/upload`,
-          {
-            method: "POST",
-            body: formData,
-            headers: {
-              Authorization: `Bearer ${user?.token}`,
-            },
-          }
-        );
-        data = await response.json();
-      }
+      const { data } = await uploadFiles({
+        length: file.length,
+        formData,
+        token: user?.token,
+      });
       const isNewData = data?.data
         ? { image: data.data.image, video: data.data.video }
         : { image: [], video: [] };
@@ -147,7 +130,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
         />
       </div>
       {size < 4 && <FileUpload />}
-      <div className=" pl-14 mt-6">
+      <div className=" pl-14 mt-6 flex items-center gap-2">
         <Switch
           defaultChecked={pin}
           color="success"
@@ -158,8 +141,9 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
           isDisabled={status.isLoading}
           isSelected={pin}
         >
-          Pin this post to your profile.
+          Pin this post?
         </Switch>
+        <Info />
       </div>
 
       <div className="pl-14 mt-6">
