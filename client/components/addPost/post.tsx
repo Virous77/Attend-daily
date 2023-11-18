@@ -14,6 +14,22 @@ import Info from "./info";
 import { processFile, uploadFiles } from "./utils";
 import Choice from "./choice";
 import PollTime from "./poll-time";
+import moment from "moment";
+
+type CommonType = {
+  image: any[];
+  video: any[];
+  title: string;
+  pin: boolean;
+  location: string;
+  userId: string | undefined;
+  postType: string;
+};
+
+type UpdatePostType = CommonType & {
+  id: string;
+  deleteFiles: string[];
+};
 
 type PostProps = {
   onClose: () => void;
@@ -33,6 +49,8 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
     setStatus,
     status,
     reset,
+    choice,
+    time,
   } = usePost();
   const { title, pin, location, id, image, video } = formData;
   const client = useQueryClient();
@@ -54,7 +72,62 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
     onClose();
   };
 
+  const handleCreatePost = async (params: CommonType) => {
+    await postData({
+      endPoints: "post",
+      params: params,
+      token: user?.token,
+    });
+    commonAction();
+  };
+
+  const handleUpdatePost = async (params: UpdatePostType) => {
+    await putData({
+      endPoints: "post",
+      params: params,
+      token: user?.token,
+    });
+    commonAction();
+  };
+
   const handleSavePost = async () => {
+    if (activeType === "poll" || activeType === "edit-poll") {
+      if (choice[0].trim() === "" || choice[1].trim() === "") {
+        toast({
+          title: "There must be two choice for poll.",
+          variant: "destructive",
+          duration: 3000,
+        });
+        return;
+      }
+
+      const selectedDate = moment(time.date);
+      const currentDate = new Date();
+
+      if (
+        selectedDate.isSameOrBefore(currentDate) &&
+        selectedDate.get("date") !== currentDate.getDate()
+      ) {
+        toast({
+          title: "Date should be greater or equal to today.",
+          variant: "destructive",
+          duration: 3000,
+        });
+        return;
+      }
+
+      if (
+        selectedDate.get("date") === currentDate.getDate() &&
+        selectedDate.get("year") === currentDate.getFullYear()
+      ) {
+        const currentTime = moment().format("hh:mm:A");
+        const formatTime = currentTime.split(":");
+        if (formatTime[2] === "PM" && time.type === "AM") {
+          console.log("cool");
+        }
+      }
+    }
+
     const { formData, file, uploadedImg, uploadedVideo } = processFile({
       image: tempFileStore.image,
       video: tempFileStore.video,
@@ -89,23 +162,17 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
       };
 
       if (activeType === "post") {
-        await postData({
-          endPoints: "post",
-          params: packet,
-          token: user?.token,
-        });
-        commonAction();
-      } else {
-        await putData({
-          endPoints: "post",
-          params: updatePacket,
-          token: user?.token,
-        });
-        commonAction();
+        await handleCreatePost(packet);
       }
+
+      if (activeType === "edit-post") {
+        await handleUpdatePost(updatePacket);
+      }
+
+      console.log("man");
+      setStatus((prev) => ({ ...prev, isLoading: false }));
     } catch (error) {
       setStatus((prev) => ({ ...prev, isLoading: false }));
-
       toast({
         variant: "destructive",
         title: "Something went wrong,Try again later",
