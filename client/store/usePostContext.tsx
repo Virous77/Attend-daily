@@ -1,7 +1,7 @@
 "use client";
 
 import { useDisclosure } from "@nextui-org/react";
-import { ModalType, useAppContext } from "./useAppContext";
+import { ModalType } from "./useAppContext";
 import {
   createContext,
   useState,
@@ -10,6 +10,7 @@ import {
   SetStateAction,
   Dispatch,
 } from "react";
+import moment from "moment";
 
 export type TFile = {
   image: string[];
@@ -33,6 +34,15 @@ type StatusType = {
   isLoading: boolean;
 };
 
+type StateType = {
+  date: Date;
+  hour: string;
+  minutes: string;
+  type: string;
+  firstMinutes: string;
+  firstHour: string;
+};
+
 type ContextType = {
   formData: FormDataType;
   setFormData: Dispatch<SetStateAction<FormDataType>>;
@@ -48,6 +58,11 @@ type ContextType = {
   >;
   status: StatusType;
   modal: ModalType;
+  time: StateType;
+  setTime: Dispatch<SetStateAction<StateType>>;
+  formatTime: string[];
+  choice: string[];
+  setChoice: Dispatch<SetStateAction<string[]>>;
 };
 
 const initialValue = {
@@ -61,6 +76,11 @@ const initialValue = {
   status: {} as StatusType,
   setStatus: () => {},
   modal: {} as ModalType,
+  time: {} as StateType,
+  setTime: () => {},
+  formatTime: [],
+  choice: [],
+  setChoice: () => {},
 };
 
 const PostContext = createContext<ContextType>(initialValue);
@@ -85,12 +105,30 @@ export const PostContextProvider = ({ children }: { children: ReactNode }) => {
     image: [],
     video: [],
   };
+
+  const currentTime = moment().format("hh:mm:A");
+  const formatTime = currentTime.split(":");
+
+  const pollTimeInitialState: StateType = {
+    date: new Date(),
+    hour: formatTime[0],
+    minutes: formatTime[1],
+    type: formatTime[2],
+    firstMinutes: "",
+    firstHour: "",
+  };
+
+  const choiceInitialState = ["", ""];
+
   const [formData, setFormData] = useState(formInitialState);
   const [preview, setPreview] = useState(previewInitialState);
   const [tempFileStore, setTempFileStore] = useState(tempInitialState);
   const [status, setStatus] = useState({
     isLoading: false,
   });
+  const [time, setTime] = useState(pollTimeInitialState);
+  const [choice, setChoice] = useState(choiceInitialState);
+
   const { isOpen, onOpen, onOpenChange }: ModalType = useDisclosure();
   const modal = { isOpen, onOpen, onOpenChange };
 
@@ -98,6 +136,8 @@ export const PostContextProvider = ({ children }: { children: ReactNode }) => {
     setFormData(formInitialState);
     setPreview(previewInitialState);
     setTempFileStore(tempInitialState);
+    setTime(pollTimeInitialState);
+    setChoice(choiceInitialState);
   };
 
   return (
@@ -113,6 +153,11 @@ export const PostContextProvider = ({ children }: { children: ReactNode }) => {
         setStatus,
         status,
         modal,
+        time,
+        setTime,
+        formatTime,
+        choice,
+        setChoice,
       }}
     >
       {children}

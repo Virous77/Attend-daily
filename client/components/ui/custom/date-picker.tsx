@@ -12,17 +12,11 @@ import {
 } from "@nextui-org/react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import moment from "moment";
-
-type StateType = {
-  date: Date;
-};
+import { usePost } from "@/store/usePostContext";
 
 export function DatePickerComp() {
+  const { time, setTime } = usePost();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  const [time, setTime] = React.useState<StateType>({
-    date: new Date(),
-  });
 
   return (
     <>

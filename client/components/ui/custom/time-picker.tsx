@@ -5,34 +5,18 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import moment from "moment";
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { IoMdTime } from "react-icons/io";
 import { Button } from "../button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import Time from "@/common/time";
-
-type StateType = {
-  hour: string;
-  minutes: string;
-  type: string;
-  firstMinutes: string;
-  firstHour: string;
-};
+import { usePost } from "@/store/usePostContext";
 
 const TimePicker = () => {
-  const currentTime = moment().format("h:mm:A");
-  const formatTime = currentTime.split(":");
+  const { time, setTime, formatTime } = usePost();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  const [time, setTime] = useState<StateType>({
-    hour: formatTime[0],
-    minutes: formatTime[1],
-    type: formatTime[2],
-    firstMinutes: "",
-    firstHour: "",
-  });
   const { hour, minutes, type } = time;
 
   const minuteRef = time.firstMinutes ? time.firstMinutes : formatTime[1];
@@ -122,9 +106,8 @@ const TimePicker = () => {
 
                   <ScrollArea className="h-fit w-fit rounded-md border">
                     {["AM", "PM"].map((tag, idx) => (
-                      <>
+                      <React.Fragment key={idx}>
                         <div
-                          key={idx}
                           className={`text-sm cursor-pointer hover:bg-accent p-3 ${
                             tag === time.type ? " text-green-500 bg-white" : ""
                           }`}
@@ -135,7 +118,7 @@ const TimePicker = () => {
                           {tag}
                         </div>
                         <Separator />
-                      </>
+                      </React.Fragment>
                     ))}
                   </ScrollArea>
                 </div>

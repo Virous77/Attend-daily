@@ -3,10 +3,11 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { FaCircleMinus } from "react-icons/fa6";
+import { usePost } from "@/store/usePostContext";
 
 const Choice = () => {
   const [choiceCount, setChoiceCount] = useState([1, 2]);
-  const [choice, setChoice] = useState(["", ""]);
+  const { choice, setChoice } = usePost();
 
   const handleChoice = () => {
     if (choiceCount.length < 6) {
@@ -33,8 +34,8 @@ const Choice = () => {
   };
 
   return (
-    <div>
-      <div className=" pl-14 mt-3 flex flex-col gap-3">
+    <>
+      <div className=" pl-14 mt-4 flex flex-col gap-3">
         {choiceCount.map((_, idx) => (
           <div key={idx}>
             <div className="space-y-1">
@@ -70,7 +71,7 @@ const Choice = () => {
           <FaRegPlusSquare size={23} /> Add Choice
         </div>
       )}
-    </div>
+    </>
   );
 };
 

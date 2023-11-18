@@ -132,6 +132,13 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
         />
       </div>
       {size < 4 && <FileUpload />}
+      {name === "Poll" && (
+        <>
+          <Choice />
+          <PollTime />
+        </>
+      )}
+
       <div className=" pl-14 mt-6 flex items-center gap-2">
         <Switch
           defaultChecked={pin}
@@ -159,8 +166,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
           disabled={status.isLoading}
         />
       </div>
-      <Choice />
-      <PollTime />
+
       <Preview />
 
       <Action
