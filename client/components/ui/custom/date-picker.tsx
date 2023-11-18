@@ -1,3 +1,8 @@
+"use client";
+
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Modal,
   ModalBody,
@@ -5,16 +10,28 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import { BsInfoCircleFill, BsPinAngleFill } from "react-icons/bs";
-import { Button } from "../ui/button";
+import { FaRegCalendarAlt } from "react-icons/fa";
+import moment from "moment";
 
-const Info = ({ name }: { name: string }) => {
+type StateType = {
+  date: Date;
+};
+
+export function DatePickerComp() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+  const [time, setTime] = React.useState<StateType>({
+    date: new Date(),
+  });
 
   return (
     <>
-      <span className=" cursor-pointer" onClick={onOpen}>
-        <BsInfoCircleFill />
+      <span
+        onClick={onOpen}
+        className=" flex items-center gap-2 pl-3 cursor-pointer"
+      >
+        <FaRegCalendarAlt size={20} />{" "}
+        {moment(time.date).format("MMM DD, YYYY")}
       </span>
 
       <Modal
@@ -32,24 +49,25 @@ const Info = ({ name }: { name: string }) => {
         <ModalContent className="max-w-full md:max-w-md">
           {(onClose) => (
             <>
-              <ModalBody className="w-full pl-0 pr-0">
-                <div className=" w-[95%] m-auto flex flex-col justify-center items-center text-center p-4">
-                  <BsPinAngleFill size={23} />
-                  <h2 className=" mt-2 text-[20px]">Pinning a {name}</h2>
-                  <p className=" mt-3 text-[15px]">
-                    When you pin a {name}, it will stay at the top of the feed
-                    on your Profile. This makes sure it&apos;s always seen when
-                    people check you out.
-                  </p>
-                </div>
+              <ModalBody className=" flex items-center justify-center">
+                <Calendar
+                  mode="single"
+                  selected={time.date}
+                  onSelect={(e) =>
+                    setTime((prev) => ({ ...prev, date: e ? e : new Date() }))
+                  }
+                  initialFocus
+                  className=" pb-0"
+                />
               </ModalBody>
+
               <ModalFooter className=" pt-2">
                 <Button
                   onClick={onClose}
                   className=" w-full rounded-[30px] text-[17px] font-bold"
                   variant="outline"
                 >
-                  Got it!
+                  Close
                 </Button>
               </ModalFooter>
             </>
@@ -58,6 +76,4 @@ const Info = ({ name }: { name: string }) => {
       </Modal>
     </>
   );
-};
-
-export default Info;
+}

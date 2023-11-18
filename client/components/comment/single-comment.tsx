@@ -13,7 +13,6 @@ import {
 import { useParams } from "next/navigation";
 import { usePathname } from "next/navigation";
 import CommonComment from "@/common/comment";
-import Author from "@/common/author";
 import { Card, CardBody, CardFooter } from "@nextui-org/react";
 import CommentAction from "../../common/commentAction";
 import CommentAuthor from "@/common/commentAuthor";

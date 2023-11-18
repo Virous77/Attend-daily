@@ -12,6 +12,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import Loader from "../ui/loader/Loader";
 import Info from "./info";
 import { processFile, uploadFiles } from "./utils";
+import Choice from "./choice";
+import PollTime from "./poll-time";
 
 type PostProps = {
   onClose: () => void;
@@ -141,9 +143,9 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
           isDisabled={status.isLoading}
           isSelected={pin}
         >
-          Pin this post?
+          Pin this {name}?
         </Switch>
-        <Info />
+        <Info name={name} />
       </div>
 
       <div className="pl-14 mt-6">
@@ -157,10 +159,12 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
           disabled={status.isLoading}
         />
       </div>
+      <Choice />
+      <PollTime />
       <Preview />
 
       <Action
-        name={status.isLoading ? <Loader /> : name}
+        name={status.isLoading ? <Loader /> : `Add ${name}`}
         onClick={handleSavePost}
         onClose={onClose}
         active={

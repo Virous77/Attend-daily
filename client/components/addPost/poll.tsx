@@ -1,11 +1,15 @@
-import React from "react";
+import Post from "./post";
 
 type PollType = {
   onClose: () => void;
 };
 
 const Poll: React.FC<PollType> = ({ onClose }) => {
-  return <div>Poll</div>;
+  return (
+    <>
+      <Post name="Poll" onClose={onClose} />
+    </>
+  );
 };
 
 export default Poll;
