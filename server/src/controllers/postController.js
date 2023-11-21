@@ -9,6 +9,7 @@ import commentModel from "../models/commentModel.js";
 import commentReplies from "../models/commentReplies.js";
 import postLikeModel from "../models/postLikeModel.js";
 import { IncomingForm } from "formidable";
+import pollModel from "../models/pollModel.js";
 
 /// Utility Function
 export const toggleLikeInComment = async ({
@@ -81,6 +82,57 @@ export const createPost = handleCallback(async (req, res) => {
     status: true,
     code: 201,
     message: "Post created Successfully",
+    data: newPost,
+    res,
+  });
+});
+
+export const createPoll = handleCallback(async (req, res) => {
+  const user = req.user;
+  const {
+    title,
+    postType,
+    location,
+    image,
+    video,
+    choice,
+    expiryTime,
+    expiryDate,
+  } = req.body;
+  const packet = {
+    userId: user._id,
+    title,
+    postType,
+    location,
+    image,
+    video,
+  };
+
+  const newPost = new postModel(packet);
+  await newPost.save();
+
+  const pollPacket = {
+    choice,
+    expiryDate,
+    expiryTime,
+    userId: user._id,
+    postId: newPost._id,
+  };
+
+  const newPoll = new pollModel(pollPacket);
+  await newPoll.save();
+
+  const postLike = new postLikeModel({ postId: newPost._id });
+  await postLike.save();
+  await postModel.findByIdAndUpdate(newPost._id, {
+    like: postLike._id,
+    poll: newPoll._id,
+  });
+
+  sendResponse({
+    status: true,
+    code: 201,
+    message: "Poll created Successfully",
     data: newPost,
     res,
   });

@@ -5,6 +5,7 @@ import {
   addCommentLike,
   addCommentReplies,
   addPostLike,
+  createPoll,
   createPost,
   deletePost,
   getComments,
@@ -19,6 +20,7 @@ import {
 const router = express.Router();
 
 router.post("/post", [authenticate], createPost);
+router.post("/poll", [authenticate], createPoll);
 router.put("/post", [authenticate], updatePost);
 router.delete("/post/:id", [authenticate], deletePost);
 router.get("/post/all/:id", [authenticate], getUserPosts);

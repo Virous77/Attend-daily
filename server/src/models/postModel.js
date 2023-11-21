@@ -40,6 +40,11 @@ const PostSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "PostLikes",
     },
+    poll: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "polls",
+      default: null,
+    },
   },
   {
     timestamps: true,

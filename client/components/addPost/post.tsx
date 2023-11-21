@@ -56,6 +56,53 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
   const client = useQueryClient();
   const size = preview.image.length + preview.video.length;
 
+  const toastMessage = (message: string) => {
+    toast({
+      title: message,
+      variant: "destructive",
+      duration: 3000,
+    });
+  };
+
+  const validatePost = () => {
+    if (activeType === "poll" || activeType === "edit-poll") {
+      if (choice[0].trim() === "" || choice[1].trim() === "") {
+        toastMessage("There must be two choice for poll.");
+        return;
+      }
+
+      const selectedDate = moment(time.date);
+      const currentDate = new Date();
+
+      if (
+        selectedDate.isSameOrBefore(currentDate) &&
+        selectedDate.get("date") !== currentDate.getDate()
+      ) {
+        toastMessage("Date should be greater or equal to today.");
+        return;
+      }
+
+      if (
+        selectedDate.get("date") === currentDate.getDate() &&
+        selectedDate.get("month") === currentDate.getMonth()
+      ) {
+        const currentTime = moment().format("hh:mm:A");
+        const formatTime = currentTime.split(":");
+        if (formatTime[2] === "PM" && time.type.includes("AM")) {
+          toastMessage("Time format is wrong. can't open Poll in past time.");
+          return;
+        }
+
+        if (time.hour === formatTime[0] && time.type === formatTime[2]) {
+          if (time.minutes <= formatTime[1]) {
+            toastMessage("Time format is wrong. can't open Poll in past time.");
+            return;
+          }
+        }
+      }
+    }
+  };
+
   const commonAction = () => {
     setStatus((prev) => ({ ...prev, isLoading: false }));
     reset();
@@ -90,43 +137,17 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
     commonAction();
   };
 
+  const handleCreatePoll = async (params: CommonType) => {
+    await postData({
+      endPoints: "poll",
+      params: params,
+      token: user?.token,
+    });
+    commonAction();
+  };
+
   const handleSavePost = async () => {
-    if (activeType === "poll" || activeType === "edit-poll") {
-      if (choice[0].trim() === "" || choice[1].trim() === "") {
-        toast({
-          title: "There must be two choice for poll.",
-          variant: "destructive",
-          duration: 3000,
-        });
-        return;
-      }
-
-      const selectedDate = moment(time.date);
-      const currentDate = new Date();
-
-      if (
-        selectedDate.isSameOrBefore(currentDate) &&
-        selectedDate.get("date") !== currentDate.getDate()
-      ) {
-        toast({
-          title: "Date should be greater or equal to today.",
-          variant: "destructive",
-          duration: 3000,
-        });
-        return;
-      }
-
-      if (
-        selectedDate.get("date") === currentDate.getDate() &&
-        selectedDate.get("year") === currentDate.getFullYear()
-      ) {
-        const currentTime = moment().format("hh:mm:A");
-        const formatTime = currentTime.split(":");
-        if (formatTime[2] === "PM" && time.type === "AM") {
-          console.log("cool");
-        }
-      }
-    }
+    validatePost();
 
     const { formData, file, uploadedImg, uploadedVideo } = processFile({
       image: tempFileStore.image,
@@ -145,31 +166,40 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
       const isNewData = data?.data
         ? { image: data.data.image, video: data.data.video }
         : { image: [], video: [] };
-      const packet = {
+
+      const postPacket = {
         image: [...isNewData.image, ...uploadedImg],
         video: [...isNewData.video, ...uploadedVideo],
         title,
         pin,
         location,
         userId: user?._id,
-        postType: "post",
-      };
-
-      const updatePacket = {
-        ...packet,
-        id,
-        deleteFiles: [...image, ...video],
+        postType: activeType.includes("post") ? "post" : "poll",
       };
 
       if (activeType === "post") {
-        await handleCreatePost(packet);
+        await handleCreatePost(postPacket);
       }
 
       if (activeType === "edit-post") {
-        await handleUpdatePost(updatePacket);
+        const updatePostPacket = {
+          ...postPacket,
+          id,
+          deleteFiles: [...image, ...video],
+        };
+        await handleUpdatePost(updatePostPacket);
       }
 
-      console.log("man");
+      if (activeType === "poll") {
+        const pollPacket = {
+          ...postPacket,
+          choice,
+          expiryTime: `${time.hour}:${time.minutes} ${time.type}`,
+          expiryDate: time.date,
+        };
+        await handleCreatePoll(pollPacket);
+      }
+
       setStatus((prev) => ({ ...prev, isLoading: false }));
     } catch (error) {
       setStatus((prev) => ({ ...prev, isLoading: false }));

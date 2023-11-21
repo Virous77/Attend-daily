@@ -28,6 +28,7 @@ const UserNetworkComp: React.FC<NetworkProps> = ({ data, compareData }) => {
                   avatarProps={{
                     src: follower.id.image,
                     showFallback: true,
+                    name: follower.id.name,
                     classNames: {
                       base: "w-[45px] h-[45px]",
                     },
