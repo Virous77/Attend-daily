@@ -117,6 +117,7 @@ export const createPoll = handleCallback(async (req, res) => {
     expiryTime,
     userId: user._id,
     postId: newPost._id,
+    vote: choice.map((value) => 0),
   };
 
   const newPoll = new pollModel(pollPacket);
@@ -404,10 +405,17 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
 export const getPosts = handleCallback(async (req, res) => {
   const posts = await postModel
     .find()
-    .populate("like")
+    .populate({
+      path: "like",
+      select: "_id postId like",
+    })
     .populate({
       path: "userId",
       select: "image name userName",
+    })
+    .populate({
+      path: "poll",
+      select: "_id choice vote expiryDate expiryTime voters",
     })
     .sort({ createdAt: -1 })
     .exec();

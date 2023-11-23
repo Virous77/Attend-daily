@@ -5,13 +5,14 @@ export type AppError = {
   success: boolean;
 };
 
-type common = {
+export type common = {
   _id: string;
   updatedAt: string;
   createdAt: string;
 };
 
-export type User = common & {
+export type User = {
+  _id: string;
   name: string;
   email: string;
   image: string;
@@ -44,7 +45,7 @@ export type Post = common & {
   postType: string;
 };
 
-export type Like = common & {
+export type Like = {
   postId: string;
   like: string[];
 };
@@ -72,4 +73,13 @@ export type MainComments = common & {
 
 export type CommentReplies = MainComments & {
   commentId: string;
+};
+
+export type Poll = {
+  choice: string[];
+  vote: number[];
+  _id: string;
+  expiryDate: string;
+  expiryTime: string;
+  voters: string[];
 };

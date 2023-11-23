@@ -7,6 +7,7 @@ import PostImages from "./post-images";
 import PostVideos from "./post-videos";
 import PostAction from "./postAction";
 import { response } from "@/components/feed/feed";
+import PollComp from "@/components/poll/poll";
 
 export type PostProps = {
   post: response;
@@ -21,6 +22,8 @@ const PostCommon: React.FC<PostProps> = ({ post }) => {
 
         <PostImages image={post.image} />
         <PostVideos video={post.video} />
+
+        {post.poll && <PollComp poll={post.poll} />}
       </CardBody>
       <CardFooter className="p-0 pt-4">
         <PostAction post={post} />

@@ -28,6 +28,10 @@ const PollSchema = new mongoose.Schema(
       type: [Number],
       required: false,
     },
+    voters: {
+      type: [String],
+      required: false,
+    },
   },
   {
     timestamps: true,
