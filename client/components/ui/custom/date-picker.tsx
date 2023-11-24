@@ -13,15 +13,26 @@ import {
 import { FaRegCalendarAlt } from "react-icons/fa";
 import moment from "moment";
 import { usePost } from "@/store/usePostContext";
+import { toast } from "../use-toast";
 
-export function DatePickerComp() {
+export function DatePickerComp({ name }: { name: string }) {
   const { time, setTime } = usePost();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
   return (
     <>
       <span
-        onClick={onOpen}
+        onClick={() => {
+          if (name === "Poll") {
+            onOpen();
+          } else {
+            toast({
+              title: "Poll date can't be edited.",
+              variant: "destructive",
+              duration: 40000,
+            });
+          }
+        }}
         className=" flex items-center gap-2 pl-3 cursor-pointer"
       >
         <FaRegCalendarAlt size={20} />{" "}

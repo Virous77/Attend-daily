@@ -14,6 +14,7 @@ import { useAppContext } from "@/store/useAppContext";
 import { PostProps } from "@/common/post";
 import { useUserContext } from "@/store/useUserContext";
 import { usePost } from "@/store/usePostContext";
+import moment from "moment";
 
 const Dropdown: React.FC<PostProps> = ({ post }) => {
   const {
@@ -22,11 +23,11 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
     setState,
   } = useAppContext();
   const { networkData, handleFollow } = useUserContext();
-  const { modal, setPreview, setFormData } = usePost();
+  const { modal, setPreview, setFormData, setChoice, setTime } = usePost();
   const followedId = networkData?.data?.following?.map((id) => id.id._id);
 
   const handleEdit = ({ post }: PostProps) => {
-    setActiveType("edit-post");
+    setActiveType(post.postType === "post" ? "edit-post" : "edit-poll");
     setPreview((prev) => ({ ...prev, image: post.image, video: post.video }));
     setFormData((prev) => ({
       ...prev,
@@ -36,6 +37,19 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
       postType: post.postType,
       id: post._id,
     }));
+
+    if (post.postType === "poll") {
+      const currentTime = moment(post.poll.expiryDate).format("hh:mm:A");
+      const formatTime = currentTime.split(":");
+      setChoice(post.poll.choice);
+      setTime((prev) => ({
+        ...prev,
+        hour: formatTime[0],
+        minutes: formatTime[1],
+        type: formatTime[2],
+        date: new Date(post.poll.expiryDate),
+      }));
+    }
     modal.onOpen();
   };
 

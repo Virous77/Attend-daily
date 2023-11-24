@@ -12,8 +12,9 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import Time from "@/common/time";
 import { usePost } from "@/store/usePostContext";
+import { toast } from "../use-toast";
 
-const TimePicker = () => {
+const TimePicker = ({ name }: { name: string }) => {
   const { time, setTime, formatTime } = usePost();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -52,7 +53,17 @@ const TimePicker = () => {
     <>
       <span
         className=" flex items-center gap-2 cursor-pointer pr-2"
-        onClick={onOpen}
+        onClick={() => {
+          if (name === "Poll") {
+            onOpen();
+          } else {
+            toast({
+              title: "Poll time can't be edited.",
+              variant: "destructive",
+              duration: 40000,
+            });
+          }
+        }}
       >
         <IoMdTime size={22} /> {`${hour}:${minutes} ${type}`}
       </span>

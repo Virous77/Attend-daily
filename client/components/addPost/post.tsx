@@ -66,7 +66,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
 
   const validatePost = () => {
     let error = false;
-    if (activeType === "poll" || activeType === "edit-poll") {
+    if (activeType === "poll") {
       if (choice[0].trim() === "" || choice[1].trim() === "") {
         error = true;
         toastMessage("There must be two choice for poll.");
@@ -101,6 +101,14 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
     onClose();
   };
 
+  const commonDate = () => {
+    const pollTime = `${time.hour}:${Number(time.minutes) + 1} ${time.type}`;
+    const formatDate = moment(time.date).format("YYYY-MM-DD");
+    const date = new Date(`${formatDate} ${pollTime}`).getTime();
+
+    return date;
+  };
+
   const handleCreatePost = async (params: CommonType) => {
     await postData({
       endPoints: "post",
@@ -128,9 +136,17 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
     commonAction();
   };
 
+  const handleUpdatePoll = async (params: UpdatePostType) => {
+    await putData({
+      endPoints: "poll",
+      params: params,
+      token: user?.token,
+    });
+    commonAction();
+  };
+
   const handleSavePost = async () => {
     const result = validatePost();
-    console.log(result);
     if (result) return;
 
     const { formData, file, uploadedImg, uploadedVideo } = processFile({
@@ -175,17 +191,23 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
       }
 
       if (activeType === "poll") {
-        const pollTime = `${time.hour}:${Number(time.minutes) + 1} ${
-          time.type
-        }`;
-        const formatDate = moment(time.date).format("YYYY-MM-DD");
-        const date = new Date(`${formatDate} ${pollTime}`).getTime();
         const pollPacket = {
           ...postPacket,
           choice,
-          expiryDate: date,
+          expiryDate: commonDate(),
         };
         await handleCreatePoll(pollPacket);
+      }
+
+      if (activeType === "edit-poll") {
+        const updatePacket = {
+          ...postPacket,
+          id,
+          deleteFiles: [...image, ...video],
+          choice,
+          expiryDate: commonDate(),
+        };
+        await handleUpdatePoll(updatePacket);
       }
 
       setStatus((prev) => ({ ...prev, isLoading: false }));
@@ -217,10 +239,10 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
         />
       </div>
       {size < 4 && <FileUpload />}
-      {name === "Poll" && (
+      {(name === "Poll" || name === "Update Poll") && (
         <>
-          <Choice />
-          <PollTime />
+          <Choice name={name} pollTime={commonDate()} />
+          <PollTime name={name} />
         </>
       )}
 
@@ -255,7 +277,13 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
       <Preview />
 
       <Action
-        name={status.isLoading ? <Loader /> : `Add ${name}`}
+        name={
+          status.isLoading ? (
+            <Loader />
+          ) : (
+            `${!name.includes("Update") ? "Add" : ""} ${name}`
+          )
+        }
         onClick={handleSavePost}
         onClose={onClose}
         active={

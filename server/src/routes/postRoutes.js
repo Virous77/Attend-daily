@@ -14,6 +14,7 @@ import {
   getSingleComment,
   getSinglePost,
   getUserPosts,
+  updatePoll,
   updatePost,
   uploadFiles,
 } from "../controllers/postController.js";
@@ -23,6 +24,7 @@ const router = express.Router();
 router.post("/post", [authenticate], createPost);
 router.post("/poll", [authenticate], createPoll);
 router.put("/post", [authenticate], updatePost);
+router.put("/poll", [authenticate], updatePoll);
 router.delete("/post/:id", [authenticate], deletePost);
 router.get("/post/all/:id", [authenticate], getUserPosts);
 router.get("/feed/post", [authenticate], getPosts);

@@ -13,7 +13,7 @@ const PollSchema = new mongoose.Schema(
       required: true,
     },
     expiryDate: {
-      type: Date,
+      type: Number,
       required: true,
     },
     choice: {

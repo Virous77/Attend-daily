@@ -165,6 +165,57 @@ export const updatePost = handleCallback(async (req, res, next) => {
   });
 });
 
+export const updatePoll = handleCallback(async (req, res, next) => {
+  const user = req.user;
+  const {
+    title,
+    postType,
+    location,
+    image,
+    video,
+    id,
+    deleteFiles,
+    choice,
+    expiryDate,
+  } = req.body;
+
+  const isUserPost = await postModel.findById(id);
+  if (!isUserPost.userId.equals(user._id))
+    return next(
+      createError({
+        message: "You are not authorized for this action",
+        status: 400,
+      })
+    );
+
+  const packet = {
+    userId: user._id,
+    title,
+    postType,
+    location,
+    image,
+    video,
+  };
+
+  const pollPacket = {
+    choice,
+    expiryDate,
+  };
+
+  await postModel.findByIdAndUpdate(id, packet);
+  await pollModel.findByIdAndUpdate(isUserPost.poll, pollPacket);
+  if (deleteFiles.length > 0) {
+    await deleteImages(deleteFiles);
+  }
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Post updated Successfully",
+    res,
+  });
+});
+
 export const deletePost = handleCallback(async (req, res, next) => {
   const user = req.user;
   const { id } = req.params;

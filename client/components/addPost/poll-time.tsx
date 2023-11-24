@@ -1,7 +1,7 @@
 import { DatePickerComp } from "../ui/custom/date-picker";
 import TimePicker from "../ui/custom/time-picker";
 
-const PollTime = () => {
+const PollTime = ({ name }: { name: string }) => {
   return (
     <div className=" mt-6 pb-3 pl-14">
       <h1
@@ -12,8 +12,8 @@ const PollTime = () => {
       </h1>
 
       <div className=" flex items-center justify-between">
-        <DatePickerComp />
-        <TimePicker />
+        <DatePickerComp name={name} />
+        <TimePicker name={name} />
       </div>
     </div>
   );

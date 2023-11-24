@@ -5,9 +5,14 @@ import { FaRegPlusSquare } from "react-icons/fa";
 import { FaCircleMinus } from "react-icons/fa6";
 import { usePost } from "@/store/usePostContext";
 
-const Choice = () => {
+const Choice = ({ name, pollTime }: { name: string; pollTime: number }) => {
   const [choiceCount, setChoiceCount] = useState([1, 2]);
   const { choice, setChoice } = usePost();
+
+  const choiceMap = name === "Poll" ? [1, 2] : choice;
+  const currentTime = new Date().getTime();
+
+  const showAddChoice = currentTime > pollTime && name === "Update Poll";
 
   const handleChoice = () => {
     if (choiceCount.length < 6) {
@@ -36,7 +41,7 @@ const Choice = () => {
   return (
     <>
       <div className=" pl-14 mt-4 flex flex-col gap-3">
-        {choiceCount.map((_, idx) => (
+        {choiceMap.map((_, idx) => (
           <div key={idx}>
             <div className="space-y-1">
               <Label htmlFor={String(idx)} className=" font-bold text-[15px]">
@@ -49,27 +54,37 @@ const Choice = () => {
                   name={String(idx)}
                   value={choice[idx]}
                   onChange={(e) => handleChange(e, idx)}
+                  disabled={showAddChoice}
                 />
-                {idx > 1 && (
-                  <span
-                    onClick={() => handleChoiceRemove(idx)}
-                    className=" cursor-pointer hover:opacity-80"
-                  >
-                    <FaCircleMinus size={23} />
-                  </span>
+                {!showAddChoice && (
+                  <>
+                    {idx > 1 && (
+                      <span
+                        onClick={() => handleChoiceRemove(idx)}
+                        className=" cursor-pointer hover:opacity-80"
+                      >
+                        <FaCircleMinus size={23} />
+                      </span>
+                    )}
+                  </>
                 )}
               </div>
             </div>
           </div>
         ))}
       </div>
-      {choiceCount.length < 6 && (
-        <div
-          onClick={handleChoice}
-          className=" flex items-center gap-3 justify-center mt-3 cursor-pointer"
-        >
-          <FaRegPlusSquare size={23} /> Add Choice
-        </div>
+
+      {!showAddChoice && (
+        <>
+          {choiceCount.length < 6 && (
+            <div
+              onClick={handleChoice}
+              className=" flex items-center gap-3 justify-center mt-3 cursor-pointer"
+            >
+              <FaRegPlusSquare size={23} /> Add Choice
+            </div>
+          )}
+        </>
       )}
     </>
   );
