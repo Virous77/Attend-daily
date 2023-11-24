@@ -5,6 +5,7 @@ import {
   addCommentLike,
   addCommentReplies,
   addPostLike,
+  addVote,
   createPoll,
   createPost,
   deletePost,
@@ -33,5 +34,6 @@ router.post("/comment/replies", [authenticate], addCommentReplies);
 router.put("/comment/like", [authenticate], addCommentLike);
 router.put("/like", [authenticate], addPostLike);
 router.post("/upload", [authenticate], uploadFiles);
+router.put("/vote", [authenticate], addVote);
 
 export default router;

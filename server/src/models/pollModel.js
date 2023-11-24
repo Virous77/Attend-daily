@@ -12,10 +12,6 @@ const PollSchema = new mongoose.Schema(
       ref: "Users",
       required: true,
     },
-    expiryTime: {
-      type: String,
-      required: true,
-    },
     expiryDate: {
       type: Date,
       required: true,

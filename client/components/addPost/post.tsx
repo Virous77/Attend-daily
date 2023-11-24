@@ -65,42 +65,24 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
   };
 
   const validatePost = () => {
+    let error = false;
     if (activeType === "poll" || activeType === "edit-poll") {
       if (choice[0].trim() === "" || choice[1].trim() === "") {
+        error = true;
         toastMessage("There must be two choice for poll.");
-        return;
       }
 
-      const selectedDate = moment(time.date);
-      const currentDate = new Date();
+      const today = new Date();
+      const pollTime = `${time.hour}:${Number(time.minutes) + 1} ${time.type}`;
+      const formatDate = moment(time.date).format("YYYY-MM-DD");
+      const date = new Date(`${formatDate} ${pollTime}`).getTime();
 
-      if (
-        selectedDate.isSameOrBefore(currentDate) &&
-        selectedDate.get("date") !== currentDate.getDate()
-      ) {
-        toastMessage("Date should be greater or equal to today.");
-        return;
-      }
-
-      if (
-        selectedDate.get("date") === currentDate.getDate() &&
-        selectedDate.get("month") === currentDate.getMonth()
-      ) {
-        const currentTime = moment().format("hh:mm:A");
-        const formatTime = currentTime.split(":");
-        if (formatTime[2] === "PM" && time.type.includes("AM")) {
-          toastMessage("Time format is wrong. can't open Poll in past time.");
-          return;
-        }
-
-        if (time.hour === formatTime[0] && time.type === formatTime[2]) {
-          if (time.minutes <= formatTime[1]) {
-            toastMessage("Time format is wrong. can't open Poll in past time.");
-            return;
-          }
-        }
+      if (date < today.getTime()) {
+        error = true;
+        toastMessage("Expiry should be in future time.");
       }
     }
+    return error;
   };
 
   const commonAction = () => {
@@ -147,7 +129,9 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
   };
 
   const handleSavePost = async () => {
-    validatePost();
+    const result = validatePost();
+    console.log(result);
+    if (result) return;
 
     const { formData, file, uploadedImg, uploadedVideo } = processFile({
       image: tempFileStore.image,
@@ -191,11 +175,15 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
       }
 
       if (activeType === "poll") {
+        const pollTime = `${time.hour}:${Number(time.minutes) + 1} ${
+          time.type
+        }`;
+        const formatDate = moment(time.date).format("YYYY-MM-DD");
+        const date = new Date(`${formatDate} ${pollTime}`).getTime();
         const pollPacket = {
           ...postPacket,
           choice,
-          expiryTime: `${time.hour}:${time.minutes} ${time.type}`,
-          expiryDate: time.date,
+          expiryDate: date,
         };
         await handleCreatePoll(pollPacket);
       }

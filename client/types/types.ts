@@ -79,7 +79,6 @@ export type Poll = {
   choice: string[];
   vote: number[];
   _id: string;
-  expiryDate: string;
-  expiryTime: string;
+  expiryDate: number;
   voters: string[];
 };

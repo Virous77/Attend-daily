@@ -38,7 +38,7 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
 
   return (
     <div className="pt-2 pl-1 flex items-center justify-between w-full">
-      <Like value={post.like.like} handleLike={() => handleLike(post._id)} />
+      <Like value={post?.like?.like} handleLike={() => handleLike(post._id)} />
 
       <div className="flex items-center gap-1">
         <span

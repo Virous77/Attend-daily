@@ -69,20 +69,33 @@ const PollComp: React.FC<PollType> = ({ poll }) => {
           ))}
         </ul>
       </CardBody>
-      {!poll.voters.includes(user?._id || "") && (
-        <CardFooter className=" justify-center flex-col gap-2">
-          <Separator className=" h-[2px]" />
-          <span
-            className=" opacity-80 cursor-pointer"
-            onClick={() => {
-              setActiveVote(poll);
-              onOpen();
-            }}
-          >
-            Cast Your Vote
-          </span>
-        </CardFooter>
-      )}
+      <>
+        {!poll.voters.includes(user?._id || "") && (
+          <>
+            {poll.expiryDate > new Date().getTime() ? (
+              <CardFooter className=" justify-center flex-col gap-2">
+                <Separator className=" h-[2px]" />
+                <span
+                  className=" opacity-80 cursor-pointer"
+                  onClick={() => {
+                    setActiveVote(poll);
+                    onOpen();
+                  }}
+                >
+                  Cast Your Vote
+                </span>
+              </CardFooter>
+            ) : (
+              <CardFooter className=" justify-center flex-col gap-2">
+                <Separator className=" h-[2px]" />
+                <span className=" opacity-80 cursor-pointer">
+                  Voting Closed
+                </span>
+              </CardFooter>
+            )}
+          </>
+        )}
+      </>
 
       <Vote
         onOpenChange={onOpenChange}

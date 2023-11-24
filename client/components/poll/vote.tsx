@@ -1,8 +1,5 @@
 import { Poll } from "@/types/types";
 import {
-  Card,
-  CardBody,
-  CardHeader,
   Modal,
   ModalBody,
   ModalContent,
@@ -10,6 +7,11 @@ import {
   RadioGroup,
 } from "@nextui-org/react";
 import React, { Dispatch, SetStateAction } from "react";
+import { Button } from "../ui/button";
+import Loader from "../ui/loader/Loader";
+import useQueryPut from "@/hooks/useQueryPut";
+import { useQueryClient } from "@tanstack/react-query";
+import moment from "moment";
 
 type VoteType = {
   onOpenChange: () => void;
@@ -25,16 +27,33 @@ const Vote: React.FC<VoteType> = ({
   setActiveVote,
 }) => {
   const [selected, setSelected] = React.useState("");
+  const client = useQueryClient();
+  const { mutateAsync, isPending } = useQueryPut();
 
-  console.log(selected);
+  const reset = () => {
+    onOpenChange();
+    setActiveVote(null);
+    setSelected("");
+  };
+
+  const handleAddVote = async () => {
+    await mutateAsync({
+      endPoint: "vote",
+      data: { id: poll?._id, index: selected },
+    });
+    client.invalidateQueries({
+      queryKey: ["feed"],
+      exact: true,
+      refetchType: "all",
+    });
+    reset();
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       placement={"auto"}
-      onOpenChange={() => {
-        onOpenChange();
-        setActiveVote(null);
-      }}
+      onOpenChange={reset}
       backdrop="transparent"
       className="bg-background text-foreground !w-full"
       hideCloseButton={true}
@@ -46,15 +65,40 @@ const Vote: React.FC<VoteType> = ({
       <ModalContent className="max-w-full md:max-w-md">
         {(onClose) => (
           <>
-            <ModalBody className="w-full pl-0 pr-0">
-              <h2>Cast You Vote</h2>
+            <ModalBody className="w-full p-4">
+              <h2 className=" text-center text-[17px] text-green-500">
+                Cast Your Vote
+              </h2>
               <RadioGroup value={selected} onValueChange={setSelected}>
                 {poll?.choice.map((value, idx) => (
-                  <Radio value={String(idx)} key={idx} className=" capitalize">
+                  <Radio
+                    value={String(idx)}
+                    key={idx}
+                    className=" capitalize"
+                    color="success"
+                  >
                     {value}
                   </Radio>
                 ))}
               </RadioGroup>
+
+              <div className=" w-full text-center mt-2 flex flex-col gap-3">
+                <Button
+                  className=" w-full"
+                  disabled={isPending || !selected}
+                  onClick={handleAddVote}
+                  variant={!selected ? "disabled" : "default"}
+                >
+                  {isPending ? <Loader /> : "Add Vote"}
+                </Button>
+                <Button
+                  onClick={reset}
+                  variant={isPending ? "disabled" : "outline"}
+                  className=" w-full"
+                >
+                  Close
+                </Button>
+              </div>
             </ModalBody>
           </>
         )}

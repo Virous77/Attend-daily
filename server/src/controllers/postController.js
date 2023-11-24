@@ -89,16 +89,8 @@ export const createPost = handleCallback(async (req, res) => {
 
 export const createPoll = handleCallback(async (req, res) => {
   const user = req.user;
-  const {
-    title,
-    postType,
-    location,
-    image,
-    video,
-    choice,
-    expiryTime,
-    expiryDate,
-  } = req.body;
+  const { title, postType, location, image, video, choice, expiryDate } =
+    req.body;
   const packet = {
     userId: user._id,
     title,
@@ -114,7 +106,6 @@ export const createPoll = handleCallback(async (req, res) => {
   const pollPacket = {
     choice,
     expiryDate,
-    expiryTime,
     userId: user._id,
     postId: newPost._id,
     vote: choice.map((value) => 0),
@@ -196,6 +187,7 @@ export const deletePost = handleCallback(async (req, res, next) => {
   await postModel.findByIdAndDelete(id);
   await commentModel.deleteMany({ postId: id });
   await commentReplies.deleteMany({ postId: id });
+  await pollModel.deleteOne({ postId: id });
 
   sendResponse({
     status: true,
@@ -317,10 +309,17 @@ export const getSinglePost = handleCallback(async (req, res, next) => {
   const { id } = req.params;
   const post = await postModel
     .findById(id)
-    .populate("like")
+    .populate({
+      path: "like",
+      select: "_id postId like",
+    })
     .populate({
       path: "userId",
       select: "image name userName",
+    })
+    .populate({
+      path: "poll",
+      select: "_id choice vote expiryDate expiryTime voters",
     })
     .exec();
 
@@ -385,10 +384,17 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
 
   const posts = await postModel
     .find({ userId: id })
-    .populate("like")
+    .populate({
+      path: "like",
+      select: "_id postId like",
+    })
     .populate({
       path: "userId",
       select: "image name userName",
+    })
+    .populate({
+      path: "poll",
+      select: "_id choice vote expiryDate expiryTime voters",
     })
     .sort({ createdAt: -1 })
     .exec();
@@ -484,6 +490,36 @@ export const uploadFiles = handleCallback(async (req, res) => {
     code: 200,
     message: "Files uploaded Successfully",
     data: { image, video },
+    res,
+  });
+});
+
+export const addVote = handleCallback(async (req, res, next) => {
+  const user = req.user;
+  const { index, id } = req.body;
+
+  const vote = await pollModel.findById(id);
+  const ifVoted = vote.voters.includes(user._id);
+
+  if (ifVoted)
+    return next(
+      createError({ message: "You have already voted ", status: 400 })
+    );
+
+  await pollModel.updateOne(
+    { _id: id },
+    {
+      $inc: { [`vote.${index}`]: 1 },
+      $addToSet: { voters: user._id },
+    },
+    { arrayFilters: [{ index: index }] }
+  );
+
+  console.log(vote);
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Votes added Successfully",
     res,
   });
 });
