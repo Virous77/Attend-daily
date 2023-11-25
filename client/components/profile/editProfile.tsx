@@ -11,8 +11,8 @@ import { useMutation } from "@tanstack/react-query";
 import { putData } from "@/api/api";
 import { useAppContext } from "@/store/useAppContext";
 import Loader from "../ui/loader/Loader";
-import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
+import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 
 type EditProfileProps = {
   open: StateType;
@@ -25,7 +25,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
   );
   const { name }: { name: string } = useParams();
   const { state } = useAppContext();
-  const client = useQueryClient();
+  const { invalidateKey } = useQueryInvalidate();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (params: any) => {
@@ -41,16 +41,8 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
       setColor("primary");
     },
     onSuccess: () => {
-      client.invalidateQueries({
-        queryKey: ["user"],
-        exact: true,
-        refetchType: "all",
-      });
-      client.invalidateQueries({
-        queryKey: [`${name}-user`],
-        exact: true,
-        refetchType: "all",
-      });
+      invalidateKey(`${name}-user`);
+      invalidateKey("user");
       setColor("primary");
       setOpen((prev) => ({ ...prev, active: false }));
     },

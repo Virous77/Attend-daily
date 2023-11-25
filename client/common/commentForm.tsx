@@ -5,8 +5,8 @@ import { Input } from "@/components/ui/input";
 import { IoMdSend } from "react-icons/io";
 import Loader from "@/components/ui/loader/Loader";
 import useQueryPost from "@/hooks/useQueryPost";
-import { useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
+import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 
 type CommentFormType = {
   postId: string;
@@ -20,8 +20,8 @@ const CommentForm: React.FC<CommentFormType> = ({
   type,
 }) => {
   const { mutateAsync, isPending, setKey } = useQueryPost();
-  const client = useQueryClient();
   const [content, setContent] = useState("");
+  const { invalidateKey } = useQueryInvalidate();
 
   const handleComment = async () => {
     setKey(`${postId}-comment`);
@@ -36,17 +36,9 @@ const CommentForm: React.FC<CommentFormType> = ({
     };
     const data = await mutateAsync(packet);
     if (data.status) {
-      client.invalidateQueries({
-        queryKey: [`${postId}-post`],
-        refetchType: "all",
-        exact: true,
-      });
+      invalidateKey(`${postId}-post`);
       if (commentId) {
-        client.invalidateQueries({
-          queryKey: [`${commentId}-comment`],
-          refetchType: "all",
-          exact: true,
-        });
+        invalidateKey(`${commentId}-comment`);
       }
       setContent("");
     }

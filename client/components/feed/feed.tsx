@@ -10,9 +10,9 @@ import {
   User,
 } from "@/types/types";
 import PullToRefresh from "react-simple-pull-to-refresh";
-import { useQueryClient } from "@tanstack/react-query";
 import Loader from "../ui/loader/Loader";
 import PostList from "../profile/post/postList";
+import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 
 export type response = Post & { like: Like } & {
   userId: User;
@@ -27,19 +27,15 @@ export type PostQueryResponse = QueryResponse & {
 };
 
 const FeedComp = () => {
-  const client = useQueryClient();
   const { fetchResult, isPending }: PostQueryResponse = useQueryFetch({
     endPoints: "feed/post",
     key: "feed",
     staleTime: Infinity,
   });
+  const { invalidateKey } = useQueryInvalidate();
 
   const handleRefresh = async () => {
-    client.invalidateQueries({
-      queryKey: ["feed"],
-      refetchType: "all",
-      exact: true,
-    });
+    invalidateKey("feed");
   };
 
   if (isPending) return <p>Loading....</p>;

@@ -370,7 +370,7 @@ export const getSinglePost = handleCallback(async (req, res, next) => {
     })
     .populate({
       path: "poll",
-      select: "_id choice vote expiryDate expiryTime voters",
+      select: "_id choice vote expiryDate voters postId",
     })
     .exec();
 
@@ -445,7 +445,7 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
     })
     .populate({
       path: "poll",
-      select: "_id choice vote expiryDate expiryTime voters",
+      select: "_id choice vote expiryDate voters postId",
     })
     .sort({ createdAt: -1 })
     .exec();
@@ -472,7 +472,7 @@ export const getPosts = handleCallback(async (req, res) => {
     })
     .populate({
       path: "poll",
-      select: "_id choice vote expiryDate expiryTime voters",
+      select: "_id choice vote expiryDate voters postId",
     })
     .sort({ createdAt: -1 })
     .exec();

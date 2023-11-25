@@ -1,31 +1,22 @@
 import Alert from "../ui/custom/alert";
 import { useAppContext } from "@/store/useAppContext";
 import useQueryDelete from "@/hooks/useQueryDelete";
-import { useQueryClient } from "@tanstack/react-query";
+import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 
 const DeletePost = () => {
   const {
     state: { open, user },
     setActiveType,
   } = useAppContext();
-  const client = useQueryClient();
-
   const { mutateAsync, isPending } = useQueryDelete();
+  const { invalidateKey } = useQueryInvalidate();
 
   const handleDelete = async () => {
     const data = await mutateAsync({ endPoint: `post/${open}` });
     if (data.status) {
       setActiveType("");
-      client.invalidateQueries({
-        queryKey: ["feed"],
-        refetchType: "all",
-        exact: true,
-      });
-      client.invalidateQueries({
-        queryKey: [`${user?._id}-post`],
-        refetchType: "all",
-        exact: true,
-      });
+      invalidateKey("feed");
+      invalidateKey(`${user?._id}-post`);
     }
   };
   return (

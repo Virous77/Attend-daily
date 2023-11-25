@@ -81,4 +81,5 @@ export type Poll = {
   _id: string;
   expiryDate: number;
   voters: string[];
+  postId: string;
 };

@@ -8,13 +8,13 @@ import { usePost } from "@/store/usePostContext";
 import Preview from "./preview";
 import { toast } from "../ui/use-toast";
 import { postData, putData } from "@/api/api";
-import { useQueryClient } from "@tanstack/react-query";
 import Loader from "../ui/loader/Loader";
 import Info from "./info";
 import { processFile, uploadFiles } from "./utils";
 import Choice from "./choice";
 import PollTime from "./poll-time";
 import moment from "moment";
+import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 
 type CommonType = {
   image: any[];
@@ -53,8 +53,8 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
     time,
   } = usePost();
   const { title, pin, location, id, image, video } = formData;
-  const client = useQueryClient();
   const size = preview.image.length + preview.video.length;
+  const { invalidateKey } = useQueryInvalidate();
 
   const toastMessage = (message: string) => {
     toast({
@@ -88,16 +88,8 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
   const commonAction = () => {
     setStatus((prev) => ({ ...prev, isLoading: false }));
     reset();
-    client.invalidateQueries({
-      queryKey: ["feed"],
-      exact: true,
-      refetchType: "all",
-    });
-    client.invalidateQueries({
-      queryKey: [`${user?._id}-post`],
-      exact: true,
-      refetchType: "all",
-    });
+    invalidateKey("feed");
+    invalidateKey(`${user?._id}-post`);
     onClose();
   };
 

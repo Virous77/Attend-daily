@@ -11,9 +11,9 @@ import {
 import useQueryFetch from "@/hooks/useQueryFetch";
 import useQueryPost from "@/hooks/useQueryPost";
 import { QueryResponse, QueryData } from "@/types/types";
-import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "@/components/ui/use-toast";
 import { useAppContext } from "./useAppContext";
+import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 
 export type stateType = {
   networkUser: string | null;
@@ -57,7 +57,6 @@ export const UserContextProvider = ({
   const [userData, setUserData] = useState<stateType>({
     networkUser: null,
   });
-  const client = useQueryClient();
   const {
     state: { user },
   } = useAppContext();
@@ -72,6 +71,7 @@ export const UserContextProvider = ({
     staleTime: 5 * 60 * 1000,
     enabled: user?.userName ? true : false,
   });
+  const { invalidateKey } = useQueryInvalidate();
 
   const { mutateAsync, isPending: isFollowing } = useQueryPost();
   const handleFollow = async (id: string, userName: string) => {
@@ -80,16 +80,8 @@ export const UserContextProvider = ({
       endPoint: "follow",
     });
     if (data.status) {
-      client.invalidateQueries({
-        queryKey: ["user-network"],
-        refetchType: "all",
-        exact: true,
-      });
-      client.invalidateQueries({
-        queryKey: [`${userName}-userNetwork`],
-        refetchType: "all",
-        exact: true,
-      });
+      invalidateKey("user-network");
+      invalidateKey(`${userName}-userNetwork`);
       toast({
         title: data.message,
         duration: 3000,

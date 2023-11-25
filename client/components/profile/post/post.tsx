@@ -3,15 +3,15 @@ import PostList from "./postList";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import Loader from "@/components/ui/loader/Loader";
 import useQueryFetch from "@/hooks/useQueryFetch";
-import { useQueryClient } from "@tanstack/react-query";
 import { PostQueryResponse } from "@/components/feed/feed";
+import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 
 type PostProps = {
   id: string;
 };
 
 const Post: React.FC<PostProps> = ({ id }) => {
-  const client = useQueryClient();
+  const { invalidateKey } = useQueryInvalidate();
   const { fetchResult }: PostQueryResponse = useQueryFetch({
     endPoints: `post/all/${id}`,
     key: `${id}-post`,
@@ -20,11 +20,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
   });
 
   const handleRefresh = async () => {
-    client.invalidateQueries({
-      queryKey: [`${id}-post`],
-      refetchType: "all",
-      exact: true,
-    });
+    invalidateKey(`${id}-post`);
   };
 
   return (

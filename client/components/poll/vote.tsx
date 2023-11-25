@@ -10,8 +10,7 @@ import React, { Dispatch, SetStateAction } from "react";
 import { Button } from "../ui/button";
 import Loader from "../ui/loader/Loader";
 import useQueryPut from "@/hooks/useQueryPut";
-import { useQueryClient } from "@tanstack/react-query";
-import moment from "moment";
+import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 
 type VoteType = {
   onOpenChange: () => void;
@@ -27,8 +26,8 @@ const Vote: React.FC<VoteType> = ({
   setActiveVote,
 }) => {
   const [selected, setSelected] = React.useState("");
-  const client = useQueryClient();
   const { mutateAsync, isPending } = useQueryPut();
+  const { invalidateKey, user } = useQueryInvalidate();
 
   const reset = () => {
     onOpenChange();
@@ -41,11 +40,9 @@ const Vote: React.FC<VoteType> = ({
       endPoint: "vote",
       data: { id: poll?._id, index: selected },
     });
-    client.invalidateQueries({
-      queryKey: ["feed"],
-      exact: true,
-      refetchType: "all",
-    });
+    invalidateKey("feed");
+    invalidateKey(`${user?._id}-post`);
+    invalidateKey(`${poll?.postId}-post`);
     reset();
   };
 
