@@ -99,7 +99,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
             </>
           )}
 
-          {post.userId._id === user?._id && (
+          {post.userId._id === user?._id && !post.isRetweeted && (
             <>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -118,7 +118,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
             <MdReportGmailerrorred className="mr-2" size={20} />
             <span>Report</span>
           </DropdownMenuItem>
-          {post.userId._id === user?._id && (
+          {post.userId._id === user?._id && !post.isRetweeted && (
             <>
               <DropdownMenuSeparator />
               <DropdownMenuItem

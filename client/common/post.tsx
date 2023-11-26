@@ -23,7 +23,7 @@ const PostCommon: React.FC<PostProps> = ({ post }) => {
   return (
     <Card className=" p-4 cursor-pointer" style={{ margin: "2px" }}>
       {post.isRetweeted && (
-        <div className=" flex items-center gap-2 pl-8 pb-1 opacity-80 text-[13px]">
+        <div className=" flex items-center gap-2 pl-8 pb-1 opacity-60 text-[13px]">
           <Repeat2 size={18} />
           <span>{name} reposted</span>
         </div>

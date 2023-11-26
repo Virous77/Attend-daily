@@ -49,7 +49,9 @@ const RePost: React.FC<PostListProps> = ({ post }) => {
 
   return (
     <>
-      {post?.userId._id === user?._id && post.isRetweeted ? (
+      {(post?.userId._id === user?._id ||
+        post.originalPost?.retweetUser?.users?.includes(user?._id || "")) &&
+      post.isRetweeted ? (
         <div className=" flex items-center gap-1">
           <span className=" cursor-pointer" onClick={onOpen}>
             <Repeat2 size={21} color="green" />
@@ -85,21 +87,33 @@ const RePost: React.FC<PostListProps> = ({ post }) => {
               >
                 <div className=" flex flex-col gap-4">
                   {post.isRetweeted && post.userId._id === user?._id ? (
-                    <div
-                      className=" flex items-center gap-2 cursor-pointer w-fit text-red-500"
-                      onClick={() => handleRemoveRepost(post._id)}
-                    >
-                      <Repeat2 size={21} />
-                      <span>Undo Repost</span>
-                    </div>
+                    <>
+                      {post.originalPost?.retweetUser?.users?.includes(
+                        user?._id || ""
+                      ) && (
+                        <div
+                          className=" flex items-center gap-2 cursor-pointer w-fit text-red-500"
+                          onClick={() => handleRemoveRepost(post._id)}
+                        >
+                          <Repeat2 size={21} />
+                          <span>Undo Repost</span>
+                        </div>
+                      )}
+                    </>
                   ) : (
-                    <div
-                      className=" flex items-center gap-2 cursor-pointer w-fit"
-                      onClick={() => handleRepost(post._id)}
-                    >
-                      <Repeat2 size={21} />
-                      <span>Repost</span>
-                    </div>
+                    <>
+                      {!post.originalPost?.retweetUser?.users?.includes(
+                        user?._id || ""
+                      ) && (
+                        <div
+                          className=" flex items-center gap-2 cursor-pointer w-fit"
+                          onClick={() => handleRepost(post._id)}
+                        >
+                          <Repeat2 size={21} />
+                          <span>Repost</span>
+                        </div>
+                      )}
+                    </>
                   )}
 
                   <div className=" flex items-center gap-2 w-fit cursor-pointer">

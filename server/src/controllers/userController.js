@@ -3,6 +3,7 @@ import { uploadImage, deleteImages } from "../utils/imageUpload.js";
 import { createError, handleCallback, sendResponse } from "../utils/utils.js";
 import userNetwork from "../models/userNetwork.js";
 import { toggleLikeInComment } from "./postController.js";
+import { createNotification } from "./notificationController.js";
 
 export const updateUser = handleCallback(async (req, res, next) => {
   let { image, ...rest } = req.body;
@@ -130,6 +131,14 @@ export const followUser = handleCallback(async (req, res) => {
   if (!isFollowing) {
     await utilityFollow(user, followUser, false, "following");
     await utilityFollow(followUser, user, false, "followers");
+    await createNotification({
+      type: "follow",
+      params: {
+        notificationBy: user,
+        notificationFor: followUser,
+        message: "follow",
+      },
+    });
   } else {
     await utilityFollow(user, followUser, true, "following");
     await utilityFollow(followUser, user, true, "followers");

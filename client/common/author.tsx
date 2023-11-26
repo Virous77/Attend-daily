@@ -29,7 +29,7 @@ const Author: React.FC<PostProps> = ({ post }) => {
           >
             {user?.name}
           </p>
-          <span className="text-[12px] opacity-60">
+          <span className="opacity-60" style={{ fontSize: "13px" }}>
             {formatTimeAgo(new Date(post.createdAt))}
           </span>
         </div>

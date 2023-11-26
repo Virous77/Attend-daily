@@ -14,7 +14,7 @@ const Like: React.FC<LikeProps> = ({ value, handleLike }) => {
     <div className=" flex items-center gap-1">
       {value?.includes(user?._id || "") ? (
         <span className=" cursor-pointer" onClick={handleLike}>
-          <AiTwotoneHeart size={20} />
+          <AiTwotoneHeart size={20} color="red" />
         </span>
       ) : (
         <span className=" cursor-pointer" onClick={handleLike}>
