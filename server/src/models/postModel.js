@@ -45,6 +45,23 @@ const PostSchema = new mongoose.Schema(
       ref: "polls",
       default: null,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
+    originalPost: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "posts",
+      default: null,
+    },
+    isRetweeted: {
+      type: Boolean,
+      default: false,
+    },
+    retweetUser: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "retweetsUser",
+    },
   },
   {
     timestamps: true,

@@ -8,15 +8,27 @@ import PostVideos from "./post-videos";
 import PostAction from "./postAction";
 import { response } from "@/components/feed/feed";
 import PollComp from "@/components/poll/poll";
+import { Repeat2 } from "lucide-react";
+import { useAppContext } from "@/store/useAppContext";
 
 export type PostProps = {
   post: response;
 };
 
 const PostCommon: React.FC<PostProps> = ({ post }) => {
+  const {
+    state: { user },
+  } = useAppContext();
+  const name = post?.userId._id === user?._id ? "You" : post.userId.name;
   return (
     <Card className=" p-4 cursor-pointer" style={{ margin: "2px" }}>
-      <Author date={post.createdAt} user={post.userId} post={post} />
+      {post.isRetweeted && (
+        <div className=" flex items-center gap-2 pl-8 pb-1 opacity-80 text-[13px]">
+          <Repeat2 size={18} />
+          <span>{name} reposted</span>
+        </div>
+      )}
+      <Author post={post} />
       <CardBody className=" p-0 pt-5">
         {post?.title && <p>{post?.title}</p>}
 

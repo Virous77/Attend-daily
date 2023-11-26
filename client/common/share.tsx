@@ -128,7 +128,11 @@ const Share: React.FC<ShareProps & PostListProps> = ({
               </div>
             </ModalBody>
             <ModalFooter className=" w-full">
-              <Button className=" w-full" variant="outline" onClick={onClose}>
+              <Button
+                variant="outline"
+                onClick={onClose}
+                className=" w-full rounded-[30px] text-[17px] font-bold"
+              >
                 Cancel
               </Button>
             </ModalFooter>

@@ -43,6 +43,23 @@ export type Post = common & {
   totalComments: number;
   location: string;
   postType: string;
+  originalPost: {
+    _id: string;
+    totalComments: number;
+    userId: User;
+    retweetUser: {
+      _id: string;
+      postId: string;
+      users: string;
+    };
+  };
+  isDeleted: boolean;
+  isRetweeted: boolean;
+  retweetUser: {
+    _id: string;
+    postId: string;
+    users: string;
+  };
 };
 
 export type Like = {

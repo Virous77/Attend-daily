@@ -91,7 +91,7 @@ const Vote: React.FC<VoteType> = ({
                 <Button
                   onClick={reset}
                   variant={isPending ? "disabled" : "outline"}
-                  className=" w-full"
+                  className=" w-full rounded-[30px] text-[17px] font-bold"
                 >
                   Close
                 </Button>

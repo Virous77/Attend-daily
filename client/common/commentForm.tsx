@@ -37,6 +37,7 @@ const CommentForm: React.FC<CommentFormType> = ({
     const data = await mutateAsync(packet);
     if (data.status) {
       invalidateKey(`${postId}-post`);
+      invalidateKey("feed");
       if (commentId) {
         invalidateKey(`${commentId}-comment`);
       }

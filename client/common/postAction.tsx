@@ -9,6 +9,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { MdIosShare } from "react-icons/md";
 import Share from "./share";
 import { useDisclosure } from "@nextui-org/react";
+import RePost from "./re-post";
 
 type PostActionProps = {
   setOpen?: React.Dispatch<React.SetStateAction<StateType>>;
@@ -36,25 +37,29 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
     mutate({ postId: postId, endPoints: "/bookmark" });
   };
 
+  const id = post.isRetweeted ? post.originalPost._id : post._id;
+
+  const totalCommentsCount = post.isRetweeted
+    ? post.originalPost.totalComments
+    : post.totalComments;
+
   return (
     <div className="pt-2 pl-1 flex items-center justify-between w-full">
-      <Like value={post?.like?.like} handleLike={() => handleLike(post._id)} />
+      <Like value={post?.like?.like} handleLike={() => handleLike(id)} />
 
       <div className="flex items-center gap-1">
         <span
           className=" cursor-pointer"
-          onClick={() => router.push(`/post/${post._id}`)}
+          onClick={() => router.push(`/post/${id}`)}
         >
           <FaRegComment size={20} />
         </span>
-        {post.totalComments > 0 && (
-          <p className=" leading-none">{post.totalComments}</p>
+        {totalCommentsCount > 0 && (
+          <p className=" leading-none">{totalCommentsCount}</p>
         )}
       </div>
 
-      <span className=" cursor-pointer">
-        <FaRetweet size={20} />
-      </span>
+      <RePost post={post} />
 
       <div className=" flex items-center">
         {networkData?.data?.bookMarks?.includes(post._id) ? (
