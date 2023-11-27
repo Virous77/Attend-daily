@@ -5,7 +5,11 @@ import {
   CommentRepliesNotification,
   FollowNotification,
 } from "../models/notificationModel.js";
-import { sendResponse, handleCallback } from "../utils/utils.js";
+import {
+  sendResponse,
+  handleCallback,
+  fifteenDaysAgo,
+} from "../utils/utils.js";
 
 export const getNotification = handleCallback(async (req, res, next) => {
   const user = req.user;
@@ -13,11 +17,17 @@ export const getNotification = handleCallback(async (req, res, next) => {
   const notificationFresh = await Notification.find({
     notificationFor: user._id,
     isViewed: false,
-  });
+  })
+    .populate({ path: "notificationBy", select: "_id name image userName" })
+    .sort({ createdAt: -1 })
+    .exec();
   const notificationOld = await Notification.find({
     notificationFor: user._id,
     isViewed: true,
-  });
+  })
+    .populate({ path: "notificationBy", select: "_id name image userName" })
+    .sort({ createdAt: -1 })
+    .exec();
 
   sendResponse({
     message: "User notification fetched successfully",
@@ -55,6 +65,7 @@ export const updateNotification = handleCallback(async (req, res, next) => {
 });
 
 export const createNotification = async ({ type, params }) => {
+  const currentDate = new Date();
   try {
     if (type === "post") {
       const newPostNotification = await PostNotification.create({ ...params });
@@ -73,11 +84,20 @@ export const createNotification = async ({ type, params }) => {
     }
 
     if (type === "follow") {
-      console.log(params);
-      const newFollowNotification = await FollowNotification.create({
-        ...params,
+      const isAlreadyFollowed = await FollowNotification.findOne({
+        notificationFor: params.notificationFor,
+        createdAt: {
+          $gte: fifteenDaysAgo,
+          $lt: currentDate,
+        },
+        notificationType: "user",
       });
-      return newFollowNotification;
+      if (!isAlreadyFollowed) {
+        const newFollowNotification = await FollowNotification.create({
+          ...params,
+        });
+        return newFollowNotification;
+      }
     }
   } catch (error) {
     console.log(error);

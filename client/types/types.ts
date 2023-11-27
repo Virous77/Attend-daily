@@ -100,3 +100,17 @@ export type Poll = {
   voters: string[];
   postId: string;
 };
+
+export type Notification = common & {
+  notificationFor: string;
+  notificationBy: {
+    _id: string;
+    name: string;
+    userName: string;
+    image: string;
+  };
+  isViewed: boolean;
+  notificationRef: string | null;
+  notificationType: "user" | "post" | "comment" | "commentReplies";
+  message: string;
+};

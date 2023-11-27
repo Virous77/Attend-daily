@@ -22,3 +22,7 @@ export const sendResponse = ({ code, data, message, status, res }) => {
     status,
   });
 };
+
+const currentDate = new Date();
+export const fifteenDaysAgo = new Date(currentDate);
+fifteenDaysAgo.setDate(fifteenDaysAgo.getDate() - 15);

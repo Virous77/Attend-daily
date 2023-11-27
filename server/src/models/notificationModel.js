@@ -19,6 +19,10 @@ const commonFields = {
     type: Boolean,
     default: false,
   },
+  notificationType: {
+    type: String,
+    required: true,
+  },
 };
 
 const notificationSchema = new mongoose.Schema(commonFields, {

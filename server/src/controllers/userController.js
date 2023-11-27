@@ -131,12 +131,13 @@ export const followUser = handleCallback(async (req, res) => {
   if (!isFollowing) {
     await utilityFollow(user, followUser, false, "following");
     await utilityFollow(followUser, user, false, "followers");
-    await createNotification({
+    createNotification({
       type: "follow",
       params: {
         notificationBy: user,
         notificationFor: followUser,
-        message: "follow",
+        message: "followed you",
+        notificationType: "user",
       },
     });
   } else {
