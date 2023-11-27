@@ -138,6 +138,7 @@ export const followUser = handleCallback(async (req, res) => {
         notificationFor: followUser,
         message: "followed you",
         notificationType: "user",
+        notificationEvent: "follow",
       },
     });
   } else {

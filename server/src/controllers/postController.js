@@ -10,6 +10,7 @@ import commentReplies from "../models/commentReplies.js";
 import postLikeModel from "../models/postLikeModel.js";
 import { IncomingForm } from "formidable";
 import pollModel from "../models/pollModel.js";
+import { createNotification } from "./notificationController.js";
 
 /// Utility Function
 export const toggleLikeInComment = async ({
@@ -50,6 +51,20 @@ export const toggleLikeInComment = async ({
         comment.like.splice(likeIndex, 1);
       } else {
         comment.like.push(userId);
+        if (active === "true") {
+          const post = await postModel.findById(commentId);
+          createNotification({
+            type: "post",
+            params: {
+              notificationBy: userId.toString(),
+              notificationFor: post.userId.toString(),
+              message: "liked your post",
+              notificationType: "post",
+              notificationRef: commentId,
+              notificationEvent: "like",
+            },
+          });
+        }
       }
     }
 
@@ -225,11 +240,37 @@ export const addCommentLike = handleCallback(async (req, res) => {
       userId: likeUser._id,
       commentId,
     });
+
+    const comment = await commentModel.findById(commentId);
+
+    createNotification({
+      type: "comment",
+      params: {
+        notificationBy: likeUser._id.toString(),
+        notificationFor: comment.commentedUser.toString(),
+        message: "liked your comment",
+        notificationType: "comment",
+        notificationRef: commentId,
+        notificationEvent: "like",
+      },
+    });
   } else {
     newLike = await toggleLikeInComment({
       model: commentReplies,
       userId: likeUser._id,
       commentId,
+    });
+    const comment = await commentReplies.findById(commentId);
+    createNotification({
+      type: "commentReplies",
+      params: {
+        notificationBy: likeUser._id.toString(),
+        notificationFor: comment.commentedUser.toString(),
+        message: "liked your comment",
+        notificationType: "commentReplies",
+        notificationRef: commentId,
+        notificationEvent: "like",
+      },
     });
   }
 
@@ -245,8 +286,6 @@ export const addCommentLike = handleCallback(async (req, res) => {
 export const addPostLike = handleCallback(async (req, res) => {
   const likeUser = req.user;
   const { postId } = req.body;
-
-  console.log(postId);
 
   const newLike = await toggleLikeInComment({
     model: postLikeModel,
@@ -521,6 +560,18 @@ export const addVote = handleCallback(async (req, res, next) => {
     return next(
       createError({ message: "You have already voted ", status: 400 })
     );
+
+  createNotification({
+    type: "post",
+    params: {
+      notificationBy: user._id.toString(),
+      notificationFor: vote.userId.toString(),
+      message: "added poll on your post",
+      notificationType: "post",
+      notificationRef: vote.postId,
+      notificationEvent: "poll",
+    },
+  });
 
   await pollModel.updateOne(
     { _id: id },

@@ -68,19 +68,68 @@ export const createNotification = async ({ type, params }) => {
   const currentDate = new Date();
   try {
     if (type === "post") {
-      const newPostNotification = await PostNotification.create({ ...params });
-      return newPostNotification;
+      const isAlreadyNotified = await PostNotification.findOne({
+        notificationFor: params.notificationFor,
+        createdAt: {
+          $gte: fifteenDaysAgo,
+          $lt: currentDate,
+        },
+        notificationRef: params.notificationRef,
+        notificationType: "post",
+        notificationEvent: params.notificationEvent,
+      });
+      if (
+        !isAlreadyNotified &&
+        params.notificationFor !== params.notificationBy
+      ) {
+        const newPostNotification = await PostNotification.create({
+          ...params,
+        });
+        return newPostNotification;
+      }
     }
     if (type === "comment") {
-      const newCommentNotification = await CommentNotification.create({
-        ...params,
+      const isAlreadyNotified = await CommentNotification.findOne({
+        notificationFor: params.notificationFor,
+        createdAt: {
+          $gte: fifteenDaysAgo,
+          $lt: currentDate,
+        },
+        notificationRef: params.notificationRef,
+        notificationType: "comment",
+        notificationEvent: params.notificationEvent,
       });
-      return newCommentNotification;
+      if (
+        !isAlreadyNotified &&
+        params.notificationFor !== params.notificationBy
+      ) {
+        const newCommentNotification = await CommentNotification.create({
+          ...params,
+        });
+        return newCommentNotification;
+      }
     }
     if (type === "commentReplies") {
-      const newCommentRepliesNotification =
-        await CommentRepliesNotification.create({ ...params });
-      return newCommentRepliesNotification;
+      const isAlreadyNotified = await CommentRepliesNotification.findOne({
+        notificationFor: params.notificationFor,
+        createdAt: {
+          $gte: fifteenDaysAgo,
+          $lt: currentDate,
+        },
+        notificationRef: params.notificationRef,
+        notificationType: "commentReplies",
+        notificationEvent: params.notificationEvent,
+      });
+      if (
+        !isAlreadyNotified &&
+        params.notificationFor !== params.notificationBy
+      ) {
+        const newCommentRepliesNotification =
+          await CommentRepliesNotification.create({
+            ...params,
+          });
+        return newCommentRepliesNotification;
+      }
     }
 
     if (type === "follow") {
@@ -100,7 +149,6 @@ export const createNotification = async ({ type, params }) => {
       }
     }
   } catch (error) {
-    console.log(error);
     throw error.message || "Failed to add notification";
   }
 };

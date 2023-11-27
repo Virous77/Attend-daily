@@ -1,6 +1,7 @@
 import postModel from "../models/postModel.js";
 import { createError, handleCallback, sendResponse } from "../utils/utils.js";
 import retweetUsersModel from "../models/retweetUsersModel.js";
+import { createNotification } from "./notificationController.js";
 
 export const addRePost = handleCallback(async (req, res, next) => {
   const user = req.user;
@@ -20,6 +21,18 @@ export const addRePost = handleCallback(async (req, res, next) => {
     updatedAt,
     ...rest
   } = post.toObject();
+
+  createNotification({
+    type: "post",
+    params: {
+      notificationBy: user._id.toString(),
+      notificationFor: userId.toString(),
+      message: "reposted your post",
+      notificationType: "post",
+      notificationRef: postId,
+      notificationEvent: "repost",
+    },
+  });
 
   const packet = {
     ...rest,
