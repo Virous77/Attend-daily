@@ -180,8 +180,20 @@ export const addComment = handleCallback(async (req, res) => {
   };
   const newComment = new commentModel(packet);
   await newComment.save();
-  await postModel.findByIdAndUpdate(postId, {
+  const post = await postModel.findByIdAndUpdate(postId, {
     $inc: { totalComments: 1 },
+  });
+
+  createNotification({
+    type: "comment",
+    params: {
+      notificationBy: commentedUser._id.toString(),
+      notificationFor: post.userId.toString(),
+      message: "commented on your post.",
+      notificationType: "comment",
+      notificationEvent: "comment",
+      notificationRef: newComment._id,
+    },
   });
 
   sendResponse({
@@ -210,12 +222,35 @@ export const addCommentReplies = handleCallback(async (req, res) => {
     $inc: { totalComments: 1 },
   });
   if (type === "parent") {
-    await commentModel.findByIdAndUpdate(commentId, {
+    const comment = await commentModel.findByIdAndUpdate(commentId, {
       $inc: { totalComments: 1 },
     });
+    createNotification({
+      type: "commentReplies",
+      params: {
+        notificationBy: commentReplyUser._id.toString(),
+        notificationFor: comment.commentedUser.toString(),
+        message: "commented on your comment.",
+        notificationType: "commentReplies",
+        notificationEvent: "commentReplies",
+        notificationRef: newComment._id,
+      },
+    });
   } else {
-    await commentReplies.findByIdAndUpdate(commentId, {
+    const comment = await commentReplies.findByIdAndUpdate(commentId, {
       $inc: { totalComments: 1 },
+    });
+
+    createNotification({
+      type: "commentReplies",
+      params: {
+        notificationBy: commentReplyUser._id.toString(),
+        notificationFor: comment.commentedUser.toString(),
+        message: "commented on your comment.",
+        notificationType: "commentReplies",
+        notificationEvent: "commentReplies",
+        notificationRef: newComment._id,
+      },
     });
   }
 

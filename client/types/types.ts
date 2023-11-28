@@ -117,5 +117,11 @@ export type Notification = common & {
   } | null;
   notificationType: "user" | "post" | "comment" | "commentReplies";
   message: string;
-  notificationEvent: "follow" | "repost" | "like" | "poll" | "comment";
+  notificationEvent:
+    | "follow"
+    | "repost"
+    | "like"
+    | "poll"
+    | "comment"
+    | "commentReplies";
 };
