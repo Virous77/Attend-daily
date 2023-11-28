@@ -19,6 +19,10 @@ export const getNotification = handleCallback(async (req, res, next) => {
     isViewed: false,
   })
     .populate({ path: "notificationBy", select: "_id name image userName" })
+    .populate({
+      path: "notificationRef",
+      select: "_id, postId commentId",
+    })
     .sort({ createdAt: -1 })
     .exec();
   const notificationOld = await Notification.find({
@@ -26,7 +30,12 @@ export const getNotification = handleCallback(async (req, res, next) => {
     isViewed: true,
   })
     .populate({ path: "notificationBy", select: "_id name image userName" })
+    .populate({
+      path: "notificationRef",
+      select: "_id, postId commentId",
+    })
     .sort({ createdAt: -1 })
+
     .exec();
 
   sendResponse({

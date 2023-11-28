@@ -11,6 +11,7 @@ import useQueryFetch from "@/hooks/useQueryFetch";
 import { useParams } from "next/navigation";
 import { QueryData, QueryResponse, User, UserNetwork } from "@/types/types";
 import Network from "./network";
+import ProfileAction from "./profile-action";
 
 type Response = QueryResponse & {
   fetchResult: QueryData & {
@@ -89,7 +90,7 @@ const UserData = () => {
           />
         </div>
 
-        {fetchResult.data._id === state.user?._id && (
+        {fetchResult.data._id === state.user?._id ? (
           <button
             className="pl-1 w-8 h-8 rounded-full bg-accent  hover:bg-foreground hover:text-accent flex items-center justify-center"
             onClick={() => handleSetUserState(fetchResult.data)}
@@ -97,6 +98,11 @@ const UserData = () => {
           >
             <MdOutlineModeEditOutline size={22} />
           </button>
+        ) : (
+          <ProfileAction
+            otherUserNetworkData={otherUserNetworkData?.data}
+            userName={fetchResult?.data?.userName}
+          />
         )}
       </div>
       <div className="mt-6 flex items-start justify-between">

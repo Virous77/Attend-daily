@@ -7,6 +7,17 @@ type NotificationType = {
 };
 
 const NotificationList: React.FC<NotificationType> = ({ data }) => {
+  const url =
+    data.notificationRef === null
+      ? `/profile/${data.notificationBy.userName}`
+      : data.notificationRef._id &&
+        !data.notificationRef.commentId &&
+        !data.notificationRef.postId
+      ? `/post/${data.notificationRef._id}`
+      : data.notificationRef._id && data.notificationRef.postId
+      ? `/comment/p/${data.notificationRef._id}`
+      : "";
+
   return (
     <Card>
       <CardBody className=" pt-[10px] pb-[10px]">
@@ -17,12 +28,14 @@ const NotificationList: React.FC<NotificationType> = ({ data }) => {
           />
         </Link>
 
-        <div className=" flex items-center gap-1 mt-1">
-          <span className=" text-[17px] font-bold">
-            {data.notificationBy.name}
-          </span>
-          <span className=" text-[15px]">{data.message}</span>
-        </div>
+        <Link href={url}>
+          <div className=" flex items-center gap-1 mt-1">
+            <span className=" text-[17px] font-bold">
+              {data.notificationBy.name}
+            </span>
+            <span className=" text-[15px]">{data.message}</span>
+          </div>
+        </Link>
       </CardBody>
     </Card>
   );

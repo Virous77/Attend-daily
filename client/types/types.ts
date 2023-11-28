@@ -110,7 +110,12 @@ export type Notification = common & {
     image: string;
   };
   isViewed: boolean;
-  notificationRef: string | null;
+  notificationRef: {
+    _id: string;
+    postId: string;
+    commentId: string;
+  } | null;
   notificationType: "user" | "post" | "comment" | "commentReplies";
   message: string;
+  notificationEvent: "follow" | "repost" | "like" | "poll" | "comment";
 };
