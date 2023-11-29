@@ -42,7 +42,7 @@ const NotificationComp: React.FC<NotificationType> = async ({ user }) => {
   };
 
   return (
-    <main>
+    <main className=" pb-[70px]">
       <Header name="Notification" />
       {totalLength > 0 ? (
         <NotificationWrap

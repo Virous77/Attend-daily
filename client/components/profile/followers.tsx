@@ -1,10 +1,11 @@
-import { Tab, Tabs } from "@nextui-org/react";
+import { Image, Tab, Tabs } from "@nextui-org/react";
 import { Sheet, SheetContent } from "../ui/sheet";
 import { useAppContext } from "@/store/useAppContext";
 import { UserNetwork } from "@/types/types";
 import { useParams } from "next/navigation";
 import { useUserContext } from "@/store/useUserContext";
 import UserNetworkComp from "@/common/user-network";
+import noFollowers from "../../public/folowers.svg";
 
 const Followers = ({
   userData,
@@ -24,6 +25,24 @@ const Followers = ({
     name === user?.userName ? userData?.followers : otherUserData?.followers;
   const following =
     name === user?.userName ? userData?.following : otherUserData?.following;
+
+  const Common = (type: string) => {
+    return (
+      <>
+        {open === type && (
+          <div className=" flex items-center justify-center h-[60vh]">
+            <Image
+              src={noFollowers.src}
+              alt="followers"
+              placeholder="blur"
+              width={250}
+              height={250}
+            />
+          </div>
+        )}
+      </>
+    );
+  };
 
   return (
     <Sheet
@@ -51,17 +70,21 @@ const Followers = ({
           </Tabs>
         </div>
         <>
-          {open === "followers" && followers && followers?.length > 0 && (
+          {open === "followers" && followers && followers?.length > 0 ? (
             <UserNetworkComp
               data={followers}
               compareData={networkData.data?.following}
             />
+          ) : (
+            Common("followers")
           )}
-          {open === "following" && following && following.length > 0 && (
+          {open === "following" && following && following.length > 0 ? (
             <UserNetworkComp
               data={following}
               compareData={networkData.data?.followers}
             />
+          ) : (
+            Common("following")
           )}
         </>
       </SheetContent>

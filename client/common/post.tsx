@@ -10,6 +10,7 @@ import { response } from "@/components/feed/feed";
 import PollComp from "@/components/poll/poll";
 import { Repeat2 } from "lucide-react";
 import { useAppContext } from "@/store/useAppContext";
+import { useRouter } from "next/navigation";
 
 export type PostProps = {
   post: response;
@@ -20,12 +21,15 @@ const PostCommon: React.FC<PostProps> = ({ post }) => {
     state: { user },
   } = useAppContext();
   const name = post?.userId._id === user?._id ? "You" : post.userId.name;
+  const router = useRouter();
   return (
     <Card className=" p-4 cursor-pointer" style={{ margin: "2px" }}>
       {post.isRetweeted && (
         <div className=" flex items-center gap-2 pl-8 pb-1 opacity-60 text-[13px]">
           <Repeat2 size={18} />
-          <span>{name} reposted</span>
+          <span onClick={() => router.push(`/profile/${post.userId.userName}`)}>
+            {name} reposted
+          </span>
         </div>
       )}
       <Author post={post} />

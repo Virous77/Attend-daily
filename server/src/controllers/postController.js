@@ -479,6 +479,53 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
   });
 });
 
+export const getUserPostsByType = handleCallback(async (req, res, next) => {
+  const { id, type } = req.params;
+
+  const posts = await postModel
+    .find({ userId: id, postType: type })
+    .populate({
+      path: "like",
+      select: "_id postId like",
+    })
+    .populate({
+      path: "retweetUser",
+      select: "_id postId users",
+    })
+    .populate({
+      path: "userId",
+      select: "image name userName",
+    })
+    .populate({
+      path: "poll",
+      select: "_id choice vote expiryDate voters postId",
+    })
+    .populate({
+      path: "originalPost",
+      select: "_id totalComments",
+      populate: [
+        {
+          path: "userId",
+          select: "image name userName",
+        },
+        {
+          path: "retweetUser",
+          select: "_id postId users",
+        },
+      ],
+    })
+    .sort({ createdAt: -1 })
+    .exec();
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "User Posts fetched Successfully",
+    data: posts,
+    res,
+  });
+});
+
 export const getPosts = handleCallback(async (req, res) => {
   const posts = await postModel
     .find()

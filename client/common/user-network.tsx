@@ -3,6 +3,8 @@ import { useUserContext } from "@/store/useUserContext";
 import { NetworkUser } from "@/types/types";
 import Loader from "@/components/ui/loader/Loader";
 import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation";
+import { useAppContext } from "@/store/useAppContext";
 
 type NetworkProps = {
   data: NetworkUser;
@@ -11,6 +13,8 @@ type NetworkProps = {
 
 const UserNetworkComp: React.FC<NetworkProps> = ({ data, compareData }) => {
   const { networkData, handleFollow, isFollowing } = useUserContext();
+  const router = useRouter();
+  const { setState } = useAppContext();
 
   return (
     <>
@@ -29,10 +33,16 @@ const UserNetworkComp: React.FC<NetworkProps> = ({ data, compareData }) => {
                     src: follower.id.image,
                     showFallback: true,
                     name: follower.id.name,
-                    classNames: {
-                      base: "w-[45px] h-[45px]",
-                    },
                   }}
+                  onClick={() => {
+                    setState((prev) => ({
+                      ...prev,
+                      open: "",
+                      support: "true",
+                    }));
+                    router.push(`/profile/${follower.id.userName}`);
+                  }}
+                  className=" cursor-pointer"
                 />
 
                 {networkData.data?.userId !== follower.id._id && (
@@ -45,6 +55,7 @@ const UserNetworkComp: React.FC<NetworkProps> = ({ data, compareData }) => {
                           handleFollow(follower.id._id, follower.id.userName)
                         }
                         disabled={isFollowing}
+                        style={{ height: "35px" }}
                       >
                         {isFollowing ? <Loader /> : "Unfollow"}
                       </Button>
@@ -54,6 +65,7 @@ const UserNetworkComp: React.FC<NetworkProps> = ({ data, compareData }) => {
                           handleFollow(follower.id._id, follower.id.userName)
                         }
                         disabled={isFollowing}
+                        style={{ height: "35px" }}
                       >
                         {isFollowing ? <Loader /> : "Follow"}
                       </Button>

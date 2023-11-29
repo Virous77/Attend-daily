@@ -13,6 +13,7 @@ import {
   getSingleComment,
   getSinglePost,
   getUserPosts,
+  getUserPostsByType,
   updatePost,
   uploadFiles,
 } from "../controllers/postController.js";
@@ -39,6 +40,7 @@ router.put("/comment/like", [authenticate], addCommentLike);
 
 //*Post Query
 router.get("/post/all/:id", [authenticate], getUserPosts);
+router.get("/post/type/:id/:type", [authenticate], getUserPostsByType);
 router.get("/feed/post", [authenticate], getPosts);
 router.get("/post/:id", [authenticate], getSinglePost);
 
