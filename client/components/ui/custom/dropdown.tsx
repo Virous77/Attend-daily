@@ -108,7 +108,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
                 }}
               >
                 <MdReportGmailerrorred className="mr-2 " size={20} />
-                <span>Edit Post</span>
+                <span>Edit {post.postType === "poll" ? "Poll" : "Post"}</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
             </>

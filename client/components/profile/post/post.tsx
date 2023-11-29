@@ -5,6 +5,7 @@ import Loader from "@/components/ui/loader/Loader";
 import useQueryFetch from "@/hooks/useQueryFetch";
 import { PostQueryResponse } from "@/components/feed/feed";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
+import EmptyFeed from "../empty-feed";
 
 type PostProps = {
   id: string;
@@ -12,7 +13,7 @@ type PostProps = {
 
 const Post: React.FC<PostProps> = ({ id }) => {
   const { invalidateKey } = useQueryInvalidate();
-  const { fetchResult }: PostQueryResponse = useQueryFetch({
+  const { fetchResult, isPending }: PostQueryResponse = useQueryFetch({
     endPoints: `post/all/${id}`,
     key: `${id}-post`,
     staleTime: 5 * 60 * 1000,
@@ -23,20 +24,26 @@ const Post: React.FC<PostProps> = ({ id }) => {
     invalidateKey(`${id}-post`);
   };
 
+  if (isPending) return <p>Loading...</p>;
+
   return (
     <section>
-      <PullToRefresh
-        onRefresh={handleRefresh}
-        pullingContent={<Loader />}
-        fetchMoreThreshold={3}
-      >
-        <ul className="flex flex-col gap-4 mt-3">
-          {fetchResult?.data &&
-            fetchResult.data.map((post) => (
-              <PostList post={post} key={post._id} />
-            ))}
-        </ul>
-      </PullToRefresh>
+      {fetchResult.data && fetchResult?.data?.length > 0 ? (
+        <PullToRefresh
+          onRefresh={handleRefresh}
+          pullingContent={<Loader />}
+          fetchMoreThreshold={3}
+        >
+          <ul className="flex flex-col gap-4 mt-3">
+            {fetchResult?.data &&
+              fetchResult.data.map((post) => (
+                <PostList post={post} key={post._id} />
+              ))}
+          </ul>
+        </PullToRefresh>
+      ) : (
+        <EmptyFeed />
+      )}
     </section>
   );
 };

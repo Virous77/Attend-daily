@@ -4,6 +4,7 @@ import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 import { Loader } from "lucide-react";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import PostList from "../post/postList";
+import EmptyFeed from "../empty-feed";
 
 const PostOnly = ({ id }: { id: string }) => {
   const { invalidateKey } = useQueryInvalidate();
@@ -21,18 +22,22 @@ const PostOnly = ({ id }: { id: string }) => {
   if (isPending) return <p>Loading..</p>;
   return (
     <section>
-      <PullToRefresh
-        onRefresh={handleRefresh}
-        pullingContent={<Loader />}
-        fetchMoreThreshold={3}
-      >
-        <ul className="flex flex-col gap-4 mt-3">
-          {fetchResult?.data &&
-            fetchResult.data.map((post) => (
-              <PostList post={post} key={post._id} />
-            ))}
-        </ul>
-      </PullToRefresh>
+      {fetchResult.data && fetchResult?.data?.length > 0 ? (
+        <PullToRefresh
+          onRefresh={handleRefresh}
+          pullingContent={<Loader />}
+          fetchMoreThreshold={3}
+        >
+          <ul className="flex flex-col gap-4 mt-3">
+            {fetchResult?.data &&
+              fetchResult.data.map((post) => (
+                <PostList post={post} key={post._id} />
+              ))}
+          </ul>
+        </PullToRefresh>
+      ) : (
+        <EmptyFeed />
+      )}
     </section>
   );
 };

@@ -11,12 +11,16 @@ import useQueryPost from "@/hooks/useQueryPost";
 import { PostListProps } from "@/components/profile/post/postList";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 import useQueryDelete from "@/hooks/useQueryDelete";
+import { usePost } from "@/store/usePostContext";
+import { useAppContext } from "@/store/useAppContext";
 
 const RePost: React.FC<PostListProps> = ({ post }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { mutateAsync } = useQueryPost();
   const { mutateAsync: deleteMutateAsync } = useQueryDelete();
   const { invalidateKey, user } = useQueryInvalidate();
+  const { setRePostData, modal } = usePost();
+  const { setActiveType, activeType } = useAppContext();
 
   const handleRepost = async (postId: string) => {
     const data = await mutateAsync({ endPoint: "repost", data: { postId } });
@@ -116,7 +120,15 @@ const RePost: React.FC<PostListProps> = ({ post }) => {
                     </>
                   )}
 
-                  <div className=" flex items-center gap-2 w-fit cursor-pointer">
+                  <div
+                    className=" flex items-center gap-2 w-fit cursor-pointer"
+                    onClick={() => {
+                      setActiveType("repost");
+                      setRePostData((prev) => ({ ...prev, post: post }));
+                      onOpenChange();
+                      modal.onOpen();
+                    }}
+                  >
                     <Quote size={21} />
                     <span>Quote Repost</span>
                   </div>

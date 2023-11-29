@@ -15,6 +15,7 @@ import Choice from "./choice";
 import PollTime from "./poll-time";
 import moment from "moment";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
+import RePostContent from "./repost-content";
 
 type CommonType = {
   image: any[];
@@ -231,6 +232,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
         />
       </div>
       {size < 4 && <FileUpload />}
+      {activeType === "repost" && <RePostContent />}
       {(name === "Poll" || name === "Update Poll") && (
         <>
           <Choice name={name} pollTime={commonDate()} />

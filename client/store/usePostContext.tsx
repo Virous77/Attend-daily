@@ -11,6 +11,7 @@ import {
   Dispatch,
 } from "react";
 import moment from "moment";
+import { PostListProps } from "@/components/profile/post/postList";
 
 export type TFile = {
   image: string[];
@@ -63,6 +64,8 @@ type ContextType = {
   formatTime: string[];
   choice: string[];
   setChoice: Dispatch<SetStateAction<string[]>>;
+  rePostData: PostListProps | null;
+  setRePostData: Dispatch<SetStateAction<PostListProps | null>>;
 };
 
 const initialValue = {
@@ -81,6 +84,8 @@ const initialValue = {
   formatTime: [],
   choice: [],
   setChoice: () => {},
+  rePostData: {} as PostListProps,
+  setRePostData: () => {},
 };
 
 const PostContext = createContext<ContextType>(initialValue);
@@ -128,6 +133,7 @@ export const PostContextProvider = ({ children }: { children: ReactNode }) => {
   });
   const [time, setTime] = useState(pollTimeInitialState);
   const [choice, setChoice] = useState(choiceInitialState);
+  const [rePostData, setRePostData] = useState<PostListProps | null>(null);
 
   const { isOpen, onOpen, onOpenChange }: ModalType = useDisclosure();
   const modal = { isOpen, onOpen, onOpenChange };
@@ -138,6 +144,7 @@ export const PostContextProvider = ({ children }: { children: ReactNode }) => {
     setTempFileStore(tempInitialState);
     setTime(pollTimeInitialState);
     setChoice(choiceInitialState);
+    setRePostData(null);
   };
 
   return (
@@ -158,6 +165,8 @@ export const PostContextProvider = ({ children }: { children: ReactNode }) => {
         formatTime,
         choice,
         setChoice,
+        setRePostData,
+        rePostData,
       }}
     >
       {children}

@@ -25,6 +25,21 @@ const GlobalPost = () => {
   const { reset, status, modal } = usePost();
   const { isOpen, onOpen, onOpenChange } = modal;
 
+  const headerName =
+    activeType === "edit-poll"
+      ? "EDIT POLL"
+      : activeType === "edit-post"
+      ? "EDIT POST"
+      : activeType === "alert-delete"
+      ? "DELETE POST"
+      : activeType === "post"
+      ? "CREATE POST"
+      : activeType === "poll"
+      ? "CREATE POLL"
+      : activeType === "repost"
+      ? "REPOST"
+      : "";
+
   if (!user?.token) return null;
   return (
     <>
@@ -80,7 +95,7 @@ const GlobalPost = () => {
           {(onClose) => (
             <>
               <Header
-                name={activeType.toUpperCase()}
+                name={headerName}
                 close={() => {
                   if (!status.isLoading) {
                     onClose();

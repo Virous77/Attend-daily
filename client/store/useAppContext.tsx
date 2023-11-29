@@ -34,6 +34,7 @@ export type TActive =
   | "edit-post"
   | "edit-poll"
   | "alert-delete"
+  | "repost"
   | "";
 
 type ContextType = {
