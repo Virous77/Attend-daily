@@ -15,9 +15,10 @@ import { useState } from "react";
 
 type PollType = {
   poll: Poll;
+  isActive?: boolean;
 };
 
-const PollComp: React.FC<PollType> = ({ poll }) => {
+const PollComp: React.FC<PollType> = ({ poll, isActive = true }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [activeVote, setActiveVote] = useState<Poll | null>(null);
 
@@ -69,33 +70,36 @@ const PollComp: React.FC<PollType> = ({ poll }) => {
           ))}
         </ul>
       </CardBody>
-      <>
-        {!poll.voters.includes(user?._id || "") && (
-          <>
-            {poll.expiryDate > new Date().getTime() ? (
-              <CardFooter className=" justify-center flex-col gap-2">
-                <Separator className=" h-[2px]" />
-                <span
-                  className=" opacity-80 cursor-pointer"
-                  onClick={() => {
-                    setActiveVote(poll);
-                    onOpen();
-                  }}
-                >
-                  Cast Your Vote
-                </span>
-              </CardFooter>
-            ) : (
-              <CardFooter className=" justify-center flex-col gap-2">
-                <Separator className=" h-[2px]" />
-                <span className=" opacity-80 cursor-pointer">
-                  Voting Closed
-                </span>
-              </CardFooter>
-            )}
-          </>
-        )}
-      </>
+
+      {isActive && (
+        <>
+          {!poll.voters.includes(user?._id || "") && (
+            <>
+              {poll.expiryDate > new Date().getTime() ? (
+                <CardFooter className=" justify-center flex-col gap-2">
+                  <Separator className=" h-[2px]" />
+                  <span
+                    className=" opacity-80 cursor-pointer"
+                    onClick={() => {
+                      setActiveVote(poll);
+                      onOpen();
+                    }}
+                  >
+                    Cast Your Vote
+                  </span>
+                </CardFooter>
+              ) : (
+                <CardFooter className=" justify-center flex-col gap-2">
+                  <Separator className=" h-[2px]" />
+                  <span className=" opacity-80 cursor-pointer">
+                    Voting Closed
+                  </span>
+                </CardFooter>
+              )}
+            </>
+          )}
+        </>
+      )}
 
       <Vote
         onOpenChange={onOpenChange}

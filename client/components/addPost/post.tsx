@@ -52,6 +52,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
     reset,
     choice,
     time,
+    rePostData,
   } = usePost();
   const { title, pin, location, id, image, video } = formData;
   const size = preview.image.length + preview.video.length;
@@ -138,6 +139,15 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
     commonAction();
   };
 
+  const handleCreateRepost = async (params: any) => {
+    await postData({
+      endPoints: "quote/repost",
+      params: params,
+      token: user?.token,
+    });
+    commonAction();
+  };
+
   const handleSavePost = async () => {
     const result = validatePost();
     if (result) return;
@@ -203,6 +213,16 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
         await handleUpdatePoll(updatePacket);
       }
 
+      if (activeType === "repost") {
+        const repostPacket = {
+          ...postPacket,
+          repostRef: rePostData?.post.isRetweeted
+            ? rePostData?.post.originalPost._id
+            : rePostData?.post._id,
+        };
+        await handleCreateRepost(repostPacket);
+      }
+
       setStatus((prev) => ({ ...prev, isLoading: false }));
     } catch (error) {
       setStatus((prev) => ({ ...prev, isLoading: false }));
@@ -232,7 +252,9 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
         />
       </div>
       {size < 4 && <FileUpload />}
-      {activeType === "repost" && <RePostContent />}
+      {activeType === "repost" && rePostData && (
+        <RePostContent post={rePostData.post} />
+      )}
       {(name === "Poll" || name === "Update Poll") && (
         <>
           <Choice name={name} pollTime={commonDate()} />

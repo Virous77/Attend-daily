@@ -9,7 +9,7 @@ const Choice = ({ name, pollTime }: { name: string; pollTime: number }) => {
   const [choiceCount, setChoiceCount] = useState([1, 2]);
   const { choice, setChoice } = usePost();
 
-  const choiceMap = name === "Poll" ? [1, 2] : choice;
+  const choiceMap = name === "Poll" ? choiceCount : choice;
   const currentTime = new Date().getTime();
 
   const showAddChoice = currentTime > pollTime && name === "Update Poll";

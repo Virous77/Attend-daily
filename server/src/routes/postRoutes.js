@@ -18,7 +18,11 @@ import {
   uploadFiles,
 } from "../controllers/postController.js";
 import { createPoll, updatePoll } from "../controllers/pollController.js";
-import { addRePost, removeRePost } from "../controllers/rePostController.js";
+import {
+  addQuoteRepost,
+  addRePost,
+  removeRePost,
+} from "../controllers/rePostController.js";
 
 const router = express.Router();
 
@@ -51,5 +55,6 @@ router.put("/poll", [authenticate], updatePoll);
 //*RePost
 router.post("/repost", [authenticate], addRePost);
 router.delete("/repost/:id", [authenticate], removeRePost);
+router.post("/quote/repost", [authenticate], addQuoteRepost);
 
 export default router;

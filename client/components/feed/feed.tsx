@@ -1,22 +1,13 @@
 "use client";
 
 import useQueryFetch from "@/hooks/useQueryFetch";
-import {
-  Like,
-  Poll,
-  Post,
-  QueryData,
-  QueryResponse,
-  User,
-} from "@/types/types";
+import { CompletePost, QueryData, QueryResponse } from "@/types/types";
 import PullToRefresh from "react-simple-pull-to-refresh";
 import Loader from "../ui/loader/Loader";
 import PostList from "../profile/post/postList";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 
-export type response = Post & { like: Like } & {
-  userId: User;
-} & { poll: Poll };
+export type response = CompletePost;
 
 type PostDataType = QueryData & {
   data: response[] | null;

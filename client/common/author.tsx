@@ -7,7 +7,11 @@ import Dropdown from "@/components/ui/custom/dropdown";
 import { useRouter } from "next/navigation";
 import { PostProps } from "./post";
 
-const Author: React.FC<PostProps> = ({ post }) => {
+type AuthorType = PostProps & {
+  isActive?: boolean;
+};
+
+const Author: React.FC<AuthorType> = ({ post, isActive = true }) => {
   const router = useRouter();
 
   const user = post.isRetweeted ? post.originalPost.userId : post.userId;
@@ -18,7 +22,11 @@ const Author: React.FC<PostProps> = ({ post }) => {
           src={user?.image}
           isBordered={true}
           color="default"
-          onClick={() => router.push(`/profile/${user.userName}`)}
+          onClick={() => {
+            if (isActive) {
+              router.push(`/profile/${user.userName}`);
+            }
+          }}
           name={user.name}
           showFallback={true}
         />
@@ -35,7 +43,7 @@ const Author: React.FC<PostProps> = ({ post }) => {
         </div>
       </div>
 
-      <Dropdown post={post} />
+      {isActive && <Dropdown post={post} />}
     </CardHeader>
   );
 };

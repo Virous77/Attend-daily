@@ -11,6 +11,7 @@ import PollComp from "@/components/poll/poll";
 import { Repeat2 } from "lucide-react";
 import { useAppContext } from "@/store/useAppContext";
 import { useRouter } from "next/navigation";
+import RePostContent from "@/components/addPost/repost-content";
 
 export type PostProps = {
   post: response;
@@ -38,7 +39,9 @@ const PostCommon: React.FC<PostProps> = ({ post }) => {
 
         <PostImages image={post.image} />
         <PostVideos video={post.video} />
-
+        {post.quotePostId && (
+          <RePostContent post={post.quotePostId} isActive={true} />
+        )}
         {post.poll && <PollComp poll={post.poll} />}
       </CardBody>
       <CardFooter className="p-0 pt-4">

@@ -62,6 +62,11 @@ const PostSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "retweetsUser",
     },
+    quotePostId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "posts",
+      default: null,
+    },
   },
   {
     timestamps: true,

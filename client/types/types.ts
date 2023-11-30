@@ -125,3 +125,9 @@ export type Notification = common & {
     | "comment"
     | "commentReplies";
 };
+
+export type CompletePost = Post & { like: Like } & {
+  userId: User;
+} & { poll: Poll } & {
+  quotePostId: Post & { like: Like } & { userId: User } & { poll: Poll };
+};

@@ -359,6 +359,25 @@ export const getSinglePost = handleCallback(async (req, res, next) => {
       select: "_id choice vote expiryDate voters postId",
     })
     .populate({
+      path: "quotePostId",
+      select:
+        "_id title image video pin postType totalComments location isDeleted originalPost isRetweeted createdAt updatedAt retweetUser",
+      populate: [
+        {
+          path: "userId",
+          select: "image name userName",
+        },
+        {
+          path: "poll",
+          select: "_id choice vote expiryDate voters postId",
+        },
+        {
+          path: "like",
+          select: "_id postId like",
+        },
+      ],
+    })
+    .populate({
       path: "originalPost",
       select: "_id totalComments",
       populate: [
@@ -372,7 +391,6 @@ export const getSinglePost = handleCallback(async (req, res, next) => {
         },
       ],
     })
-
     .exec();
 
   if (!post)
@@ -453,6 +471,25 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
       select: "_id choice vote expiryDate voters postId",
     })
     .populate({
+      path: "quotePostId",
+      select:
+        "_id title image video pin postType totalComments location isDeleted originalPost isRetweeted createdAt updatedAt retweetUser",
+      populate: [
+        {
+          path: "userId",
+          select: "image name userName",
+        },
+        {
+          path: "poll",
+          select: "_id choice vote expiryDate voters postId",
+        },
+        {
+          path: "like",
+          select: "_id postId like",
+        },
+      ],
+    })
+    .populate({
       path: "originalPost",
       select: "_id totalComments",
       populate: [
@@ -495,6 +532,25 @@ export const getUserPostsByType = handleCallback(async (req, res, next) => {
     .populate({
       path: "userId",
       select: "image name userName",
+    })
+    .populate({
+      path: "quotePostId",
+      select:
+        "_id title image video pin postType totalComments location isDeleted originalPost isRetweeted createdAt updatedAt retweetUser",
+      populate: [
+        {
+          path: "userId",
+          select: "image name userName",
+        },
+        {
+          path: "poll",
+          select: "_id choice vote expiryDate voters postId",
+        },
+        {
+          path: "like",
+          select: "_id postId like",
+        },
+      ],
     })
     .populate({
       path: "poll",
@@ -544,6 +600,25 @@ export const getPosts = handleCallback(async (req, res) => {
     .populate({
       path: "poll",
       select: "_id choice vote expiryDate voters postId",
+    })
+    .populate({
+      path: "quotePostId",
+      select:
+        "_id title image video pin postType totalComments location isDeleted originalPost isRetweeted createdAt updatedAt retweetUser",
+      populate: [
+        {
+          path: "userId",
+          select: "image name userName",
+        },
+        {
+          path: "poll",
+          select: "_id choice vote expiryDate voters postId",
+        },
+        {
+          path: "like",
+          select: "_id postId like",
+        },
+      ],
     })
     .populate({
       path: "originalPost",

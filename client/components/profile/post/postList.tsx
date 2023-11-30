@@ -1,8 +1,8 @@
-import { Like, Poll, Post, User } from "@/types/types";
+import { CompletePost, Like, Post } from "@/types/types";
 import PostCommon from "@/common/post";
 
 export type PostListProps = {
-  post: Post & { like: Like } & { userId: User } & { poll: Poll };
+  post: CompletePost;
 };
 
 export type StateType = {

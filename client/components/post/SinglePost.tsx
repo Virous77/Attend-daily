@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Like,
-  Poll,
-  Post,
-  QueryData,
-  QueryResponse,
-  User,
-} from "@/types/types";
+import { CompletePost, QueryData, QueryResponse } from "@/types/types";
 import Header from "../../common/header";
 import HeaderChildren from "./headerChildren";
 import PostCommon from "@/common/post";
@@ -22,7 +15,7 @@ type PostProps = {
 
 type Response = QueryResponse & {
   fetchResult: QueryData & {
-    data: Post & { like: Like } & { userId: User } & { poll: Poll };
+    data: CompletePost;
   };
 };
 

@@ -2,6 +2,7 @@ import postModel from "../models/postModel.js";
 import { createError, handleCallback, sendResponse } from "../utils/utils.js";
 import retweetUsersModel from "../models/retweetUsersModel.js";
 import { createNotification } from "./notificationController.js";
+import postLikeModel from "../models/postLikeModel.js";
 
 export const addRePost = handleCallback(async (req, res, next) => {
   const user = req.user;
@@ -90,6 +91,35 @@ export const removeRePost = handleCallback(async (req, res, next) => {
     status: true,
     code: 200,
     message: "Reposted removed Successfully",
+    res,
+  });
+});
+
+export const addQuoteRepost = handleCallback(async (req, res, next) => {
+  const user = req.user;
+  const { title, postType, location, image, video, repostRef } = req.body;
+
+  const packet = {
+    userId: user._id,
+    title,
+    postType,
+    location,
+    image,
+    video,
+    quotePostId: repostRef,
+  };
+
+  const newPost = new postModel(packet);
+  await newPost.save();
+  const postLike = new postLikeModel({ postId: newPost._id });
+  await postLike.save();
+  await postModel.findByIdAndUpdate(newPost._id, { like: postLike._id });
+
+  sendResponse({
+    status: true,
+    code: 201,
+    message: "Post created Successfully",
+    data: newPost,
     res,
   });
 });
