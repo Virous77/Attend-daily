@@ -7,8 +7,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { User, UserMinus } from "lucide-react";
-import { MdReportGmailerrorred } from "react-icons/md";
+import { FileSignature, Flag, Trash2, UserMinus, UserPlus } from "lucide-react";
 import { BsThreeDots } from "react-icons/bs";
 import { useAppContext } from "@/store/useAppContext";
 import { PostProps } from "@/common/post";
@@ -60,7 +59,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
           <BsThreeDots size={20} cursor="pointer" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className=" w-fit mr-2">
+      <DropdownMenuContent className=" w-fit mr-2 z-[1000]">
         <DropdownMenuGroup>
           {post.userId._id !== user?._id && (
             <>
@@ -72,7 +71,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
                       handleFollow(post.userId._id, post.userId.userName)
                     }
                   >
-                    <User className="mr-2" size={20} />
+                    <UserPlus className="mr-2" size={20} />
                     <span>Follow</span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -107,7 +106,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
                   handleEdit({ post });
                 }}
               >
-                <MdReportGmailerrorred className="mr-2 " size={20} />
+                <FileSignature className="mr-2 " size={20} />
                 <span>Edit {post.postType === "poll" ? "Poll" : "Post"}</span>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -115,7 +114,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
           )}
 
           <DropdownMenuItem className=" cursor-pointer text-red-500">
-            <MdReportGmailerrorred className="mr-2" size={20} />
+            <Flag className="mr-2" size={20} />
             <span>Report</span>
           </DropdownMenuItem>
           {post.userId._id === user?._id && !post.isRetweeted && (
@@ -128,7 +127,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
                   setActiveType("alert-delete");
                 }}
               >
-                <MdReportGmailerrorred className="mr-2 " size={20} />
+                <Trash2 className="mr-2 " size={20} />
                 <span>Delete Post</span>
               </DropdownMenuItem>
             </>

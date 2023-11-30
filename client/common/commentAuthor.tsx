@@ -5,6 +5,7 @@ import React from "react";
 import { formatTimeAgo } from "@/utils/utils";
 import { User } from "@/types/types";
 import { useRouter } from "next/navigation";
+import CommentDropdown from "@/components/ui/custom/comment-dropdown";
 
 type AuthorProps = {
   date: string;
@@ -31,6 +32,7 @@ const CommentAuthor: React.FC<AuthorProps> = ({ date, user }) => {
           </span>
         </div>
       </div>
+      <CommentDropdown />
     </CardHeader>
   );
 };

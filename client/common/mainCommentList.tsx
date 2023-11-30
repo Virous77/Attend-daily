@@ -4,6 +4,7 @@ import { User } from "@nextui-org/react";
 import CommentAction from "./commentAction";
 import { BsThreeDots } from "react-icons/bs";
 import { useRouter } from "next/navigation";
+import CommentDropdown from "@/components/ui/custom/comment-dropdown";
 
 export type CommentProps = {
   comment: MainComments;
@@ -25,13 +26,7 @@ const MainCommentList: React.FC<CommentProps> = ({ comment, type }) => {
             }
           />
 
-          <BsThreeDots
-            size={20}
-            cursor="pointer"
-            onClick={(e: any) => {
-              e.stopPropagation();
-            }}
-          />
+          <CommentDropdown comment={comment} />
         </div>
 
         <p

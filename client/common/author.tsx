@@ -20,6 +20,7 @@ const Author: React.FC<AuthorType> = ({ post, isActive = true }) => {
       <div className="flex items-center gap-5">
         <Avatar
           src={user?.image}
+          size={isActive ? "md" : "sm"}
           isBordered={true}
           color="default"
           onClick={() => {
@@ -32,7 +33,9 @@ const Author: React.FC<AuthorType> = ({ post, isActive = true }) => {
         />
         <div className="flex flex-col gap-1">
           <p
-            className=" leading-none text-[15px]"
+            className={` leading-none ${
+              isActive ? "text-[15px]" : "text-[14px]"
+            }`}
             onClick={() => router.push(`/profile/${user.userName}`)}
           >
             {user?.name}
