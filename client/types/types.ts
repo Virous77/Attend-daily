@@ -86,11 +86,10 @@ export type MainComments = common & {
   like: string[];
   isDeleted: boolean;
   totalComments: number;
-};
-
-export type CommentReplies = MainComments & {
   commentId: string;
 };
+
+export type CommentReplies = MainComments;
 
 export type Poll = {
   choice: string[];

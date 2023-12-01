@@ -17,9 +17,11 @@ type CommentDropdownProps = {
 };
 
 const CommentDropdown: React.FC<CommentDropdownProps> = ({ comment }) => {
-  const { networkData } = useUserContext();
+  const { networkData, handleFollow } = useUserContext();
   const {
     state: { user },
+    setState,
+    setActiveType,
   } = useAppContext();
   const followedId = networkData?.data?.following?.map((id) => id.id._id);
 
@@ -36,7 +38,15 @@ const CommentDropdown: React.FC<CommentDropdownProps> = ({ comment }) => {
             <>
               {!followedId?.includes(comment.commentedUser._id) ? (
                 <>
-                  <DropdownMenuItem className=" cursor-pointer">
+                  <DropdownMenuItem
+                    className=" cursor-pointer"
+                    onClick={() =>
+                      handleFollow(
+                        comment.commentedUser._id,
+                        comment.commentedUser.userName
+                      )
+                    }
+                  >
                     <UserPlus className="mr-2" size={20} />
                     <span>Follow</span>
                   </DropdownMenuItem>
@@ -44,10 +54,21 @@ const CommentDropdown: React.FC<CommentDropdownProps> = ({ comment }) => {
                 </>
               ) : (
                 <>
-                  <DropdownMenuItem className=" cursor-pointer">
+                  <DropdownMenuItem
+                    className=" cursor-pointer"
+                    onClick={() =>
+                      handleFollow(
+                        comment.commentedUser._id,
+                        comment.commentedUser.userName
+                      )
+                    }
+                  >
                     <UserMinus className="mr-2" size={20} />
                     <span style={{ whiteSpace: "nowrap" }}>
-                      Unfollow <span className=" text-[13px]">User</span>
+                      Unfollow{" "}
+                      <span className=" text-[13px]">
+                        ${comment.commentedUser.userName}
+                      </span>
                     </span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
@@ -74,7 +95,17 @@ const CommentDropdown: React.FC<CommentDropdownProps> = ({ comment }) => {
           {comment.commentedUser._id === user?._id && (
             <>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className=" bg-red-500 cursor-pointer">
+              <DropdownMenuItem
+                className=" bg-red-500 cursor-pointer"
+                onClick={() => {
+                  const type = comment.commentId ? "child" : "parent";
+                  setState((prev) => ({
+                    ...prev,
+                    open: `${comment._id}-comment-${type}`,
+                  }));
+                  setActiveType("alert-delete");
+                }}
+              >
                 <Trash2 className=" mr-2" size={20} />
                 <span>Delete Comment</span>
               </DropdownMenuItem>

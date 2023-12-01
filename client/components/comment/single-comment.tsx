@@ -10,8 +10,7 @@ import {
   MainComments,
   CommentReplies,
 } from "@/types/types";
-import { useParams } from "next/navigation";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
 import CommonComment from "@/common/comment";
 import { Card, CardBody, CardFooter } from "@nextui-org/react";
 import CommentAction from "../../common/commentAction";
@@ -39,6 +38,7 @@ const SingleComment = () => {
   });
 
   if (isPending) return <p>Loading....</p>;
+  if (!fetchResult?.data?.comment) return <p>Comment not found</p>;
 
   return (
     <main className=" mt-12 p-4">
@@ -47,10 +47,7 @@ const SingleComment = () => {
       </Header>
       <div>
         <Card className=" p-4">
-          <CommentAuthor
-            date={fetchResult.data.comment.createdAt}
-            user={fetchResult.data.comment.commentedUser}
-          />
+          <CommentAuthor data={fetchResult.data.comment} />
           <CardBody className=" p-0 mt-3">
             <p className=" pl-[59px] leading-none">
               {fetchResult.data.comment.content}

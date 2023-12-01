@@ -3,36 +3,37 @@
 import { Avatar, CardHeader } from "@nextui-org/react";
 import React from "react";
 import { formatTimeAgo } from "@/utils/utils";
-import { User } from "@/types/types";
+import { MainComments, User } from "@/types/types";
 import { useRouter } from "next/navigation";
 import CommentDropdown from "@/components/ui/custom/comment-dropdown";
 
 type AuthorProps = {
-  date: string;
-  user: User;
+  data: MainComments;
 };
 
-const CommentAuthor: React.FC<AuthorProps> = ({ date, user }) => {
+const CommentAuthor: React.FC<AuthorProps> = ({ data }) => {
   const router = useRouter();
   return (
     <CardHeader className="flex items-start justify-between p-0">
       <div className="flex items-center gap-5">
         <Avatar
-          src={user?.image}
+          src={data.commentedUser?.image}
           isBordered={true}
           color="default"
-          onClick={() => router.push(`/profile/${user.userName}`)}
+          onClick={() => router.push(`/profile/${data.commentedUser.userName}`)}
           showFallback={true}
-          name={user.name}
+          name={data.commentedUser.name}
         />
         <div className="flex flex-col gap-1">
-          <p className=" pl-0 leading-none text-[15px]">{user?.name}</p>
+          <p className=" pl-0 leading-none text-[15px]">
+            {data.commentedUser?.name}
+          </p>
           <span className="text-[12px] opacity-60">
-            {formatTimeAgo(new Date(date))}
+            {formatTimeAgo(new Date(data.createdAt))}
           </span>
         </div>
       </div>
-      <CommentDropdown />
+      <CommentDropdown comment={data} />
     </CardHeader>
   );
 };

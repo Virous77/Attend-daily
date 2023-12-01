@@ -34,6 +34,9 @@ const useQueryFetch = ({
         return data;
       } catch (error: any) {
         const err: AppError = error;
+        if (error.message === "Post not found") {
+          return null;
+        }
         toast({
           title: err.message || "Something went wrong while fetching data",
           duration: 40000,

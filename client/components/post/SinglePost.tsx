@@ -27,6 +27,7 @@ const SinglePost: React.FC<PostProps> = ({ id }) => {
   });
 
   if (isPending) return <p>Loading...</p>;
+  if (!fetchResult?.data) return <p>Post not found</p>;
 
   return (
     <main>

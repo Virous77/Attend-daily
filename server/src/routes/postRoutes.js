@@ -7,6 +7,7 @@ import {
   addPostLike,
   addVote,
   createPost,
+  deleteComment,
   deletePost,
   getComments,
   getPosts,
@@ -37,6 +38,7 @@ router.post("/comment", [authenticate], addComment);
 router.get("/comment/:postId", [authenticate], getComments);
 router.get("/comment/single/:id/:type", [authenticate], getSingleComment);
 router.post("/comment/replies", [authenticate], addCommentReplies);
+router.delete("/comment/:id", [authenticate], deleteComment);
 
 //*Like
 router.put("/like", [authenticate], addPostLike);

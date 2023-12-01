@@ -160,11 +160,57 @@ export const deletePost = handleCallback(async (req, res, next) => {
   await commentModel.deleteMany({ postId: id });
   await commentReplies.deleteMany({ postId: id });
   await pollModel.deleteOne({ postId: id });
+  await postLikeModel.deleteOne({ postId: id });
 
   sendResponse({
     status: true,
     code: 200,
     message: "Post deleted Successfully",
+    res,
+  });
+});
+
+export const deleteComment = handleCallback(async (req, res, next) => {
+  const user = req.user;
+  const { id } = req.params;
+
+  let isUserComment;
+  if (req.query.type === "parent") {
+    isUserComment = await commentModel.findById(id);
+  } else {
+    isUserComment = await commentReplies.findById(id);
+  }
+
+  if (!isUserComment.commentedUser.equals(user._id))
+    return next(
+      createError({
+        message: "You are not authorized for this action",
+        status: 400,
+      })
+    );
+
+  if (req.query.type === "parent") {
+    await commentModel.findByIdAndDelete(id);
+    console.log("ok");
+  } else {
+    console.log("no");
+    await commentReplies.findByIdAndDelete(id);
+    await commentModel.findByIdAndUpdate(isUserComment.commentId, {
+      $inc: { totalComments: -1 },
+    });
+    await commentReplies.findByIdAndUpdate(isUserComment.commentId, {
+      $inc: { totalComments: -1 },
+    });
+  }
+
+  await postModel.findByIdAndUpdate(isUserComment.postId, {
+    $inc: { totalComments: -1 },
+  });
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Comment deleted Successfully",
     res,
   });
 });
@@ -405,7 +451,7 @@ export const getSinglePost = handleCallback(async (req, res, next) => {
   });
 });
 
-export const getSingleComment = handleCallback(async (req, res) => {
+export const getSingleComment = handleCallback(async (req, res, next) => {
   const { id, type } = req.params;
 
   let comment;
@@ -416,13 +462,15 @@ export const getSingleComment = handleCallback(async (req, res) => {
       path: "commentedUser",
       select: "image name userName",
     });
-    commentChild = await commentReplies
-      .find({ commentId: comment._id })
-      .populate({
-        path: "commentedUser",
-        select: "image name userName",
-      })
-      .sort({ createdAt: -1 });
+    if (comment) {
+      commentChild = await commentReplies
+        .find({ commentId: comment._id })
+        .populate({
+          path: "commentedUser",
+          select: "image name userName",
+        })
+        .sort({ createdAt: -1 });
+    }
   } else {
     comment = await commentReplies.findById(id).populate({
       path: "commentedUser",
@@ -438,7 +486,7 @@ export const getSingleComment = handleCallback(async (req, res) => {
   }
 
   if (!comment)
-    return next(createError({ status: 400, message: "Comment not found" }));
+    return next(createError({ status: 400, message: "Post not found" }));
 
   sendResponse({
     status: true,

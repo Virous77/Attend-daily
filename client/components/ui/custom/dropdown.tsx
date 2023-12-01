@@ -123,7 +123,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
               <DropdownMenuItem
                 className=" bg-red-500 hover:bg-red-400 cursor-pointer"
                 onClick={() => {
-                  setState((prev) => ({ ...prev, open: post._id }));
+                  setState((prev) => ({ ...prev, open: `${post._id}-post` }));
                   setActiveType("alert-delete");
                 }}
               >
