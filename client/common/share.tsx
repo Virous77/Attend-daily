@@ -1,4 +1,3 @@
-import { PostListProps } from "@/components/profile/post/postList";
 import { Button } from "@/components/ui/button";
 import {
   Modal,
@@ -16,18 +15,16 @@ import { LuMail, LuCopy, LuCopyCheck } from "react-icons/lu";
 type ShareProps = {
   onOpenChange: () => void;
   isOpen: boolean;
+  url: string;
+  name: string;
 };
 
-const Share: React.FC<ShareProps & PostListProps> = ({
-  isOpen,
-  onOpenChange,
-  post,
-}) => {
+const Share: React.FC<ShareProps> = ({ isOpen, onOpenChange, url, name }) => {
   const base_url = process.env.NEXT_PUBLIC_FRONTEND_URL;
   const [copy, setCopy] = useState(false);
 
   const handleCopy = async () => {
-    await navigator.clipboard.writeText(`${base_url}/post/${post._id}`);
+    await navigator.clipboard.writeText(`${base_url}${url}`);
     setCopy(true);
     setTimeout(() => {
       setCopy(false);
@@ -50,7 +47,7 @@ const Share: React.FC<ShareProps & PostListProps> = ({
         {(onClose) => (
           <>
             <ModalHeader className="  justify-center">
-              <p>Share Post</p>
+              <p>Share {name}</p>
             </ModalHeader>
             <ModalBody className="w-full pl-0 pr-0">
               <div
@@ -70,7 +67,7 @@ const Share: React.FC<ShareProps & PostListProps> = ({
                 <Card className=" w-[100px] h-[80px] cursor-pointer  box-shadow-local">
                   <a
                     className="shareListItem"
-                    href={`https://api.whatsapp.com/send?text=${base_url}/post/${post._id}`}
+                    href={`https://api.whatsapp.com/send?text=${base_url}${url}`}
                     data-action="share/whatsapp/share"
                     target={"_blank"}
                     referrerPolicy="no-referrer"
@@ -82,7 +79,7 @@ const Share: React.FC<ShareProps & PostListProps> = ({
                 </Card>
                 <Card className=" w-[100px] h-[80px] cursor-pointer box-shadow-local">
                   <a
-                    href={`http://twitter.com/share?text=ChatX Post&url=${base_url}/post/${post._id}&hashtags=#ChatX #share`}
+                    href={`http://twitter.com/share?text=ChatX Post&url=${base_url}${url}&hashtags=#ChatX #share`}
                     target="_blank"
                     referrerPolicy="no-referrer"
                   >
@@ -93,7 +90,7 @@ const Share: React.FC<ShareProps & PostListProps> = ({
                 </Card>
                 <Card className=" w-[100px] h-[80px] cursor-pointer box-shadow-local">
                   <a
-                    href={`mailto:?subject=ChatX Post&body=${base_url}/post/${post._id}`}
+                    href={`mailto:?subject=ChatX Post&body=${base_url}${url}`}
                     target="_blank"
                     referrerPolicy="no-referrer"
                     title="Share by Email"
@@ -105,7 +102,7 @@ const Share: React.FC<ShareProps & PostListProps> = ({
                 </Card>
                 <Card className=" w-[100px] h-[80px] cursor-pointer box-shadow-local">
                   <a
-                    href={`https://telegram.me/share/url?url=${base_url}/post/${post._id}&text=ChatX post`}
+                    href={`https://telegram.me/share/url?url=${base_url}${url}&text=ChatX post`}
                     target={"_blank"}
                     referrerPolicy="no-referrer"
                   >
@@ -116,7 +113,7 @@ const Share: React.FC<ShareProps & PostListProps> = ({
                 </Card>
                 <Card className=" w-[100px] h-[80px] cursor-pointer box-shadow-local">
                   <a
-                    href={`https://www.linkedin.com/feed/?shareActive=true&text=${base_url}/post/${post._id}`}
+                    href={`https://www.linkedin.com/feed/?shareActive=true&text=${base_url}${url}`}
                     target={"_blank"}
                     referrerPolicy="no-referrer"
                   >

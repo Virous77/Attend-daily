@@ -8,7 +8,7 @@ import { useAppContext } from "@/store/useAppContext";
 
 type NetworkProps = {
   data: NetworkUser;
-  compareData: NetworkUser | undefined;
+  compareData: NetworkUser | any | undefined;
 };
 
 const UserNetworkComp: React.FC<NetworkProps> = ({ data, compareData }) => {
@@ -48,7 +48,7 @@ const UserNetworkComp: React.FC<NetworkProps> = ({ data, compareData }) => {
                 {networkData.data?.userId !== follower.id._id && (
                   <>
                     {compareData?.find(
-                      (follow) => follow.id._id === follower.id._id
+                      (follow: any) => follow.id._id === follower.id._id
                     ) ? (
                       <Button
                         onClick={() =>

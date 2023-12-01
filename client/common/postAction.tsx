@@ -85,7 +85,12 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
       <div className=" cursor-pointer" onClick={onOpen}>
         <MdIosShare size={20} />
       </div>
-      <Share onOpenChange={onOpenChange} isOpen={isOpen} post={post} />
+      <Share
+        onOpenChange={onOpenChange}
+        isOpen={isOpen}
+        url={`/post/${post._id}`}
+        name="Post"
+      />
     </div>
   );
 };

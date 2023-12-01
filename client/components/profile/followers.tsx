@@ -26,6 +26,11 @@ const Followers = ({
   const following =
     name === user?.userName ? userData?.following : otherUserData?.following;
 
+  const allNetwork = networkData?.data && [
+    ...networkData.data?.followers,
+    ...networkData.data?.following,
+  ];
+
   const Common = (type: string) => {
     return (
       <>
@@ -79,10 +84,7 @@ const Followers = ({
             Common("followers")
           )}
           {open === "following" && following && following.length > 0 ? (
-            <UserNetworkComp
-              data={following}
-              compareData={networkData.data?.followers}
-            />
+            <UserNetworkComp data={following} compareData={allNetwork} />
           ) : (
             Common("following")
           )}
