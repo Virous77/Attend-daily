@@ -20,7 +20,7 @@ const Navigation: React.FC<NavigationProps> = ({ isLoggedIn }) => {
         pathName.includes("post") || pathName.includes("comment")
           ? "hidden"
           : "block"
-      }`}
+      } ${state.isScroll ? "opacity-20" : "opacity-100"} `}
       style={{
         boxShadow: "var(--shadow)",
         padding: "10px 20px",

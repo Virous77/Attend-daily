@@ -31,13 +31,13 @@ const FeedComp = () => {
 
   if (isPending) return <p>Loading....</p>;
   return (
-    <main className=" mt-10 p-4 pb-20">
+    <main className="p-4 pb-20 pt-0">
       <PullToRefresh
         onRefresh={handleRefresh}
         pullingContent={<Loader />}
         fetchMoreThreshold={3}
       >
-        <ul className="flex flex-col gap-4 mt-3">
+        <ul className="flex flex-col gap-4 mt-1">
           {fetchResult?.data &&
             fetchResult.data.map((post) => (
               <PostList post={post} key={post._id} />

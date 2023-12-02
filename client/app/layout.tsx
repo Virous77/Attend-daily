@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import Navbar from "@/components/layout/Navbar";
 import { AppContextProvider } from "@/store/useAppContext";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import ReactQueryProvider from "@/lib/reactQueryProvider";
@@ -12,6 +11,7 @@ import { Providers } from "./Providers";
 import { UserContextProvider } from "@/store/useUserContext";
 import GlobalPost from "@/components/addPost/global-button";
 import { PostContextProvider } from "@/store/usePostContext";
+import NavbarComp from "@/components/layout/Navbar";
 
 export async function get() {
   const cookieStore = cookies();
@@ -60,7 +60,7 @@ export default async function RootLayout({
               <AppContextProvider>
                 <UserContextProvider>
                   <PostContextProvider>
-                    <Navbar isLoggedIn={value?.value} />
+                    <NavbarComp isLoggedIn={value?.value} />
                     {children}
                     <Toaster />
                     <GlobalPost />

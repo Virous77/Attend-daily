@@ -26,6 +26,8 @@ export type stateType = {
   isLoading: string;
   open: string;
   support: string;
+  isScroll: boolean;
+  lastScrollNumber: number;
 };
 
 export type TActive =
@@ -81,6 +83,8 @@ export const AppContextProvider = ({
     isLoading: "",
     open: "",
     support: "",
+    isScroll: false,
+    lastScrollNumber: 0,
   });
   const [activeType, setActiveType] = useState<TActive>("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
