@@ -22,6 +22,7 @@ const CommentDropdown: React.FC<CommentDropdownProps> = ({ comment }) => {
     state: { user },
     setState,
     setActiveType,
+    setContent,
   } = useAppContext();
   const followedId = networkData?.data?.following?.map((id) => id.id._id);
 
@@ -78,7 +79,17 @@ const CommentDropdown: React.FC<CommentDropdownProps> = ({ comment }) => {
           )}
           {comment.commentedUser._id === user?._id && (
             <>
-              <DropdownMenuItem className=" cursor-pointer">
+              <DropdownMenuItem
+                className=" cursor-pointer"
+                onClick={() => {
+                  setActiveType("edit-comment");
+                  setContent((prev) => ({
+                    ...prev,
+                    new: comment.content,
+                    edit: comment,
+                  }));
+                }}
+              >
                 <FileSignature className="mr-2 " size={20} />
                 <span>Edit Comment</span>
               </DropdownMenuItem>

@@ -251,6 +251,43 @@ export const addComment = handleCallback(async (req, res) => {
   });
 });
 
+export const updateComment = handleCallback(async (req, res, next) => {
+  const user = req.user;
+  const { content, commentId, type } = req.body;
+
+  if (type === "parent") {
+    const comment = await commentModel.findById(commentId);
+    if (!comment.commentedUser.equals(user._id)) {
+      return next(
+        createError({
+          message: "You are not authorized for this action",
+          status: 400,
+        })
+      );
+    }
+
+    await commentModel.findByIdAndUpdate(commentId, { content });
+  } else {
+    const comment = await commentReplies.findById(commentId);
+    if (!comment.commentedUser.equals(user._id)) {
+      return next(
+        createError({
+          message: "You are not authorized for this action",
+          status: 400,
+        })
+      );
+    }
+    await commentReplies.findByIdAndUpdate(commentId, { content });
+  }
+
+  sendResponse({
+    status: true,
+    code: 201,
+    message: "Comment updated Successfully",
+    res,
+  });
+});
+
 export const addCommentReplies = handleCallback(async (req, res) => {
   const commentReplyUser = req.user;
   const { content, postId, commentId, type } = req.body;

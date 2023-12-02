@@ -15,6 +15,7 @@ import {
   getSinglePost,
   getUserPosts,
   getUserPostsByType,
+  updateComment,
   updatePost,
   uploadFiles,
 } from "../controllers/postController.js";
@@ -39,6 +40,7 @@ router.get("/comment/:postId", [authenticate], getComments);
 router.get("/comment/single/:id/:type", [authenticate], getSingleComment);
 router.post("/comment/replies", [authenticate], addCommentReplies);
 router.delete("/comment/:id", [authenticate], deleteComment);
+router.put("/comment", [authenticate], updateComment);
 
 //*Like
 router.put("/like", [authenticate], addPostLike);

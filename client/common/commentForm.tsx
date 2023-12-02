@@ -5,8 +5,9 @@ import { Input } from "@/components/ui/input";
 import { IoMdSend } from "react-icons/io";
 import Loader from "@/components/ui/loader/Loader";
 import useQueryPost from "@/hooks/useQueryPost";
-import { useState } from "react";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
+import { useAppContext } from "@/store/useAppContext";
+import useQueryPut from "@/hooks/useQueryPut";
 
 type CommentFormType = {
   postId: string;
@@ -14,50 +15,103 @@ type CommentFormType = {
   type?: string;
 };
 
+type PacketType =
+  | {
+      endPoint: string;
+      data: any;
+    }
+  | any;
+
 const CommentForm: React.FC<CommentFormType> = ({
   postId,
   commentId,
   type,
 }) => {
-  const { mutateAsync, isPending, setKey } = useQueryPost();
-  const [content, setContent] = useState("");
+  const { mutateAsync, isPending } = useQueryPost();
   const { invalidateKey } = useQueryInvalidate();
+  const { content, setContent, activeType, setActiveType } = useAppContext();
+  const { mutateAsync: editMutateAsync, isPending: editPending } =
+    useQueryPut();
+
+  const common = () => {
+    invalidateKey(`${postId}-comment`);
+    invalidateKey(`${postId}-post`);
+    invalidateKey("feed");
+    if (commentId) {
+      invalidateKey(`${commentId}-comment`);
+    }
+    setContent((prev) => ({ ...prev, new: "", edit: null }));
+  };
 
   const handleComment = async () => {
-    setKey(`${postId}-comment`);
-    const packet = {
-      endPoint: commentId ? "comment/replies" : "comment",
-      data: {
-        content,
-        postId: postId,
-        commentId: commentId ? commentId : null,
-        type: type ? type : "parent",
-      },
-    };
-    const data = await mutateAsync(packet);
-    if (data.status) {
-      invalidateKey(`${postId}-post`);
-      invalidateKey("feed");
-      if (commentId) {
-        invalidateKey(`${commentId}-comment`);
+    let packet: PacketType = "";
+    if (activeType !== "edit-comment") {
+      packet = {
+        endPoint: commentId ? "comment/replies" : "comment",
+        data: {
+          content: content.new,
+          postId: postId,
+          commentId: commentId ? commentId : null,
+          type: type ? type : "parent",
+        },
+      };
+      const data = await mutateAsync(packet);
+      if (data.status) {
+        common();
       }
-      setContent("");
+    } else {
+      packet = {
+        endPoint: "comment",
+        data: {
+          content: content.new,
+          commentId: content.edit?._id,
+          type: content.edit?.commentId ? "child" : "parent",
+        },
+      };
+      const data = await editMutateAsync(packet);
+      if (data.status) {
+        setActiveType("");
+        common();
+      }
     }
   };
 
   return (
     <form
-      className=" fixed bottom-0 left-0 w-full p-5 bg-accent z-10 flex items-center gap-2 pt-4 pb-4"
+      className={`fixed bottom-0 left-0 w-full p-5 $
+       z-10 flex items-center gap-2 pt-4 pb-4`}
       onSubmit={(e) => e.preventDefault()}
+      style={{
+        background:
+          activeType === "edit-comment" ? "black" : "rgba(0,0,0,0.85)",
+      }}
     >
       <Input
         placeholder="Add a comment..."
-        value={content}
-        onChange={(e) => setContent(e.target.value)}
+        value={content.new}
+        onChange={(e) =>
+          setContent((prev) => ({ ...prev, new: e.target.value }))
+        }
       />
-      <Button className="w-[60px]" onClick={handleComment} disabled={isPending}>
-        {isPending ? <Loader /> : <IoMdSend />}
+      <Button
+        className="w-[60px]"
+        onClick={handleComment}
+        disabled={isPending || editPending}
+      >
+        {isPending || editPending ? <Loader /> : <IoMdSend />}
       </Button>
+      {activeType === "edit-comment" && (
+        <Button
+          className="w-[60px]"
+          variant="destructive"
+          onClick={() => {
+            setContent((prev) => ({ ...prev, new: "", edit: null }));
+            setActiveType("");
+          }}
+        >
+          Cancel
+        </Button>
+      )}
     </form>
   );
 };

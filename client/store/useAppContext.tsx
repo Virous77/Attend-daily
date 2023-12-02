@@ -9,7 +9,7 @@ import {
   SetStateAction,
   Dispatch,
 } from "react";
-import { User } from "@/types/types";
+import { MainComments, User } from "@/types/types";
 import { useDisclosure } from "@nextui-org/react";
 
 export type ModalType = {
@@ -30,6 +30,11 @@ export type stateType = {
   lastScrollNumber: number;
 };
 
+export type CommentsType = {
+  new: string;
+  edit: MainComments | null;
+};
+
 export type TActive =
   | "poll"
   | "post"
@@ -37,6 +42,7 @@ export type TActive =
   | "edit-poll"
   | "alert-delete"
   | "repost"
+  | "edit-comment"
   | "";
 
 type ContextType = {
@@ -47,6 +53,8 @@ type ContextType = {
   isPending: boolean;
   activeType: TActive;
   setActiveType: Dispatch<SetStateAction<TActive>>;
+  content: CommentsType;
+  setContent: Dispatch<SetStateAction<CommentsType>>;
 };
 
 type StatusType = {
@@ -66,6 +74,8 @@ const initialValue = {
   isPending: false,
   activeType: "" as TActive,
   setActiveType: () => {},
+  content: {} as CommentsType,
+  setContent: () => {},
 };
 
 const AppContext = createContext<ContextType>(initialValue);
@@ -93,6 +103,10 @@ export const AppContextProvider = ({
     onOpen,
     onOpenChange,
   };
+  const [content, setContent] = useState<CommentsType>({
+    new: "",
+    edit: null,
+  });
 
   const { refetch, isPending } = useQuery({
     staleTime: 5 * 60 * 1000,
@@ -127,6 +141,8 @@ export const AppContextProvider = ({
         isPending,
         activeType,
         setActiveType,
+        setContent,
+        content,
       }}
     >
       {children}
