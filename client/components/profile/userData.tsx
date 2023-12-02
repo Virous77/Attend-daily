@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { useAppContext } from "@/store/useAppContext";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, useDisclosure } from "@nextui-org/react";
 import { MdOutlineModeEditOutline } from "react-icons/md";
 import EditProfile from "./editProfile";
 import { Skeleton } from "../ui/skeleton";
@@ -12,6 +12,7 @@ import { useParams } from "next/navigation";
 import { QueryData, QueryResponse, User, UserNetwork } from "@/types/types";
 import Network from "./network";
 import ProfileAction from "./profile-action";
+import FullImage from "@/common/full-image";
 
 type Response = QueryResponse & {
   fetchResult: QueryData & {
@@ -36,6 +37,7 @@ export type StateType = {
 
 const UserData = () => {
   const { state, isPending } = useAppContext();
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [open, setOpen] = useState<StateType>({
     image: "",
     name: "",
@@ -84,9 +86,14 @@ const UserData = () => {
             isBordered
             color="secondary"
             src={fetchResult.data?.image}
-            className="w-[85px] h-[85px]"
+            className="w-[85px] h-[85px] cursor-pointer"
             showFallback={true}
             name={fetchResult.data.name}
+            onClick={() => {
+              if (fetchResult.data.image) {
+                onOpen();
+              }
+            }}
           />
         </div>
 
@@ -135,6 +142,12 @@ const UserData = () => {
       )}
       <Content id={fetchResult.data._id} />
       <EditProfile open={open} setOpen={setOpen} />
+      <FullImage
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        url={fetchResult.data.image}
+        type="image"
+      />
     </div>
   );
 };

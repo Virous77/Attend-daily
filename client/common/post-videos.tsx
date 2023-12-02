@@ -2,12 +2,17 @@ import React from "react";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from "react-responsive-carousel";
 import ReactPlayer from "react-player/file";
+import { useDisclosure } from "@nextui-org/react";
+import FullImage from "./full-image";
 
 type PostVideosProps = {
   video: string[];
 };
 
 const PostVideos: React.FC<PostVideosProps> = ({ video }) => {
+  const [url, setUrl] = React.useState("");
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
   return (
     <>
       {video.length > 0 && (
@@ -18,6 +23,10 @@ const PostVideos: React.FC<PostVideosProps> = ({ video }) => {
           className=" mt-3 w-full rounded-sm"
           showThumbs={false}
           showStatus={false}
+          onClickItem={(index, item: any) => {
+            setUrl(item.props.children.props.url);
+            onOpen();
+          }}
         >
           {video.map((video) => (
             <div key={video} className=" w-full h-full">
@@ -33,6 +42,12 @@ const PostVideos: React.FC<PostVideosProps> = ({ video }) => {
           ))}
         </Carousel>
       )}
+      <FullImage
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        url={url}
+        type="video"
+      />
     </>
   );
 };
