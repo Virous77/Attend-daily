@@ -11,6 +11,7 @@ import {
 } from "react";
 import { MainComments, User } from "@/types/types";
 import { useDisclosure } from "@nextui-org/react";
+import { getLocalData } from "@/utils/utils";
 
 export type ModalType = {
   isOpen: boolean;
@@ -43,7 +44,7 @@ export type TActive =
   | "alert-delete"
   | "repost"
   | "edit-comment"
-  | "";
+  | "search" | "";
 
 type ContextType = {
   state: stateType;
@@ -87,7 +88,7 @@ export const AppContextProvider = ({
 }) => {
   const [state, setState] = useState<stateType>({
     authModal: false,
-    feedType: "home feed",
+    feedType: getLocalData("feedType") || "home feed",
     isLogged: false,
     user: null,
     isLoading: "",

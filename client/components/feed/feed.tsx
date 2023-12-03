@@ -6,6 +6,7 @@ import PullToRefresh from "react-simple-pull-to-refresh";
 import Loader from "../ui/loader/Loader";
 import PostList from "../profile/post/postList";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
+import { useAppContext } from "@/store/useAppContext";
 
 export type response = CompletePost;
 
@@ -18,15 +19,16 @@ export type PostQueryResponse = QueryResponse & {
 };
 
 const FeedComp = () => {
+  const { state } = useAppContext();
   const { fetchResult, isPending }: PostQueryResponse = useQueryFetch({
-    endPoints: "feed/post",
-    key: "feed",
+    endPoints: `feed/post?type=${state.feedType}`,
+    key: `feed${state.feedType}`,
     staleTime: Infinity,
   });
   const { invalidateKey } = useQueryInvalidate();
 
   const handleRefresh = async () => {
-    invalidateKey("feed");
+    invalidateKey(`feed${state.feedType}`);
   };
 
   if (isPending) return <p>Loading....</p>;

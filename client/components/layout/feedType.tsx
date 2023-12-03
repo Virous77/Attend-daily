@@ -16,10 +16,13 @@ const FeedType = () => {
   return (
     <SelectComp
       value={state.feedType}
-      onChange={(e) => setState((prev) => ({ ...prev, feedType: e }))}
+      onChange={(e) => {
+        localStorage.setItem("feedType", JSON.stringify(e));
+        setState((prev) => ({ ...prev, feedType: e }));
+      }}
       data={data}
       placeHolder="Feed"
-      className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-blue-600 w-[137px] md:w-[180px]"
+      className="font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-green-400 to-blue-600 w-fit focus:ring-0 focus:ring-offset-0"
     />
   );
 };

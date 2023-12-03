@@ -293,7 +293,11 @@ export const getUserPostsByType = handleCallback(async (req, res, next) => {
 });
 
 export const getPosts = handleCallback(async (req, res) => {
-  const posts = await executePostQuery();
+  const query =
+    req.query.type === "home feed"
+      ? {}
+      : { postType: req.query.type.slice(0, -1) };
+  const posts = await executePostQuery(query);
 
   sendResponse({
     status: true,

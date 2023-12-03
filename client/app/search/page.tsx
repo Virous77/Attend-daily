@@ -1,7 +1,7 @@
-import React from "react";
+import SearchComp from "@/components/search/search";
 
 const Search = () => {
-  return <div>Search</div>;
+  return <SearchComp />;
 };
 
 export default Search;

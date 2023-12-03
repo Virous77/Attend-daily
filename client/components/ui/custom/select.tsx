@@ -31,8 +31,8 @@ const SelectComp: React.FC<SelectProps> = ({
       <SelectTrigger className={className}>
         <SelectValue placeholder={placeHolder} />
       </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
+      <SelectContent className="border-0 w-fit">
+        <SelectGroup className=" w-fit">
           {label && <SelectLabel>{label}</SelectLabel>}
           {data.map((value, idx) => (
             <SelectItem
