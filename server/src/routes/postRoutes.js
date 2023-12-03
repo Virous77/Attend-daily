@@ -1,21 +1,14 @@
 import express from "express";
 import { authenticate } from "../middlewares/authentication.js";
 import {
-  addComment,
-  addCommentLike,
-  addCommentReplies,
   addPostLike,
   addVote,
   createPost,
-  deleteComment,
   deletePost,
-  getComments,
   getPosts,
-  getSingleComment,
   getSinglePost,
   getUserPosts,
   getUserPostsByType,
-  updateComment,
   updatePost,
   uploadFiles,
 } from "../controllers/postController.js";
@@ -25,26 +18,22 @@ import {
   addRePost,
   removeRePost,
 } from "../controllers/rePostController.js";
+import {
+  AddResPostValidate,
+  PollValidate,
+  PostValidate,
+} from "../validation/validate.js";
 
 const router = express.Router();
 
-router.post("/post", [authenticate], createPost);
+router.post("/post", [authenticate, PostValidate], createPost);
 router.put("/post", [authenticate], updatePost);
 router.delete("/post/:id", [authenticate], deletePost);
 router.post("/upload", [authenticate], uploadFiles);
 router.put("/vote", [authenticate], addVote);
 
-//*Comment
-router.post("/comment", [authenticate], addComment);
-router.get("/comment/:postId", [authenticate], getComments);
-router.get("/comment/single/:id/:type", [authenticate], getSingleComment);
-router.post("/comment/replies", [authenticate], addCommentReplies);
-router.delete("/comment/:id", [authenticate], deleteComment);
-router.put("/comment", [authenticate], updateComment);
-
 //*Like
 router.put("/like", [authenticate], addPostLike);
-router.put("/comment/like", [authenticate], addCommentLike);
 
 //*Post Query
 router.get("/post/all/:id", [authenticate], getUserPosts);
@@ -53,12 +42,16 @@ router.get("/feed/post", [authenticate], getPosts);
 router.get("/post/:id", [authenticate], getSinglePost);
 
 //*Poll
-router.post("/poll", [authenticate], createPoll);
+router.post("/poll", [authenticate, PollValidate], createPoll);
 router.put("/poll", [authenticate], updatePoll);
 
 //*RePost
-router.post("/repost", [authenticate], addRePost);
+router.post("/repost", [authenticate, PostValidate], addRePost);
 router.delete("/repost/:id", [authenticate], removeRePost);
-router.post("/quote/repost", [authenticate], addQuoteRepost);
+router.post(
+  "/quote/repost",
+  [authenticate, AddResPostValidate],
+  addQuoteRepost
+);
 
 export default router;

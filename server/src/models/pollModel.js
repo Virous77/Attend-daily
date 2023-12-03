@@ -22,11 +22,9 @@ const PollSchema = new mongoose.Schema(
     },
     vote: {
       type: [Number],
-      required: false,
     },
     voters: {
       type: [String],
-      required: false,
     },
   },
   {

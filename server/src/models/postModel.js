@@ -22,7 +22,6 @@ const PostSchema = new mongoose.Schema(
     pin: {
       type: Boolean,
       default: false,
-      required: false,
     },
     postType: {
       type: String,
@@ -34,7 +33,6 @@ const PostSchema = new mongoose.Schema(
     },
     location: {
       type: String,
-      required: false,
     },
     like: {
       type: mongoose.Schema.Types.ObjectId,
