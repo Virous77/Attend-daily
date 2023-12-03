@@ -34,7 +34,7 @@ const SingleComment = () => {
       path.includes("/comment/p/") ? "parent" : "child"
     }`,
     key: `${params.id}-comment`,
-    staleTime: 5 * 60 * 1000,
+    enabled: true,
   });
 
   if (isPending) return <p>Loading....</p>;

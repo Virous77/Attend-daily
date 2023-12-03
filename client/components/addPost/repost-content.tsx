@@ -19,7 +19,7 @@ const RePostContent: React.FC<PostContentType> = ({
   if (!post) return;
   return (
     <div className="mt-4 w-full">
-      <Card className=" p-4 cursor-pointer">
+      <Card className=" p-4 cursor-pointer shadow-none border">
         <Author post={post} isActive={false} />
         <CardBody className=" p-0 pt-5">
           <div

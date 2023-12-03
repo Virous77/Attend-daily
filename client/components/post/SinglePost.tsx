@@ -23,7 +23,7 @@ const SinglePost: React.FC<PostProps> = ({ id }) => {
   const { fetchResult, isPending }: Response = useQueryFetch({
     endPoints: `post/${id}`,
     key: `${id}-post`,
-    staleTime: 5 * 60 * 1000,
+    enabled: true,
   });
 
   if (isPending) return <p>Loading...</p>;

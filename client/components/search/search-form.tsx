@@ -1,15 +1,14 @@
 "use client";
 
-import { useState } from "react";
 import { Input } from "../ui/input";
 import { useAppContext } from "@/store/useAppContext";
 import { Search } from "lucide-react";
 
 const SearchForm = () => {
-  const { activeType, setActiveType } = useAppContext();
-  const [search, setSearch] = useState("");
+  const { activeType, setActiveType, search, setSearch } = useAppContext();
+
   return (
-    <header className=" fixed top-0 left-0 w-full bg-black px-5 py-3 flex items-center justify-between gap-4 z-10 border">
+    <div className=" fixed top-0 left-0 w-full bg-accent px-5 py-3 flex items-center justify-between gap-4 z-10">
       {activeType !== "search" && (
         <span className=" text-[17px] font-bold uppercase">Explore</span>
       )}
@@ -17,7 +16,7 @@ const SearchForm = () => {
       {activeType !== "search" && (
         <span
           onClick={() => setActiveType("search")}
-          className=" w-[200px] p-2 rounded bg-black cursor-pointer flex items-center justify-center border"
+          className=" w-[200px] p-2 rounded bg-accent cursor-pointer flex items-center justify-center border"
         >
           <p className=" opacity-40 flex items-center gap-[5px]">
             <Search size={16} />
@@ -45,7 +44,7 @@ const SearchForm = () => {
           Cancel
         </span>
       )}
-    </header>
+    </div>
   );
 };
 

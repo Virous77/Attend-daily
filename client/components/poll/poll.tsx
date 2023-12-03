@@ -31,7 +31,7 @@ const PollComp: React.FC<PollType> = ({ poll, isActive = true }) => {
     .reduce((acc, curr) => acc + curr, 0);
 
   return (
-    <Card className=" mt-2">
+    <Card className=" mt-2 m-1 shadow-none border">
       <CardHeader className=" flex items-center justify-between">
         <div className=" flex items-center gap-2">
           <BarChart4 color="#16a34a" />

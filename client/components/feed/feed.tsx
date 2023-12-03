@@ -24,6 +24,7 @@ const FeedComp = () => {
     endPoints: `feed/post?type=${state.feedType}`,
     key: `feed${state.feedType}`,
     staleTime: Infinity,
+    enabled: true,
   });
   const { invalidateKey } = useQueryInvalidate();
 

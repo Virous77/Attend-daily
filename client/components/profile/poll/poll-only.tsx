@@ -11,7 +11,6 @@ const PollOnly = ({ id }: { id: string }) => {
   const { fetchResult, isPending }: PostQueryResponse = useQueryFetch({
     endPoints: `post/type/${id}/poll`,
     key: `${id}-pollOnly`,
-    staleTime: 5 * 60 * 1000,
     enabled: id ? true : false,
   });
 

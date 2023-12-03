@@ -14,7 +14,7 @@ type QueryProps = {
 const useQueryFetch = ({
   key,
   endPoints,
-  staleTime = 0,
+  staleTime = Number(process.env.NEXT_PUBLIC_QUERY_STALE_TIME),
   enabled,
 }: QueryProps) => {
   const { state } = useAppContext();
@@ -25,6 +25,7 @@ const useQueryFetch = ({
     error,
     isPending,
     refetch,
+    isLoading,
   } = useQuery({
     queryKey: [key],
     queryFn: async () => {
@@ -45,11 +46,11 @@ const useQueryFetch = ({
         return null;
       }
     },
-    enabled: state.user?.token ? true : enabled ? true : false,
+    enabled: state.user?.token && enabled ? true : false,
     staleTime,
   });
 
-  return { fetchResult, isError, error, isPending, refetch };
+  return { fetchResult, isError, error, isPending, refetch, isLoading };
 };
 
 export default useQueryFetch;

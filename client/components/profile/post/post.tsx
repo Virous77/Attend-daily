@@ -16,7 +16,6 @@ const Post: React.FC<PostProps> = ({ id }) => {
   const { fetchResult, isPending }: PostQueryResponse = useQueryFetch({
     endPoints: `post/all/${id}`,
     key: `${id}-post`,
-    staleTime: 5 * 60 * 1000,
     enabled: id ? true : false,
   });
 

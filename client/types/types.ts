@@ -72,6 +72,7 @@ export type QueryResponse = {
   refetch: () => void;
   isError: boolean;
   error: Error | null;
+  isLoading: boolean;
 };
 
 export type QueryData = {
@@ -129,4 +130,11 @@ export type CompletePost = Post & { like: Like } & {
   userId: User;
 } & { poll: Poll } & {
   quotePostId: Post & { like: Like } & { userId: User } & { poll: Poll };
+};
+
+export type Search = {
+  _id: string;
+  name: string;
+  userName: string;
+  image: string;
 };

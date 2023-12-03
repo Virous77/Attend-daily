@@ -68,7 +68,6 @@ export const UserContextProvider = ({
   }: NetworkQueryResponse = useQueryFetch({
     endPoints: `user/network/${user?.userName}`,
     key: "user-network",
-    staleTime: 5 * 60 * 1000,
     enabled: user?.userName ? true : false,
   });
   const { invalidateKey } = useQueryInvalidate();

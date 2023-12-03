@@ -51,7 +51,7 @@ const UserData = () => {
   const { fetchResult, isPending: isLoading }: Response = useQueryFetch({
     endPoints: `profile/${name}`,
     key: `${name}-user`,
-    staleTime: 5 * 60 * 1000,
+    enabled: true,
   });
 
   const isOtherUserMount = state.user?.userName !== name ? true : false;
@@ -59,8 +59,7 @@ const UserData = () => {
   const { fetchResult: otherUserNetworkData }: NetworkResponse = useQueryFetch({
     endPoints: `user/network/${name}`,
     key: `${name}-userNetwork`,
-    staleTime: 5 * 60 * 1000,
-    enabled: isOtherUserMount && state.user?.token ? true : false,
+    enabled: isOtherUserMount ? true : false,
   });
 
   const handleSetUserState = (user: User | null) => {

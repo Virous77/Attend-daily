@@ -35,7 +35,7 @@ const NavbarComp: React.FC<NavbarProps> = ({ isLoggedIn }) => {
   return (
     <React.Fragment>
       {(pathName === "/" || pathName === "/feed") && (
-        <Navbar shouldHideOnScroll={true} onScrollPositionChange={handleScroll}>
+        <Navbar shouldHideOnScroll={true}>
           <nav
             className={`bg-background flex fixed left-0 md:left-2/4 w-full md:w-[80%] md:transform -translate-x-1/2 -translate-y-1/2 transform-none items-center justify-between md:top-[7%] top-0 z-[100] px-5 py-[10px] md:rounded-[40px]`}
             style={{ boxShadow: "var(--shadow)" }}

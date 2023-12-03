@@ -11,7 +11,6 @@ const PostOnly = ({ id }: { id: string }) => {
   const { fetchResult, isPending }: PostQueryResponse = useQueryFetch({
     endPoints: `post/type/${id}/post`,
     key: `${id}-postOnly`,
-    staleTime: 5 * 60 * 1000,
     enabled: id ? true : false,
   });
 

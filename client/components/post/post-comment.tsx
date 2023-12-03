@@ -18,7 +18,7 @@ const Comment: React.FC<CommentProps> = ({ postId }) => {
   const { fetchResult, isPending }: QueryResponse & Response = useQueryFetch({
     endPoints: `comment/${postId}`,
     key: `${postId}-comment`,
-    staleTime: 5 * 60 * 1000,
+    enabled: true,
   });
 
   if (isPending) return <p>Loading...</p>;

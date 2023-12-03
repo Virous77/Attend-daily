@@ -3,11 +3,7 @@
 import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import SearchForm from "./search-form";
 import { useAppContext } from "@/store/useAppContext";
-
-// type SearchModelType = {
-//   isOpen: boolean;
-//   onOpenChange: () => void;
-// };
+import SearchResult from "./search-result";
 
 const SearchModel = () => {
   const { activeType, setActiveType } = useAppContext();
@@ -32,7 +28,9 @@ const SearchModel = () => {
             <ModalHeader>
               <SearchForm />
             </ModalHeader>
-            <ModalBody className=" w-full"></ModalBody>
+            <ModalBody className=" w-full mt-7 p-0">
+              <SearchResult />
+            </ModalBody>
           </>
         )}
       </ModalContent>

@@ -44,7 +44,8 @@ export type TActive =
   | "alert-delete"
   | "repost"
   | "edit-comment"
-  | "search" | "";
+  | "search"
+  | "";
 
 type ContextType = {
   state: stateType;
@@ -56,6 +57,8 @@ type ContextType = {
   setActiveType: Dispatch<SetStateAction<TActive>>;
   content: CommentsType;
   setContent: Dispatch<SetStateAction<CommentsType>>;
+  setSearch: Dispatch<SetStateAction<string>>;
+  search: string;
 };
 
 type StatusType = {
@@ -77,6 +80,8 @@ const initialValue = {
   setActiveType: () => {},
   content: {} as CommentsType,
   setContent: () => {},
+  search: "",
+  setSearch: () => {},
 };
 
 const AppContext = createContext<ContextType>(initialValue);
@@ -108,9 +113,10 @@ export const AppContextProvider = ({
     new: "",
     edit: null,
   });
+  const [search, setSearch] = useState("");
 
   const { refetch, isPending } = useQuery({
-    staleTime: 5 * 60 * 1000,
+    staleTime: Number(process.env.NEXT_PUBLIC_QUERY_STALE_TIME),
     queryKey: ["user"],
     queryFn: async () => {
       const token: StatusType = await getData({
@@ -144,6 +150,8 @@ export const AppContextProvider = ({
         setActiveType,
         setContent,
         content,
+        search,
+        setSearch,
       }}
     >
       {children}
