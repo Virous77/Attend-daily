@@ -10,6 +10,7 @@ import { MdIosShare } from "react-icons/md";
 import Share from "./share";
 import { useDisclosure } from "@nextui-org/react";
 import RePost from "./re-post";
+import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 
 type PostActionProps = {
   setOpen?: React.Dispatch<React.SetStateAction<StateType>>;
@@ -18,23 +19,24 @@ type PostActionProps = {
 const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const { networkData } = useUserContext();
-  const { mutate, setQuery } = useProfileAction();
+  const { mutateAsync } = useProfileAction();
   const path = usePathname();
   const router = useRouter();
+  const { invalidateKey } = useQueryInvalidate();
 
-  const handleLike = (postId: string) => {
+  const handleLike = async (postId: string) => {
     const key = path.includes("/profile")
       ? `${post.userId._id}-post`
       : path.includes("/feed")
-      ? "feed"
+      ? "feedhome feed"
       : `${postId}-post`;
-    setQuery(key);
-    mutate({ postId: postId, endPoints: "/like" });
+    await mutateAsync({ postId: postId, endPoints: "/like" });
+    invalidateKey([key, "feedposts", "feedpolls"]);
   };
 
-  const handleBookmark = (postId: string) => {
-    setQuery("user-network");
-    mutate({ postId: postId, endPoints: "/bookmark" });
+  const handleBookmark = async (postId: string) => {
+    await mutateAsync({ postId: postId, endPoints: "/bookmark" });
+    invalidateKey(["user-network"]);
   };
 
   const id = post.isRetweeted ? post.originalPost._id : post._id;

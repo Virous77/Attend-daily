@@ -20,7 +20,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
   });
 
   const handleRefresh = async () => {
-    invalidateKey(`${id}-post`);
+    invalidateKey([`${id}-post`]);
   };
 
   if (isPending) return <p>Loading...</p>;

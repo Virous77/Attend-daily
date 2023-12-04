@@ -40,9 +40,13 @@ const Vote: React.FC<VoteType> = ({
       endPoint: "vote",
       data: { id: poll?._id, index: selected },
     });
-    invalidateKey("feed");
-    invalidateKey(`${user?._id}-post`);
-    invalidateKey(`${poll?.postId}-post`);
+    invalidateKey([
+      `${user?._id}-post`,
+      `${poll?.postId}-post`,
+      "feedhome feed",
+      "feedposts",
+      "feedpolls",
+    ]);
     reset();
   };
 

@@ -34,11 +34,15 @@ const CommentForm: React.FC<CommentFormType> = ({
     useQueryPut();
 
   const common = () => {
-    invalidateKey(`${postId}-comment`);
-    invalidateKey(`${postId}-post`);
-    invalidateKey("feed");
+    invalidateKey([
+      `${postId}-comment`,
+      `${postId}-post`,
+      "feedhome feed",
+      "feedposts",
+      "feedpolls",
+    ]);
     if (commentId) {
-      invalidateKey(`${commentId}-comment`);
+      invalidateKey([`${commentId}-comment`]);
     }
     setContent((prev) => ({ ...prev, new: "", edit: null }));
   };

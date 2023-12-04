@@ -1,7 +1,6 @@
 import { putData } from "@/api/api";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import { useAppContext } from "@/store/useAppContext";
-import { useState } from "react";
 
 type MutateType = {
   postId: string;
@@ -13,10 +12,8 @@ const useProfileAction = () => {
   const {
     state: { user },
   } = useAppContext();
-  const client = useQueryClient();
-  const [query, setQuery] = useState("");
 
-  const { mutate } = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: async (data: MutateType) => {
       const res = await putData({
         endPoints: data.endPoints,
@@ -25,15 +22,8 @@ const useProfileAction = () => {
       });
       return res;
     },
-    onSuccess: () => {
-      client.invalidateQueries({
-        queryKey: [query],
-        refetchType: "all",
-        exact: true,
-      });
-    },
   });
-  return { mutate, setQuery };
+  return { mutateAsync };
 };
 
 export default useProfileAction;

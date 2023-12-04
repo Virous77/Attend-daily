@@ -41,8 +41,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
       setColor("primary");
     },
     onSuccess: () => {
-      invalidateKey(`${name}-user`);
-      invalidateKey("user");
+      invalidateKey([`${name}-user`, "user"]);
       setColor("primary");
       setOpen((prev) => ({ ...prev, active: false }));
     },

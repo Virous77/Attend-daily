@@ -15,7 +15,7 @@ const PostOnly = ({ id }: { id: string }) => {
   });
 
   const handleRefresh = async () => {
-    invalidateKey(`${id}-postOnly`);
+    invalidateKey([`${id}-postOnly`]);
   };
 
   if (isPending) return <p>Loading..</p>;

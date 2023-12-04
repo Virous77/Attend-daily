@@ -15,7 +15,7 @@ const PollOnly = ({ id }: { id: string }) => {
   });
 
   const handleRefresh = async () => {
-    invalidateKey(`${id}-pollOnly`);
+    invalidateKey([`${id}-pollOnly`]);
   };
 
   if (isPending) return <p>Loading..</p>;

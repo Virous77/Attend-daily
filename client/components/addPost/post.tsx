@@ -90,8 +90,12 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
   const commonAction = () => {
     setStatus((prev) => ({ ...prev, isLoading: false }));
     reset();
-    invalidateKey("feed");
-    invalidateKey(`${user?._id}-post`);
+    invalidateKey([
+      `${user?._id}-post`,
+      "feedhome feed",
+      "feedposts",
+      "feedpolls",
+    ]);
     onClose();
   };
 

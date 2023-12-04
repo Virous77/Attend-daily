@@ -25,14 +25,12 @@ const DeletePost = () => {
     });
     if (data.status) {
       setActiveType("");
-      invalidateKey(`${id}-post`);
-      invalidateKey("feed");
+      invalidateKey([`${id}-post`, "feedhome feed", "feedposts", "feedpolls"]);
       if (formatOpen[1] === "post") {
-        invalidateKey(`${user?._id}-post`);
+        invalidateKey([`${user?._id}-post`]);
       }
       if (formatOpen[1] === "comment") {
-        invalidateKey(`${id}-comment`);
-        invalidateKey(`${formatOpen[0]}-comment`);
+        invalidateKey([`${id}-comment`, `${formatOpen[0]}-comment`]);
       }
     }
   };

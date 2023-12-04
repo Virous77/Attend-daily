@@ -7,11 +7,13 @@ const useQueryInvalidate = () => {
     state: { user },
   } = useAppContext();
 
-  const invalidateKey = (key: string) => {
-    client.invalidateQueries({
-      queryKey: [key],
-      exact: true,
-      refetchType: "all",
+  const invalidateKey = (key: string[]) => {
+    key.forEach((k) => {
+      client.invalidateQueries({
+        queryKey: [k],
+        exact: true,
+        refetchType: "all",
+      });
     });
   };
 

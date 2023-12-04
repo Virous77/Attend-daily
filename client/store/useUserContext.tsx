@@ -79,8 +79,7 @@ export const UserContextProvider = ({
       endPoint: "follow",
     });
     if (data.status) {
-      invalidateKey("user-network");
-      invalidateKey(`${userName}-userNetwork`);
+      invalidateKey(["user-network", `${userName}-userNetwork`]);
       toast({
         title: data.message,
         duration: 3000,

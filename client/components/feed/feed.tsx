@@ -29,7 +29,7 @@ const FeedComp = () => {
   const { invalidateKey } = useQueryInvalidate();
 
   const handleRefresh = async () => {
-    invalidateKey(`feed${state.feedType}`);
+    invalidateKey([`feed${state.feedType}`]);
   };
 
   if (isPending) return <p>Loading....</p>;
