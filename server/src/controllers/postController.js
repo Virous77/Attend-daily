@@ -190,8 +190,16 @@ export const addPostLike = handleCallback(async (req, res) => {
   });
 });
 
-const executePostQuery = async (query, type = true) => {
-  const queryModel = type ? postModel.find(query) : postModel.findById(query);
+const executePostQuery = async (
+  query,
+  type = true,
+  pageNumber = 1,
+  pageSize = 10
+) => {
+  const skipDocuments = (+pageNumber - 1) * +pageSize;
+  const queryModel = type
+    ? postModel.find(query).skip(skipDocuments).limit(+pageSize)
+    : postModel.findById(query);
   const posts = await queryModel
     .populate({
       path: "like",
@@ -293,11 +301,9 @@ export const getUserPostsByType = handleCallback(async (req, res, next) => {
 });
 
 export const getPosts = handleCallback(async (req, res) => {
-  const query =
-    req.query.type === "home feed"
-      ? {}
-      : { postType: req.query.type.slice(0, -1) };
-  const posts = await executePostQuery(query);
+  const { pageNumber, pageSize, type } = req.query;
+  const query = type === "home feed" ? {} : { postType: type.slice(0, -1) };
+  const posts = await executePostQuery(query, true, pageNumber, pageSize);
 
   sendResponse({
     status: true,
@@ -388,3 +394,15 @@ export const addVote = handleCallback(async (req, res, next) => {
     res,
   });
 });
+
+export const getPaginatedPost = async (req, res, next) => {
+  try {
+    const products = await Products.aggregate([{ $match: { featured: true } }])
+      .skip(skipDocuments)
+      .limit(+pageSize);
+
+    res.status(200).json({ total: totalProduct, data: products });
+  } catch (error) {
+    next(error);
+  }
+};
