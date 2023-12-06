@@ -138,3 +138,11 @@ export type Search = {
   userName: string;
   image: string;
 };
+
+export type RecentSearch = [
+  {
+    user: Search;
+    count: number;
+    _id: string;
+  }
+];

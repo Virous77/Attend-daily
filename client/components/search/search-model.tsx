@@ -4,8 +4,13 @@ import { Modal, ModalBody, ModalContent, ModalHeader } from "@nextui-org/react";
 import SearchForm from "./search-form";
 import { useAppContext } from "@/store/useAppContext";
 import SearchResult from "./search-result";
+import { RecentSearch } from "@/types/types";
 
-const SearchModel = () => {
+export type SearchType = {
+  search: RecentSearch;
+};
+
+const SearchModel: React.FC<SearchType> = ({ search }) => {
   const { activeType, setActiveType } = useAppContext();
 
   const onOpenChange = () => {
@@ -29,7 +34,7 @@ const SearchModel = () => {
               <SearchForm />
             </ModalHeader>
             <ModalBody className=" w-full mt-7 p-0">
-              <SearchResult />
+              <SearchResult search={search} />
             </ModalBody>
           </>
         )}

@@ -6,12 +6,11 @@ import { localAppError } from "@/utils/utils";
 type GetProps = {
   endpoint: string;
   tag: string;
-  cacheType: boolean;
 };
 
 const base_url = process.env.NEXT_PUBLIC_SERVER_URL;
 
-export const getServerData = async ({ endpoint, tag, cacheType }: GetProps) => {
+export const getServerData = async ({ endpoint, tag }: GetProps) => {
   const value = await get();
 
   const res = await fetch(`${base_url}${endpoint}`, {
@@ -19,7 +18,7 @@ export const getServerData = async ({ endpoint, tag, cacheType }: GetProps) => {
       "Content-Type": "application/json",
       Authorization: `Bearer ${value?.value}`,
     },
-    cache: cacheType ? "default" : "no-cache",
+    cache: "no-cache",
     next: { tags: [tag] },
   });
 

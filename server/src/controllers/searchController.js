@@ -67,3 +67,18 @@ export const addRecentSearch = handleCallback(async (req, res, next) => {
     res,
   });
 });
+
+export const userRecentSearch = handleCallback(async (req, res, next) => {
+  const userId = req.user._id;
+  const userSearch = await userSearchModel
+    .findOne({ userId })
+    .populate("searchedUser.user", "name userName image _id");
+
+  sendResponse({
+    message: "Fetched Recent search successfully",
+    data: userSearch?.searchedUser,
+    code: 200,
+    status: true,
+    res,
+  });
+});

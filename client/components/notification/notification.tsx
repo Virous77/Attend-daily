@@ -21,7 +21,6 @@ const NotificationComp: React.FC<NotificationType> = async ({ user }) => {
   const notification: Response = await getServerData({
     endpoint: "notification",
     tag: "notification",
-    cacheType: false,
   });
 
   const freshId = notification.data.fresh.map((data) => data._id);
