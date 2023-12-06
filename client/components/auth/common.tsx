@@ -1,11 +1,13 @@
-import React from "react";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import React, { useState } from "react";
 import styles from "./form.module.scss";
 import { useAppContext } from "@/store/useAppContext";
 import { DialogFooter } from "../ui/dialog";
 import { Button } from "../ui/button";
 import Loader from "../ui/loader/Loader";
+import { CircularProgress, Input } from "@nextui-org/react";
+import { Eye, EyeOff } from "lucide-react";
+import axios from "axios";
+import { base_url } from "@/api/api";
 
 type FormData = {
   email: string;
@@ -29,6 +31,42 @@ const Common: React.FC<PropsType> = ({
 }) => {
   const { state, setState } = useAppContext();
   const componentType = state.authModal ? "SIGN UP" : "SIGN IN";
+  const [isVisible, setIsVisible] = useState(false);
+  const toggleVisibility = () => setIsVisible(!isVisible);
+  const [timer, setTimer] = useState<any>(undefined);
+  const [exist, setExist] = useState("initial");
+
+  const handleInputChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = event.target.value;
+    clearTimeout(timer);
+
+    const newTimer = setTimeout(async () => {
+      try {
+        if (value.length > 0) {
+          setExist("loading");
+          const { data } = await axios.get(
+            `${base_url}username?username=${value}`
+          );
+          if (data.status) {
+            if (data.data) {
+              setExist("exist");
+            } else {
+              setExist("success");
+            }
+          } else {
+            setExist("error");
+          }
+        }
+      } catch (error) {
+        setExist("error");
+      }
+    }, 500);
+
+    setTimer(newTimer);
+    handleChange(event);
+  };
 
   return (
     <>
@@ -36,50 +74,72 @@ const Common: React.FC<PropsType> = ({
         {state.authModal && (
           <>
             <div className={styles.box}>
-              <Label htmlFor="name" className="text-right">
-                Name
-              </Label>
               <Input
                 id="name"
                 className="col-span-3"
                 onChange={(e) => handleChange(e)}
                 value={formData.name}
+                label="Name"
+                variant="bordered"
+                type="text"
               />
             </div>
 
             <div className={styles.box}>
-              <Label htmlFor="userName" className="text-right">
-                UserName
-              </Label>
               <Input
                 id="userName"
                 className="col-span-3"
-                onChange={(e) => handleChange(e)}
+                onChange={handleInputChange}
                 value={formData.userName}
+                variant="bordered"
+                type="text"
+                label="UserName"
+                isInvalid={exist === "exist" ? true : false}
+                errorMessage={
+                  exist === "exist" ? "Username already exist" : null
+                }
+                endContent={
+                  exist === "loading" ? (
+                    <CircularProgress size="sm" aria-label="Loading..." />
+                  ) : null
+                }
               />
             </div>
           </>
         )}
         <div className={styles.box}>
-          <Label htmlFor="email" className="text-right">
-            Email
-          </Label>
           <Input
             id="email"
             className="col-span-3"
             onChange={(e) => handleChange(e)}
             value={formData.email}
+            variant="bordered"
+            type="email"
+            label="Email"
           />
         </div>
         <div className={styles.box}>
-          <Label htmlFor="password" className="text-right">
-            Password
-          </Label>
           <Input
+            variant="bordered"
             id="password"
             className="col-span-3"
             onChange={(e) => handleChange(e)}
             value={formData.password}
+            label="Password"
+            endContent={
+              <button
+                className="focus:outline-none"
+                type="button"
+                onClick={toggleVisibility}
+              >
+                {isVisible ? (
+                  <Eye className="text-2xl text-default-400 pointer-events-none" />
+                ) : (
+                  <EyeOff className="text-2xl text-default-400 pointer-events-none" />
+                )}
+              </button>
+            }
+            type={isVisible ? "text" : "password"}
           />
         </div>
 
@@ -100,7 +160,7 @@ const Common: React.FC<PropsType> = ({
             type="submit"
             className="sm:w-36"
             onClick={handleFormSubmit}
-            disabled={isLoading}
+            disabled={isLoading || exist === "exist" ? true : false}
             variant={isLoading ? "disabled" : "default"}
           >
             {isLoading ? <Loader /> : componentType}

@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  checkUserName,
   createUser,
   loginUser,
   status,
@@ -12,5 +13,6 @@ const router = express.Router();
 router.post("/auth/login", LoginValidate, loginUser);
 router.post("/auth/register", RegisterValidate, createUser);
 router.get("/auth/status", [authenticate], status);
+router.get("/username", checkUserName);
 
 export default router;

@@ -58,6 +58,22 @@ export const createUser = handleCallback(async (req, res, next) => {
   });
 });
 
+export const checkUserName = handleCallback(async (req, res) => {
+  const { username } = req.query;
+
+  const user = await userModel.findOne({
+    userName: { $regex: new RegExp(`^${username}$`, "i") },
+  });
+
+  sendResponse({
+    message: "Username status checked successfully.",
+    data: user ? true : false,
+    code: 200,
+    status: true,
+    res,
+  });
+});
+
 export const status = handleCallback(async (req, res) => {
   sendResponse({
     data: { ...req.user._doc, token: req.token },

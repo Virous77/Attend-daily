@@ -1,7 +1,5 @@
-import useQueryFetch from "@/hooks/useQueryFetch";
-import { useAppContext } from "@/store/useAppContext";
 import { ScrollArea } from "../ui/scroll-area";
-import { QueryData, QueryResponse, Search } from "@/types/types";
+import { Search } from "@/types/types";
 import { Avatar, User } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import useQueryPost from "@/hooks/useQueryPost";
@@ -9,24 +7,13 @@ import { SearchType } from "./search-model";
 import { Button } from "../ui/button";
 import { useUserContext } from "@/store/useUserContext";
 
-type Response = QueryResponse & {
-  fetchResult: QueryData & {
-    data: Search[];
-  };
-};
-
-const SearchResult: React.FC<SearchType> = ({ search: recentSearch }) => {
-  const { search } = useAppContext();
+const SearchResult: React.FC<SearchType & { data: Search[] }> = ({
+  search: recentSearch,
+  data,
+}) => {
   const router = useRouter();
-  const { networkData } = useUserContext();
-
+  const { networkData, handleFollow } = useUserContext();
   const { mutateAsync } = useQueryPost();
-
-  const { fetchResult, isLoading }: Response = useQueryFetch({
-    endPoints: `search?query=${search}`,
-    key: `search-${search}`,
-    enabled: search.length > 1 ? true : false,
-  });
 
   const handleRedirect = (userName: string, id: string) => {
     router.push(`/profile/${userName}`);
@@ -35,7 +22,7 @@ const SearchResult: React.FC<SearchType> = ({ search: recentSearch }) => {
 
   return (
     <div>
-      {Object.values(recentSearch)?.length > 0 && !fetchResult?.data && (
+      {Object?.values(recentSearch)?.length > 0 && !data && (
         <ScrollArea className="w-full whitespace-nowrap mt-3 pl-1 pr-1">
           <ul className="flex items-center gap-2">
             {Object.values(recentSearch)
@@ -69,8 +56,8 @@ const SearchResult: React.FC<SearchType> = ({ search: recentSearch }) => {
 
       <ScrollArea className="h-fit w-full mt-3">
         <ul className="flex flex-col gap-3 pl-4 pr-4">
-          {fetchResult?.data?.length > 0 &&
-            fetchResult?.data?.map((item) => (
+          {data?.length > 0 &&
+            data?.map((item) => (
               <li key={item._id} className=" flex items-center justify-between">
                 <User
                   name={item.name}
@@ -85,11 +72,19 @@ const SearchResult: React.FC<SearchType> = ({ search: recentSearch }) => {
                 {networkData.data?.following.find(
                   (user) => user.id._id === item._id
                 ) ? (
-                  <Button className="rounded" style={{ height: "35px" }}>
+                  <Button
+                    className="rounded"
+                    style={{ height: "30px" }}
+                    onClick={() => handleFollow(item._id, item.userName)}
+                  >
                     Unfollow
                   </Button>
                 ) : (
-                  <Button className="rounded" style={{ height: "35px" }}>
+                  <Button
+                    className="rounded"
+                    style={{ height: "30px" }}
+                    onClick={() => handleFollow(item._id, item.userName)}
+                  >
                     Follow
                   </Button>
                 )}
