@@ -6,15 +6,15 @@ import Author from "./author";
 import PostImages from "./post-images";
 import PostVideos from "./post-videos";
 import PostAction from "./postAction";
-import { response } from "@/components/feed/feed";
 import PollComp from "@/components/poll/poll";
 import { Repeat2 } from "lucide-react";
 import { useAppContext } from "@/store/useAppContext";
 import { useRouter } from "next/navigation";
 import RePostContent from "@/components/addPost/repost-content";
+import { CompletePost } from "@/types/types";
 
 export type PostProps = {
-  post: response;
+  post: CompletePost;
 };
 
 const PostCommon: React.FC<PostProps> = ({ post }) => {

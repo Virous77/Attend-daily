@@ -274,8 +274,14 @@ export const getSinglePost = handleCallback(async (req, res, next) => {
 
 export const getUserPosts = handleCallback(async (req, res, next) => {
   const { id } = req.params;
+  const { pageNumber, pageSize } = req.query;
 
-  const posts = await executePostQuery({ userId: id });
+  const posts = await executePostQuery(
+    { userId: id },
+    true,
+    pageNumber,
+    pageSize
+  );
 
   sendResponse({
     status: true,
@@ -288,8 +294,14 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
 
 export const getUserPostsByType = handleCallback(async (req, res, next) => {
   const { id, type } = req.params;
+  const { pageNumber, pageSize } = req.query;
 
-  const posts = await executePostQuery({ userId: id, postType: type });
+  const posts = await executePostQuery(
+    { userId: id, postType: type },
+    true,
+    pageNumber,
+    pageSize
+  );
 
   sendResponse({
     status: true,
@@ -394,15 +406,3 @@ export const addVote = handleCallback(async (req, res, next) => {
     res,
   });
 });
-
-export const getPaginatedPost = async (req, res, next) => {
-  try {
-    const products = await Products.aggregate([{ $match: { featured: true } }])
-      .skip(skipDocuments)
-      .limit(+pageSize);
-
-    res.status(200).json({ total: totalProduct, data: products });
-  } catch (error) {
-    next(error);
-  }
-};

@@ -16,7 +16,8 @@ const SearchForm = () => {
       {activeType !== "search" && (
         <span
           onClick={() => setActiveType("search")}
-          className=" w-[200px] p-2 rounded bg-accent cursor-pointer flex items-center justify-center border"
+          className=" w-[200px] p-2 rounded bg-accent cursor-pointer flex items-center justify-center"
+          style={{ border: "0.5px solid silver" }}
         >
           <p className=" opacity-40 flex items-center gap-[5px]">
             <Search size={16} />

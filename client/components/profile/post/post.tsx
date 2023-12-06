@@ -1,11 +1,10 @@
 import React from "react";
 import PostList from "./postList";
 import PullToRefresh from "react-simple-pull-to-refresh";
-import Loader from "@/components/ui/loader/Loader";
-import useQueryFetch from "@/hooks/useQueryFetch";
-import { PostQueryResponse } from "@/components/feed/feed";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 import EmptyFeed from "../empty-feed";
+import useInfiniteQueryCustom from "@/hooks/useInfiniteQueryCustom";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 type PostProps = {
   id: string;
@@ -13,32 +12,33 @@ type PostProps = {
 
 const Post: React.FC<PostProps> = ({ id }) => {
   const { invalidateKey } = useQueryInvalidate();
-  const { fetchResult, isPending }: PostQueryResponse = useQueryFetch({
-    endPoints: `post/all/${id}`,
+  const { postData, fetchNextPage, infiniteQuery } = useInfiniteQueryCustom({
+    endPoints: `post/all/${id}?pageSize=10`,
+    staleTime: Number(process.env.NEXT_PUBLIC_QUERY_STALE_TIME),
     key: `${id}-post`,
     enabled: id ? true : false,
+    type: "userAllPost",
   });
 
   const handleRefresh = async () => {
     invalidateKey([`${id}-post`]);
   };
 
-  if (isPending) return <p>Loading...</p>;
-
   return (
     <section>
-      {fetchResult.data && fetchResult?.data?.length > 0 ? (
-        <PullToRefresh
-          onRefresh={handleRefresh}
-          pullingContent={<Loader />}
-          fetchMoreThreshold={3}
-        >
-          <ul className="flex flex-col gap-4 mt-3">
-            {fetchResult?.data &&
-              fetchResult.data.map((post) => (
-                <PostList post={post} key={post._id} />
-              ))}
-          </ul>
+      {postData && postData?.length > 0 ? (
+        <PullToRefresh onRefresh={handleRefresh} fetchMoreThreshold={3}>
+          <InfiniteScroll
+            dataLength={postData ? postData.length + 1 : 1}
+            next={() => infiniteQuery.userAllPost && fetchNextPage()}
+            hasMore={infiniteQuery.userAllPost}
+            loader={<p>Loading...</p>}
+          >
+            <ul className="flex flex-col gap-4 mt-3">
+              {postData &&
+                postData.map((post) => <PostList post={post} key={post._id} />)}
+            </ul>
+          </InfiniteScroll>
         </PullToRefresh>
       ) : (
         <EmptyFeed />

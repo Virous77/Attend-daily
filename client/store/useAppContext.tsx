@@ -36,6 +36,13 @@ export type CommentsType = {
   edit: MainComments | null;
 };
 
+type InfiniteQueryFalse = {
+  feed: boolean;
+  userAllPost: boolean;
+  userPoll: boolean;
+  userPost: boolean;
+};
+
 export type TActive =
   | "poll"
   | "post"
@@ -59,6 +66,8 @@ type ContextType = {
   setContent: Dispatch<SetStateAction<CommentsType>>;
   setSearch: Dispatch<SetStateAction<string>>;
   search: string;
+  infiniteQuery: InfiniteQueryFalse;
+  setInfiniteQuery: Dispatch<SetStateAction<InfiniteQueryFalse>>;
 };
 
 type StatusType = {
@@ -82,6 +91,8 @@ const initialValue = {
   setContent: () => {},
   search: "",
   setSearch: () => {},
+  infiniteQuery: {} as InfiniteQueryFalse,
+  setInfiniteQuery: () => {},
 };
 
 const AppContext = createContext<ContextType>(initialValue);
@@ -114,6 +125,12 @@ export const AppContextProvider = ({
     edit: null,
   });
   const [search, setSearch] = useState("");
+  const [infiniteQuery, setInfiniteQuery] = useState<InfiniteQueryFalse>({
+    feed: true,
+    userAllPost: true,
+    userPoll: true,
+    userPost: true,
+  });
 
   const { refetch, isPending } = useQuery({
     staleTime: Number(process.env.NEXT_PUBLIC_QUERY_STALE_TIME),
@@ -152,6 +169,8 @@ export const AppContextProvider = ({
         content,
         search,
         setSearch,
+        infiniteQuery,
+        setInfiniteQuery,
       }}
     >
       {children}

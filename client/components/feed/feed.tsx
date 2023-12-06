@@ -9,10 +9,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 const FeedComp = () => {
   const { state } = useAppContext();
-  const { postData, fetchMore, fetchNextPage } = useInfiniteQueryCustom({
+  const { postData, fetchNextPage, infiniteQuery } = useInfiniteQueryCustom({
     endPoints: `feed/post?type=${state.feedType}&pageSize=10`,
     staleTime: Infinity,
     key: `feed${state.feedType}`,
+    enabled: true,
+    type: "feed",
   });
 
   const { invalidateKey } = useQueryInvalidate();
@@ -26,8 +28,8 @@ const FeedComp = () => {
       <PullToRefresh onRefresh={handleRefresh} fetchMoreThreshold={3}>
         <InfiniteScroll
           dataLength={postData ? postData.length + 1 : 1}
-          next={() => fetchMore && fetchNextPage()}
-          hasMore={fetchMore}
+          next={() => infiniteQuery.feed && fetchNextPage()}
+          hasMore={infiniteQuery.feed}
           loader={<p>Loading...</p>}
         >
           <ul className="flex flex-col gap-4 mt-1">

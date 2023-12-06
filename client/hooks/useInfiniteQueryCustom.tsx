@@ -2,17 +2,23 @@ import { getData } from "@/api/api";
 import { useAppContext } from "@/store/useAppContext";
 import { CompletePost } from "@/types/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { useState } from "react";
 
 type QueryType = {
   endPoints: string;
   key: string;
   staleTime: number;
+  enabled: boolean;
+  type: string;
 };
 
-const useInfiniteQueryCustom = ({ endPoints, key, staleTime }: QueryType) => {
-  const [fetchMore, setFetchMore] = useState(true);
-  const { state } = useAppContext();
+const useInfiniteQueryCustom = ({
+  endPoints,
+  key,
+  staleTime,
+  enabled,
+  type,
+}: QueryType) => {
+  const { state, infiniteQuery, setInfiniteQuery } = useAppContext();
 
   const fetchIt = async ({ pageParam }: { pageParam: number }) => {
     const data = await getData({
@@ -20,10 +26,24 @@ const useInfiniteQueryCustom = ({ endPoints, key, staleTime }: QueryType) => {
       token: state.user?.token,
     });
 
-    if (data.data.length < 3) {
-      setFetchMore(false);
-    } else {
-      setFetchMore(true);
+    const isDataLengthLessThan10 = data.data.length < 10;
+    if (type === "feed") {
+      setInfiniteQuery((prev) => ({ ...prev, feed: !isDataLengthLessThan10 }));
+    } else if (type === "userAllPost") {
+      setInfiniteQuery((prev) => ({
+        ...prev,
+        userAllPost: !isDataLengthLessThan10,
+      }));
+    } else if (type === "userPoll") {
+      setInfiniteQuery((prev) => ({
+        ...prev,
+        userPoll: !isDataLengthLessThan10,
+      }));
+    } else if (type === "userPost") {
+      setInfiniteQuery((prev) => ({
+        ...prev,
+        userPost: !isDataLengthLessThan10,
+      }));
     }
     return data;
   };
@@ -34,7 +54,7 @@ const useInfiniteQueryCustom = ({ endPoints, key, staleTime }: QueryType) => {
       queryFn: fetchIt,
       initialPageParam: 1,
       getNextPageParam: (_, pages) => pages.length + 1,
-      enabled: state.user?.token ? true : false,
+      enabled: state.user?.token && enabled ? true : false,
       staleTime,
     });
 
@@ -42,7 +62,13 @@ const useInfiniteQueryCustom = ({ endPoints, key, staleTime }: QueryType) => {
     (data) => data.data
   );
 
-  return { postData, isFetchingNextPage, fetchNextPage, isLoading, fetchMore };
+  return {
+    postData,
+    isFetchingNextPage,
+    fetchNextPage,
+    isLoading,
+    infiniteQuery,
+  };
 };
 
 export default useInfiniteQueryCustom;
