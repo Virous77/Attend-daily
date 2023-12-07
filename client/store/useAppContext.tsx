@@ -36,11 +36,13 @@ export type CommentsType = {
   edit: MainComments | null;
 };
 
-type InfiniteQueryFalse = {
+export type InfiniteQueryFalse = {
   feed: boolean;
   userAllPost: boolean;
   userPoll: boolean;
   userPost: boolean;
+  mainComments: boolean;
+  secondComment: boolean;
 };
 
 export type TActive =
@@ -130,6 +132,8 @@ export const AppContextProvider = ({
     userAllPost: true,
     userPoll: true,
     userPost: true,
+    mainComments: true,
+    secondComment: true,
   });
 
   const { refetch, isPending } = useQuery({

@@ -236,6 +236,9 @@ export const addCommentLike = handleCallback(async (req, res) => {
 
 export const getComments = handleCallback(async (req, res) => {
   const { postId } = req.params;
+  const { pageNumber, pageSize } = req.query;
+
+  const skipDocuments = (+pageNumber - 1) * +pageSize;
 
   const comments = await commentModel
     .find({ postId: postId })
@@ -243,6 +246,8 @@ export const getComments = handleCallback(async (req, res) => {
       path: "commentedUser",
       select: "image name userName",
     })
+    .skip(skipDocuments)
+    .limit(+pageSize)
     .sort({ createdAt: -1 });
 
   sendResponse({
@@ -256,6 +261,9 @@ export const getComments = handleCallback(async (req, res) => {
 
 export const getSingleComment = handleCallback(async (req, res, next) => {
   const { id, type } = req.params;
+  const { pageNumber, pageSize } = req.query;
+
+  const skipDocuments = (+pageNumber - 1) * +pageSize;
 
   let comment;
   let commentChild;
@@ -272,6 +280,8 @@ export const getSingleComment = handleCallback(async (req, res, next) => {
           path: "commentedUser",
           select: "image name userName",
         })
+        .skip(skipDocuments)
+        .limit(+pageSize)
         .sort({ createdAt: -1 });
     }
   } else {
@@ -285,6 +295,8 @@ export const getSingleComment = handleCallback(async (req, res, next) => {
         path: "commentedUser",
         select: "image name userName",
       })
+      .skip(skipDocuments)
+      .limit(+pageSize)
       .sort({ createdAt: -1 });
   }
 

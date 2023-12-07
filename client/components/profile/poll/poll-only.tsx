@@ -8,6 +8,7 @@ import {
   FeedSkeleton,
   ThreeDotsSkeleton,
 } from "@/components/skeleton/skeleton";
+import { CompletePost } from "@/types/types";
 
 const PollOnly = ({ id }: { id: string }) => {
   const { invalidateKey } = useQueryInvalidate();
@@ -18,7 +19,7 @@ const PollOnly = ({ id }: { id: string }) => {
     fetchNextPage,
     isFetchingNextPage,
     isLoading,
-  } = useInfiniteQueryCustom({
+  } = useInfiniteQueryCustom<CompletePost>({
     endPoints: `post/type/${id}/poll?pageSize=10`,
     key: `${id}-pollOnly`,
     enabled: id ? true : false,

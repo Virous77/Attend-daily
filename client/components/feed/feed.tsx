@@ -7,6 +7,7 @@ import { useAppContext } from "@/store/useAppContext";
 import useInfiniteQueryCustom from "@/hooks/useInfiniteQueryCustom";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { FeedSkeleton, ThreeDotsSkeleton } from "../skeleton/skeleton";
+import { CompletePost } from "@/types/types";
 
 const FeedComp = () => {
   const { state } = useAppContext();
@@ -16,7 +17,7 @@ const FeedComp = () => {
     infiniteQuery,
     isLoading,
     isFetchingNextPage,
-  } = useInfiniteQueryCustom({
+  } = useInfiniteQueryCustom<CompletePost>({
     endPoints: `feed/post?type=${state.feedType}&pageSize=10`,
     staleTime: Infinity,
     key: `feed${state.feedType}`,

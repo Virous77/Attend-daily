@@ -8,6 +8,7 @@ import {
   FeedSkeleton,
   ThreeDotsSkeleton,
 } from "@/components/skeleton/skeleton";
+import { CompletePost } from "@/types/types";
 
 const PostOnly = ({ id }: { id: string }) => {
   const { invalidateKey } = useQueryInvalidate();
@@ -18,7 +19,7 @@ const PostOnly = ({ id }: { id: string }) => {
     infiniteQuery,
     isFetchingNextPage,
     isLoading,
-  } = useInfiniteQueryCustom({
+  } = useInfiniteQueryCustom<CompletePost>({
     endPoints: `post/type/${id}/post?pageSize=10`,
     key: `${id}-postOnly`,
     enabled: id ? true : false,

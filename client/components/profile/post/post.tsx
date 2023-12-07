@@ -9,6 +9,7 @@ import {
   FeedSkeleton,
   ThreeDotsSkeleton,
 } from "@/components/skeleton/skeleton";
+import { CompletePost } from "@/types/types";
 
 type PostProps = {
   id: string;
@@ -22,7 +23,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
     infiniteQuery,
     isFetchingNextPage,
     isLoading,
-  } = useInfiniteQueryCustom({
+  } = useInfiniteQueryCustom<CompletePost>({
     endPoints: `post/all/${id}?pageSize=10`,
     staleTime: Number(process.env.NEXT_PUBLIC_QUERY_STALE_TIME),
     key: `${id}-post`,

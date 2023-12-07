@@ -1,9 +1,8 @@
 import { getData } from "@/api/api";
 import { useAppContext } from "@/store/useAppContext";
-import { CompletePost } from "@/types/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 
-type QueryType = {
+type QueryType<T> = {
   endPoints: string;
   key: string;
   staleTime: number;
@@ -11,13 +10,13 @@ type QueryType = {
   type: string;
 };
 
-const useInfiniteQueryCustom = ({
+const useInfiniteQueryCustom = <T,>({
   endPoints,
   key,
   staleTime,
   enabled,
   type,
-}: QueryType) => {
+}: QueryType<T>) => {
   const { state, infiniteQuery, setInfiniteQuery } = useAppContext();
 
   const fetchIt = async ({ pageParam }: { pageParam: number }) => {
@@ -44,6 +43,16 @@ const useInfiniteQueryCustom = ({
         ...prev,
         userPost: !isDataLengthLessThan10,
       }));
+    } else if (type === "main-comment") {
+      setInfiniteQuery((prev) => ({
+        ...prev,
+        mainComments: !isDataLengthLessThan10,
+      }));
+    } else if (type === "second-comment") {
+      setInfiniteQuery((prev) => ({
+        ...prev,
+        secondComments: !isDataLengthLessThan10,
+      }));
     }
     return data;
   };
@@ -58,9 +67,7 @@ const useInfiniteQueryCustom = ({
       staleTime,
     });
 
-  const postData: CompletePost[] | undefined = data?.pages.flatMap(
-    (data) => data.data
-  );
+  const postData: T[] | undefined = data?.pages?.flatMap((data) => data.data);
 
   return {
     postData,
