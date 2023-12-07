@@ -64,3 +64,33 @@ export const PostNotFound = () => {
     </div>
   );
 };
+
+export const CommentSkeleton = () => {
+  return (
+    <div className=" p-4 mb-[80px]">
+      <div className="max-w-[300px] w-full flex items-center gap-3">
+        <div>
+          <Skeleton className="flex rounded-full w-12 h-12" />
+        </div>
+        <div className="w-full flex flex-col gap-2">
+          <Skeleton className="h-3 w-3/5 rounded-lg" />
+          <Skeleton className="h-3 w-4/5 rounded-lg" />
+        </div>
+      </div>
+
+      <Skeleton className=" w-2/3 h-2 rounded-lg mt-4" />
+      <Skeleton className=" w-1/3 h-2 rounded-lg mt-3" />
+
+      <div className=" flex items-center gap-4 mt-4 ">
+        {[1, 2].map((item) => (
+          <React.Fragment key={item}>
+            <div className=" flex items-center gap-2">
+              <Skeleton className="w-[20px] h-[20px] rounded-full" />
+              <Skeleton className="w-[35px] rounded-lg h-[10px]" />
+            </div>
+          </React.Fragment>
+        ))}
+      </div>
+    </div>
+  );
+};
