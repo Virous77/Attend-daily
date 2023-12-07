@@ -6,10 +6,17 @@ import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 import { useAppContext } from "@/store/useAppContext";
 import useInfiniteQueryCustom from "@/hooks/useInfiniteQueryCustom";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { FeedSkeleton, ThreeDotsSkeleton } from "../skeleton/skeleton";
 
 const FeedComp = () => {
   const { state } = useAppContext();
-  const { postData, fetchNextPage, infiniteQuery } = useInfiniteQueryCustom({
+  const {
+    postData,
+    fetchNextPage,
+    infiniteQuery,
+    isLoading,
+    isFetchingNextPage,
+  } = useInfiniteQueryCustom({
     endPoints: `feed/post?type=${state.feedType}&pageSize=10`,
     staleTime: Infinity,
     key: `feed${state.feedType}`,
@@ -20,24 +27,38 @@ const FeedComp = () => {
   const { invalidateKey } = useQueryInvalidate();
 
   const handleRefresh = async () => {
-    invalidateKey([`feed${state.feedType}`]);
+    setTimeout(() => {
+      invalidateKey([`feed${state.feedType}`]);
+    }, 5000);
   };
 
   return (
     <main className="p-4 pb-20 pt-0">
-      <PullToRefresh onRefresh={handleRefresh} fetchMoreThreshold={3}>
-        <InfiniteScroll
-          dataLength={postData ? postData.length + 1 : 1}
-          next={() => infiniteQuery.feed && fetchNextPage()}
-          hasMore={infiniteQuery.feed}
-          loader={<p>Loading...</p>}
-        >
-          <ul className="flex flex-col gap-4 mt-1">
-            {postData &&
-              postData.map((post) => <PostList post={post} key={post._id} />)}
-          </ul>
-        </InfiniteScroll>
-      </PullToRefresh>
+      {isLoading ? (
+        <>
+          <FeedSkeleton />
+          <FeedSkeleton />
+        </>
+      ) : (
+        <PullToRefresh onRefresh={handleRefresh} fetchMoreThreshold={3}>
+          <InfiniteScroll
+            dataLength={postData ? postData.length + 1 : 1}
+            next={() => infiniteQuery.feed && fetchNextPage()}
+            hasMore={infiniteQuery.feed}
+            loader={null}
+          >
+            <ul className="flex flex-col gap-4 mt-1">
+              {postData &&
+                postData.map((post) => <PostList post={post} key={post._id} />)}
+              {isFetchingNextPage && (
+                <div className=" flex items-center justify-center mb-2">
+                  <ThreeDotsSkeleton />
+                </div>
+              )}
+            </ul>
+          </InfiniteScroll>
+        </PullToRefresh>
+      )}
     </main>
   );
 };

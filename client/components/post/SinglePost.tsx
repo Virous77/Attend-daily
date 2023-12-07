@@ -8,6 +8,7 @@ import Comment from "./post-comment";
 import { Separator } from "../ui/separator";
 import CommentForm from "../../common/commentForm";
 import useQueryFetch from "@/hooks/useQueryFetch";
+import { FeedSkeleton, PostNotFound } from "../skeleton/skeleton";
 
 type PostProps = {
   id: string;
@@ -20,26 +21,33 @@ type Response = QueryResponse & {
 };
 
 const SinglePost: React.FC<PostProps> = ({ id }) => {
-  const { fetchResult, isPending }: Response = useQueryFetch({
+  const { fetchResult, isLoading }: Response = useQueryFetch({
     endPoints: `post/${id}`,
     key: `${id}-post`,
     enabled: true,
   });
 
-  if (isPending) return <p>Loading...</p>;
-  if (!fetchResult?.data) return <p>Post not found</p>;
+  if (!fetchResult?.data && !isLoading) return <PostNotFound />;
 
   return (
     <main>
       <Header name="Post">
         <HeaderChildren />
       </Header>
-      <section className=" pt-16 p-4">
-        <PostCommon post={fetchResult.data} />
-      </section>
+      {isLoading ? (
+        <div className="  pt-14 p-4 ">
+          <FeedSkeleton />
+        </div>
+      ) : (
+        <>
+          <section className=" pt-16 p-4">
+            <PostCommon post={fetchResult?.data} />
+          </section>
+        </>
+      )}
       <Separator />
-      <Comment postId={fetchResult.data._id} />
-      <CommentForm postId={id} />
+      <Comment postId={fetchResult?.data?._id} />
+      {!isLoading && <CommentForm postId={id} />}
     </main>
   );
 };

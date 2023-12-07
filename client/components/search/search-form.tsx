@@ -5,7 +5,7 @@ import { useAppContext } from "@/store/useAppContext";
 import { Search } from "lucide-react";
 
 type SearchFormType = {
-  handleInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const SearchForm: React.FC<SearchFormType> = ({ handleInputChange }) => {
@@ -33,7 +33,7 @@ const SearchForm: React.FC<SearchFormType> = ({ handleInputChange }) => {
       {activeType === "search" && (
         <Input
           value={search}
-          onChange={handleInputChange}
+          onChange={handleInputChange!}
           placeholder="Search"
           className=" focus:ring-0 focus-visible:ring-0"
         />
