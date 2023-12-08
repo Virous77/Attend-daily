@@ -31,6 +31,12 @@ export const metadata: Metadata = {
   authors: [
     { name: "Reetesh Kumar", url: "https://reetesh-virous.netlify.app/" },
   ],
+  generator: "Next.js",
+  manifest: "/manifest.json",
+  icons: [
+    { rel: "apple-touch-icon", url: "../public/AppImages/ios/128.png" },
+    { rel: "icon", url: "../public/AppImages/ios/128.png" },
+  ],
 };
 
 export default async function RootLayout({
