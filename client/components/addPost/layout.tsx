@@ -12,7 +12,7 @@ type LayoutProps = {
 };
 const Layout: React.FC<LayoutProps> = ({ type, onClose }) => {
   return (
-    <section className=" overflow-scroll">
+    <section className=" overflow-scroll bg-background h-full">
       {type === "post" && <Post onClose={onClose} name="Post" />}
       {type === "edit-post" && <EditPost onClose={onClose} />}
       {type === "poll" && <Poll onClose={onClose} />}

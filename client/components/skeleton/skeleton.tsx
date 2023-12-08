@@ -1,6 +1,5 @@
-import { Card, Image, Skeleton } from "@nextui-org/react";
+import { Button, Card, Image, Skeleton } from "@nextui-org/react";
 import React from "react";
-import { Button } from "../ui/button";
 import { useRouter } from "next/navigation";
 import notFound from "../../public/notfound.svg";
 
@@ -57,7 +56,12 @@ export const PostNotFound = () => {
           <p className=" mt-2 text-[13px]">Oops! Post not found.</p>
         </div>
 
-        <Button className=" mt-3" onClick={() => router.back()}>
+        <Button
+          className=" mt-3 rounded"
+          color="primary"
+          variant="shadow"
+          onClick={() => router.back()}
+        >
           Back
         </Button>
       </div>

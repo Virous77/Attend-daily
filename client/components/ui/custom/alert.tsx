@@ -1,16 +1,12 @@
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
 import { useAppContext } from "@/store/useAppContext";
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+} from "@nextui-org/react";
 import React from "react";
-import { Button } from "../button";
 
 type AlertType = {
   title: string;
@@ -30,34 +26,45 @@ const Alert: React.FC<AlertType> = ({
   const { activeType, setActiveType } = useAppContext();
 
   return (
-    <AlertDialog
-      open={activeType === "alert-delete" ? true : false}
+    <Modal
+      isOpen={activeType === "alert-delete" ? true : false}
       onOpenChange={() => setActiveType("")}
+      placement="center"
+      hideCloseButton
     >
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter className="flex items-center justify-end flex-row gap-5">
-          <Button
-            variant="outline"
-            onClick={() => setActiveType("")}
-            disabled={isLoading}
-          >
-            Cancel
-          </Button>
-          <Button
-            className=" pl-8 pr-8"
-            variant="destructive"
-            onClick={onAction}
-            disabled={isLoading}
-          >
-            {buttonName}
-          </Button>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      <ModalContent>
+        {(onClose) => (
+          <>
+            <ModalHeader className=" flex items-center justify-center flex-col">
+              <p className=" text-[20px] mb-2">{title}</p>
+              <span className=" text-[15px] leading-[1.25] text-center">
+                {description}
+              </span>
+            </ModalHeader>
+            <ModalFooter className="flex items-center justify-end flex-row gap-5">
+              <Button
+                variant="ghost"
+                color="primary"
+                onClick={onClose}
+                disabled={isLoading}
+                className=" rounded"
+              >
+                Cancel
+              </Button>
+              <Button
+                className=" pl-8 pr-8 rounded"
+                variant="shadow"
+                color="danger"
+                onClick={onAction}
+                disabled={isLoading}
+              >
+                {buttonName}
+              </Button>
+            </ModalFooter>
+          </>
+        )}
+      </ModalContent>
+    </Modal>
   );
 };
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { Input } from "../ui/input";
 import { useAppContext } from "@/store/useAppContext";
+import { Input } from "@nextui-org/react";
 import { Search } from "lucide-react";
 
 type SearchFormType = {
@@ -23,8 +23,7 @@ const SearchForm: React.FC<SearchFormType> = ({ handleInputChange }) => {
       {activeType !== "search" && (
         <span
           onClick={() => setActiveType("search")}
-          className=" w-[200px] p-2 rounded bg-accent cursor-pointer flex items-center justify-center"
-          style={{ border: "0.5px solid silver" }}
+          className=" w-[200px] p-2 rounded cursor-pointer flex items-center justify-center border"
         >
           <p className=" opacity-40 flex items-center gap-[5px]">
             <Search size={16} />
@@ -39,6 +38,7 @@ const SearchForm: React.FC<SearchFormType> = ({ handleInputChange }) => {
           onChange={handleInputChange!}
           placeholder="Search"
           className=" focus:ring-0 focus-visible:ring-0"
+          variant="bordered"
         />
       )}
       {activeType === "search" && (

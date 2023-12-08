@@ -1,9 +1,8 @@
 import { ChangeEvent, useState } from "react";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
 import { FaRegPlusSquare } from "react-icons/fa";
 import { FaCircleMinus } from "react-icons/fa6";
 import { usePost } from "@/store/usePostContext";
+import { Input } from "@nextui-org/react";
 
 const Choice = ({ name, pollTime }: { name: string; pollTime: number }) => {
   const [choiceCount, setChoiceCount] = useState([1, 2]);
@@ -44,17 +43,15 @@ const Choice = ({ name, pollTime }: { name: string; pollTime: number }) => {
         {choiceMap.map((_, idx) => (
           <div key={idx}>
             <div className="space-y-1">
-              <Label htmlFor={String(idx)} className=" font-bold text-[15px]">
-                Choice {idx + 1}
-              </Label>
               <div className=" flex items-center gap-3">
                 <Input
                   id={String(idx)}
-                  className=" bg-accent"
                   name={String(idx)}
                   value={choice[idx]}
                   onChange={(e) => handleChange(e, idx)}
                   disabled={showAddChoice}
+                  label={`Choice ${idx + 1}`}
+                  variant="bordered"
                 />
                 {!showAddChoice && (
                   <>

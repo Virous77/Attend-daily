@@ -1,9 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
+  Button,
   Modal,
   ModalBody,
   ModalContent,
@@ -70,7 +70,8 @@ export function DatePickerComp({ name }: { name: string }) {
                 <Button
                   onClick={onClose}
                   className=" w-full rounded-[30px] text-[17px] font-bold"
-                  variant="outline"
+                  variant="ghost"
+                  color="primary"
                 >
                   Close
                 </Button>

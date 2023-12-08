@@ -291,6 +291,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
           }
           value={location}
           disabled={status.isLoading}
+          variant="bordered"
         />
       </div>
 

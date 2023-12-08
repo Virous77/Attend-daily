@@ -1,5 +1,5 @@
-import { Button } from "@/components/ui/button";
 import {
+  Button,
   Modal,
   ModalBody,
   ModalContent,
@@ -141,7 +141,8 @@ const RePost: React.FC<PostListProps> = ({ post }) => {
                 <Button
                   onClick={onClose}
                   className=" w-full rounded-[30px] text-[17px] font-bold"
-                  variant="outline"
+                  variant="ghost"
+                  color="primary"
                 >
                   Close
                 </Button>

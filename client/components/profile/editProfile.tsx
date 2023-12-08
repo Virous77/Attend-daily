@@ -1,12 +1,9 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
 import { Sheet, SheetContent, SheetFooter } from "@/components/ui/sheet";
-import { Button } from "../ui/button";
-import { Avatar } from "@nextui-org/react";
+import { Avatar, Button, Input } from "@nextui-org/react";
 import { AiOutlineCloudUpload } from "react-icons/ai";
 import { StateType } from "./userData";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
 import { useMutation } from "@tanstack/react-query";
 import { putData } from "@/api/api";
 import { useAppContext } from "@/store/useAppContext";
@@ -111,34 +108,43 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
 
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="flex flex-col gap-2 mt-16">
-            <Label>Name</Label>
-            <Input value={open.name} name="name" onChange={handleChange} />
+            <Input
+              value={open.name}
+              name="name"
+              onChange={handleChange}
+              variant="bordered"
+              label="Name"
+            />
           </div>
 
           <div className="flex flex-col gap-2 mt-8">
-            <Label htmlFor="email">Email</Label>
             <Input
               value={open.email}
               name="email"
               id="email"
               onChange={handleChange}
+              variant="bordered"
+              label="Email"
             />
           </div>
 
           <div className="flex flex-col gap-2 mt-8">
-            <Label htmlFor="bio">Bio</Label>
             <Input
               value={open.bio || ""}
               name="bio"
               id="bio"
               onChange={handleChange}
+              variant="bordered"
+              label="Bio"
             />
           </div>
           <SheetFooter className="mt-5">
             <Button
               onClick={handleUpdateProfile}
               disabled={isPending}
-              variant={isPending ? "disabled" : "default"}
+              variant={isPending ? "faded" : "shadow"}
+              color="primary"
+              className=" rounded"
             >
               {isPending ? <Loader /> : "Save changes"}
             </Button>

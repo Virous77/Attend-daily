@@ -1,10 +1,9 @@
 import { ScrollArea } from "../ui/scroll-area";
 import { Search } from "@/types/types";
-import { Avatar, User } from "@nextui-org/react";
+import { Avatar, Button, User } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import useQueryPost from "@/hooks/useQueryPost";
 import { SearchType } from "./search-model";
-import { Button } from "../ui/button";
 import { useUserContext } from "@/store/useUserContext";
 
 const SearchResult: React.FC<SearchType & { data: Search[] }> = ({
@@ -74,6 +73,8 @@ const SearchResult: React.FC<SearchType & { data: Search[] }> = ({
                 ) ? (
                   <Button
                     className="rounded"
+                    variant="ghost"
+                    color="primary"
                     style={{ height: "30px" }}
                     onClick={() => handleFollow(item._id, item.userName)}
                   >
@@ -83,6 +84,8 @@ const SearchResult: React.FC<SearchType & { data: Search[] }> = ({
                   <Button
                     className="rounded"
                     style={{ height: "30px" }}
+                    variant="shadow"
+                    color="primary"
                     onClick={() => handleFollow(item._id, item.userName)}
                   >
                     Follow

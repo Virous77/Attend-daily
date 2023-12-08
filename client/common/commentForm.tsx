@@ -1,13 +1,12 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { IoMdSend } from "react-icons/io";
 import Loader from "@/components/ui/loader/Loader";
 import useQueryPost from "@/hooks/useQueryPost";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 import { useAppContext } from "@/store/useAppContext";
 import useQueryPut from "@/hooks/useQueryPut";
+import { Button, Input } from "@nextui-org/react";
 
 type CommentFormType = {
   postId: string;
@@ -96,18 +95,22 @@ const CommentForm: React.FC<CommentFormType> = ({
         onChange={(e) =>
           setContent((prev) => ({ ...prev, new: e.target.value }))
         }
+        variant="bordered"
       />
       <Button
-        className="w-[60px]"
+        className="w-[60px] rounded"
         onClick={handleComment}
+        variant="shadow"
+        color="primary"
         disabled={isPending || editPending}
       >
         {isPending || editPending ? <Loader /> : <IoMdSend />}
       </Button>
       {activeType === "edit-comment" && (
         <Button
-          className="w-[60px]"
-          variant="destructive"
+          className="w-[60px] rounded"
+          variant="ghost"
+          color="primary"
           onClick={() => {
             setContent((prev) => ({ ...prev, new: "", edit: null }));
             setActiveType("");

@@ -1,8 +1,7 @@
-import { Card, CardBody, User } from "@nextui-org/react";
+import { Button, Card, CardBody, User } from "@nextui-org/react";
 import { useUserContext } from "@/store/useUserContext";
 import { NetworkUser } from "@/types/types";
 import Loader from "@/components/ui/loader/Loader";
-import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { useAppContext } from "@/store/useAppContext";
 
@@ -56,6 +55,9 @@ const UserNetworkComp: React.FC<NetworkProps> = ({ data, compareData }) => {
                         }
                         disabled={isFollowing}
                         style={{ height: "35px" }}
+                        variant="ghost"
+                        color="primary"
+                        className=" rounded"
                       >
                         {isFollowing ? <Loader /> : "Unfollow"}
                       </Button>
@@ -66,6 +68,9 @@ const UserNetworkComp: React.FC<NetworkProps> = ({ data, compareData }) => {
                         }
                         disabled={isFollowing}
                         style={{ height: "35px" }}
+                        color="primary"
+                        className=" rounded"
+                        variant="shadow"
                       >
                         {isFollowing ? <Loader /> : "Follow"}
                       </Button>

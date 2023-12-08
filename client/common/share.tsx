@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button";
 import {
   Modal,
   ModalBody,
@@ -7,6 +6,7 @@ import {
   CardBody,
   ModalFooter,
   ModalHeader,
+  Button,
 } from "@nextui-org/react";
 import React, { useState } from "react";
 import { BsWhatsapp, BsTwitter, BsTelegram, BsLinkedin } from "react-icons/bs";
@@ -126,9 +126,10 @@ const Share: React.FC<ShareProps> = ({ isOpen, onOpenChange, url, name }) => {
             </ModalBody>
             <ModalFooter className=" w-full">
               <Button
-                variant="outline"
                 onClick={onClose}
                 className=" w-full rounded-[30px] text-[17px] font-bold"
+                color="primary"
+                variant="ghost"
               >
                 Cancel
               </Button>

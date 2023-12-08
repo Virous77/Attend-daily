@@ -1,4 +1,5 @@
 import {
+  Button,
   Modal,
   ModalBody,
   ModalContent,
@@ -7,7 +8,6 @@ import {
 } from "@nextui-org/react";
 import React, { useRef } from "react";
 import { IoMdTime } from "react-icons/io";
-import { Button } from "../button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import Time from "@/common/time";
@@ -139,7 +139,8 @@ const TimePicker = ({ name }: { name: string }) => {
                 <Button
                   onClick={onClose}
                   className=" w-full rounded-[30px] text-[17px] font-bold"
-                  variant="outline"
+                  variant="ghost"
+                  color="primary"
                 >
                   Close
                 </Button>

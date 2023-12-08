@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import styles from "./form.module.scss";
 import { useAppContext } from "@/store/useAppContext";
-import { DialogFooter } from "../ui/dialog";
-import { Button } from "../ui/button";
 import Loader from "../ui/loader/Loader";
-import { CircularProgress, Input } from "@nextui-org/react";
+import {
+  Button,
+  Checkbox,
+  CircularProgress,
+  Input,
+  ModalFooter,
+} from "@nextui-org/react";
 import { Eye, EyeOff } from "lucide-react";
 import axios from "axios";
 import { base_url } from "@/api/api";
@@ -143,29 +147,47 @@ const Common: React.FC<PropsType> = ({
           />
         </div>
 
-        <p className="text-end -mt-2 text-xs">
-          {state.authModal
-            ? "Already have an account?"
-            : "Don't have an account?"}{" "}
-          <span
-            className="cursor-pointer underline hover:text-sky-700"
-            onClick={() => setState({ ...state, authModal: !state.authModal })}
-          >
-            {state.authModal ? "Sign In" : "Sign Up"}
-          </span>{" "}
-        </p>
+        <div
+          className={`flex py-2 px-1 ${
+            state.authModal ? "justify-end" : "justify-between"
+          }`}
+        >
+          {!state.authModal && (
+            <Checkbox
+              classNames={{
+                label: "text-small",
+              }}
+            >
+              Remember me
+            </Checkbox>
+          )}
+          <p className="text-small">
+            {state.authModal
+              ? "Already have an account?"
+              : "Don't have an account?"}{" "}
+            <span
+              className="cursor-pointer hover:underline  text-[13px] text-primary"
+              onClick={() =>
+                setState({ ...state, authModal: !state.authModal })
+              }
+            >
+              {state.authModal ? "Sign In" : "Sign Up"}
+            </span>{" "}
+          </p>
+        </div>
 
-        <DialogFooter>
+        <ModalFooter className=" w-full -mt-2 pl-[0px] pr-[0px]">
           <Button
             type="submit"
-            className="sm:w-36"
+            className="rounded w-full"
             onClick={handleFormSubmit}
             disabled={isLoading || exist === "exist" ? true : false}
-            variant={isLoading ? "disabled" : "default"}
+            variant={isLoading ? "ghost" : "shadow"}
+            color="primary"
           >
             {isLoading ? <Loader /> : componentType}
           </Button>
-        </DialogFooter>
+        </ModalFooter>
       </form>
     </>
   );

@@ -1,6 +1,6 @@
 import React, { ReactNode } from "react";
-import { Button } from "../ui/button";
 import { usePost } from "@/store/usePostContext";
+import { Button } from "@nextui-org/react";
 
 type ActionProps = {
   name: string | ReactNode;
@@ -19,12 +19,16 @@ const Action: React.FC<ActionProps> = ({
 }) => {
   const { reset } = usePost();
   return (
-    <div className="absolute bottom-0 w-full left-0 z-10 bg-accent flex flex-col gap-2 pb-4 p-5">
+    <div
+      className="absolute bottom-0 w-full left-0 z-10 bg-background flex flex-col gap-2 pb-4 p-5"
+      style={{ boxShadow: "var(--shadow)" }}
+    >
       <Button
         onClick={onClick}
-        variant={active ? "default" : "disabled"}
-        className={`w-full `}
+        color={active ? "default" : "primary"}
+        className="w-full rounded"
         disabled={disabled}
+        variant="shadow"
       >
         {name}
       </Button>
@@ -33,8 +37,9 @@ const Action: React.FC<ActionProps> = ({
           onClose();
           reset();
         }}
-        variant="link"
-        className=" w-full"
+        color="primary"
+        variant="ghost"
+        className=" w-full rounded"
         disabled={disabled}
       >
         Cancel

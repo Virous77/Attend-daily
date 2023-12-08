@@ -5,7 +5,6 @@ const protectedRoutes = [
   "/account",
   "/notification",
   "/settings",
-  "/feed",
   "/search",
 ];
 

@@ -1,4 +1,5 @@
 import {
+  Button,
   Modal,
   ModalBody,
   ModalContent,
@@ -6,7 +7,6 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import { BsInfoCircleFill, BsPinAngleFill } from "react-icons/bs";
-import { Button } from "../ui/button";
 
 const Info = ({ name }: { name: string }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -47,7 +47,8 @@ const Info = ({ name }: { name: string }) => {
                 <Button
                   onClick={onClose}
                   className=" w-full rounded-[30px] text-[17px] font-bold"
-                  variant="outline"
+                  variant="ghost"
+                  color="primary"
                 >
                   Got it!
                 </Button>

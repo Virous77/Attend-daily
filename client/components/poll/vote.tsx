@@ -1,5 +1,6 @@
 import { Poll } from "@/types/types";
 import {
+  Button,
   Modal,
   ModalBody,
   ModalContent,
@@ -7,7 +8,6 @@ import {
   RadioGroup,
 } from "@nextui-org/react";
 import React, { Dispatch, SetStateAction } from "react";
-import { Button } from "../ui/button";
 import Loader from "../ui/loader/Loader";
 import useQueryPut from "@/hooks/useQueryPut";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
@@ -85,17 +85,19 @@ const Vote: React.FC<VoteType> = ({
 
               <div className=" w-full text-center mt-2 flex flex-col gap-3">
                 <Button
-                  className=" w-full"
+                  className=" w-full rounded"
                   disabled={isPending || !selected}
                   onClick={handleAddVote}
-                  variant={!selected ? "disabled" : "default"}
+                  variant={!selected ? "faded" : "shadow"}
+                  color="primary"
                 >
                   {isPending ? <Loader /> : "Add Vote"}
                 </Button>
                 <Button
                   onClick={reset}
-                  variant={isPending ? "disabled" : "outline"}
+                  variant="ghost"
                   className=" w-full rounded-[30px] text-[17px] font-bold"
+                  color="primary"
                 >
                   Close
                 </Button>
