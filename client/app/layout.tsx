@@ -51,7 +51,7 @@ export default async function RootLayout({
       <head>
         <meta
           name="viewport"
-          content="width=device-width; initial-scale=1; viewport-fit=cover; maximum-scale=1; user-scalable=no"
+          content="width=device-width initial-scale=1 viewport-fit=cover maximum-scale=1 user-scalable=no"
         />
         <meta name="robots" content="index, follow" />
         {/* <meta name="mobile-web-app-capable" content="yes" />

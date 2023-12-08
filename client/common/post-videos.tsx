@@ -36,7 +36,9 @@ const PostVideos: React.FC<PostVideosProps> = ({ video }) => {
                 loop={true}
                 width={"100%"}
                 height={"100%"}
-                onReady={() => true}
+                muted={true}
+                playsinline={true}
+                controls={false}
               />
             </div>
           ))}
