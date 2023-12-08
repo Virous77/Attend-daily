@@ -12,7 +12,10 @@ const SearchForm: React.FC<SearchFormType> = ({ handleInputChange }) => {
   const { activeType, setActiveType, search, setSearch } = useAppContext();
 
   return (
-    <div className=" fixed top-0 left-0 w-full bg-accent px-5 py-3 flex items-center justify-between gap-4 z-10">
+    <div
+      className=" fixed top-0 left-0 w-full bg-background  px-5 py-3 flex items-center justify-between gap-4 z-10"
+      style={{ boxShadow: "var(--shadow)" }}
+    >
       {activeType !== "search" && (
         <span className=" text-[17px] font-bold uppercase">Explore</span>
       )}
