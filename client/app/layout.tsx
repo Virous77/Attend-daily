@@ -64,7 +64,7 @@ export default async function RootLayout({
       <body className={roboto.className}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="dark"
           enableSystem
           disableTransitionOnChange
         >
