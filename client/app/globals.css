@@ -91,7 +91,7 @@ body::before {
   content: "";
   position: fixed;
   z-index: 10000000;
-  top: 0px;
+  top: -100px;
   height: 100px;
   right: 0;
   left: 0;
