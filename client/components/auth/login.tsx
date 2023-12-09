@@ -4,7 +4,6 @@ import useAuth from "@/hooks/useAuth";
 
 const Login = () => {
   const { formData, mutate, isLoading, setFormData } = useAuth("/auth/login");
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, id } = e.target;
     setFormData({ ...formData, [id]: value });
@@ -21,6 +20,7 @@ const Login = () => {
         formData={formData}
         handleFormSubmit={handleLogin}
         isLoading={isLoading}
+        setFormData={setFormData}
       />
     </div>
   );

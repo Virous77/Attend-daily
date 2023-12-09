@@ -18,6 +18,7 @@ type FormData = {
   password: string;
   name: string;
   userName: string;
+  isRememberMe: boolean;
 };
 
 type PropsType = {
@@ -25,6 +26,7 @@ type PropsType = {
   formData: FormData;
   handleFormSubmit: () => void;
   isLoading: boolean;
+  setFormData: React.Dispatch<React.SetStateAction<FormData>>;
 };
 
 const Common: React.FC<PropsType> = ({
@@ -32,6 +34,7 @@ const Common: React.FC<PropsType> = ({
   formData,
   handleFormSubmit,
   isLoading,
+  setFormData,
 }) => {
   const { state, setState } = useAppContext();
   const componentType = state.authModal ? "SIGN UP" : "SIGN IN";
@@ -157,6 +160,13 @@ const Common: React.FC<PropsType> = ({
               classNames={{
                 label: "text-small",
               }}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  isRememberMe: e.target.checked,
+                }))
+              }
+              checked={formData.isRememberMe}
             >
               Remember me
             </Checkbox>

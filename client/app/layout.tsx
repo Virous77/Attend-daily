@@ -77,6 +77,9 @@ export default async function RootLayout({
                       toastOptions={{
                         custom: {
                           duration: 3000,
+                          style: {
+                            zIndex: "100000000",
+                          },
                         },
                       }}
                     />

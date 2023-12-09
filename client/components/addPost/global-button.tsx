@@ -88,6 +88,7 @@ const GlobalPost = () => {
           wrapper: "z-[101]",
         }}
         className=" h-full"
+        isDismissable={false}
       >
         <ModalContent className="max-w-full md:max-w-md h-full rounded-none m-0">
           {(onClose) => (

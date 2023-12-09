@@ -26,10 +26,11 @@ const useAuth = (endPoints: string) => {
     email: "",
     name: "",
     userName: "",
+    isRememberMe: false,
   };
   const { setState, state } = useAppContext();
   const [formData, setFormData] = useState(initialState);
-  const { password, email, name, userName } = formData;
+  const { password, email, name, userName, isRememberMe } = formData;
   const router = useRouter();
   const { notify } = useToast();
 
@@ -70,7 +71,7 @@ const useAuth = (endPoints: string) => {
         const config = {
           method: "post",
           url: "/api/login",
-          data: { token: data.data },
+          data: { token: data.data, remember: isRememberMe },
         };
         axios(config);
         setState((prev) => ({

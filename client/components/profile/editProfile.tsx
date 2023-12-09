@@ -10,6 +10,7 @@ import Loader from "../ui/loader/Loader";
 import { useParams } from "next/navigation";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 import { UploadCloud } from "lucide-react";
+import useToast from "@/hooks/useToast";
 
 type EditProfileProps = {
   open: StateType;
@@ -23,6 +24,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
   const { name }: { name: string } = useParams();
   const { state } = useAppContext();
   const { invalidateKey } = useQueryInvalidate();
+  const { notify } = useToast();
 
   const { mutate, isPending } = useMutation({
     mutationFn: async (params: any) => {
@@ -71,6 +73,11 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
 
   const handleUpdateProfile = () => {
     const { image, name, email, bio } = open;
+
+    if (!name || !email) {
+      notify("Please fill all the fields");
+      return;
+    }
     const packet = { image, name, email, bio };
     mutate(packet);
   };

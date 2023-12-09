@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 type TBody = {
   token: string;
+  remember: boolean;
 };
 
 export async function POST(request: NextRequest, res: NextResponse) {
@@ -13,7 +14,7 @@ export async function POST(request: NextRequest, res: NextResponse) {
     name: "attend",
     value: body.token,
     httpOnly: true,
-    maxAge: 3600 * 24 * 7,
+    maxAge: body.remember ? 3600 * 24 * 10 : 3600 * 24 * 1,
     path: "/",
     secure: true,
     sameSite: "strict",

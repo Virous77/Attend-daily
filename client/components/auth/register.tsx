@@ -22,6 +22,7 @@ const Register = () => {
         formData={formData}
         handleFormSubmit={handleRegister}
         isLoading={isLoading}
+        setFormData={setFormData}
       />
     </div>
   );

@@ -20,7 +20,7 @@ const MainForm: React.FC<NavbarProps> = ({ isLoggedIn }) => {
         className=" border border-input bg-background hover:bg-accent hover:text-accent-foreground p-3 rounded-lg cursor-pointer"
         onClick={() => setOpen(true)}
       >
-        <User />
+        <User size={20} />
       </p>
       <Modal
         isOpen={isLoggedIn ? false : state.isLoading === "login" ? true : open}
