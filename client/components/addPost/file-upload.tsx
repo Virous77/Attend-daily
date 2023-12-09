@@ -1,8 +1,8 @@
-import { FiFilePlus } from "react-icons/fi";
 import { ChangeEvent } from "react";
 import { toast } from "@/components/ui/use-toast";
 import { previewFiles } from "@/utils/utils";
 import { usePost } from "@/store/usePostContext";
+import { FileUp } from "lucide-react";
 
 const FileUpload = () => {
   const { setPreview, setTempFileStore, preview, status } = usePost();
@@ -83,7 +83,7 @@ const FileUpload = () => {
           disabled={status.isLoading}
         />
         <label htmlFor="fileInput" className="flex items-center gap-3">
-          <FiFilePlus size={22} />
+          <FileUp size={22} />
           <p className=" text-[13px]">Add photo / video (4 max)</p>
         </label>
       </div>

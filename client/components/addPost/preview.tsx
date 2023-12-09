@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { usePost } from "@/store/usePostContext";
-import { AiTwotoneDelete } from "react-icons/ai";
 import { useAppContext } from "@/store/useAppContext";
+import { Trash2 } from "lucide-react";
 
 const Preview = () => {
   const {
@@ -58,7 +58,7 @@ const Preview = () => {
                 className=" absolute bottom-2 left-2 w-8 h-8 rounded-full bg-red-600 text-white z-10 flex items-center justify-center cursor-pointer transition hover:scale-[1.03]"
                 onClick={() => handleDelete(vdo, idx, "video")}
               >
-                <AiTwotoneDelete sie={22} />
+                <Trash2 size={22} />
               </span>
             </li>
           ))}
@@ -74,7 +74,7 @@ const Preview = () => {
                 className=" absolute bottom-2 left-2 w-8 h-8 rounded-full bg-red-600 text-white z-10 flex items-center justify-center cursor-pointer transition hover:scale-[1.03]"
                 onClick={() => handleDelete(img, idx, "image")}
               >
-                <AiTwotoneDelete sie={22} />
+                <Trash2 size={22} />
               </span>
             </li>
           ))}

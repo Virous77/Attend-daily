@@ -1,9 +1,5 @@
-import { BiHomeSmile } from "react-icons/bi";
-import { TbMessage2 } from "react-icons/tb";
-import { MdOutlineAccountBalanceWallet } from "react-icons/md";
-import { RiSearchLine } from "react-icons/ri";
-import { FaRegUser } from "react-icons/fa";
 import moment from "moment";
+import { Contact2, Home, MessagesSquare, Search, Wallet } from "lucide-react";
 
 export const getLocalData = (id: string) => {
   const localData = localStorage.getItem(id);
@@ -25,31 +21,31 @@ export const navLink = [
     id: 1,
     name: "Home",
     link: "/feed",
-    icon: BiHomeSmile,
+    icon: Home,
   },
   {
     id: 2,
     name: "Search",
     link: "/search",
-    icon: RiSearchLine,
+    icon: Search,
   },
   {
     id: 3,
     name: "message",
     link: "/message",
-    icon: TbMessage2,
+    icon: MessagesSquare,
   },
   {
     id: 4,
     name: "Account",
     link: "/account",
-    icon: MdOutlineAccountBalanceWallet,
+    icon: Wallet,
   },
   {
     id: 5,
     name: "Profile",
     link: "/profile",
-    icon: FaRegUser,
+    icon: Contact2,
   },
 ];
 

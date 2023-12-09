@@ -7,9 +7,9 @@ import Logout from "../auth/logout";
 import FeedType from "./feedType";
 import Logo from "./logo";
 import { useAppContext } from "@/store/useAppContext";
-import { MdOutlineNotificationsNone } from "react-icons/md";
 import { useRouter, usePathname } from "next/navigation";
 import { Navbar } from "@nextui-org/react";
+import { BellRing } from "lucide-react";
 
 export type NavbarProps = {
   isLoggedIn: string | undefined;
@@ -57,7 +57,7 @@ const NavbarComp: React.FC<NavbarProps> = ({ isLoggedIn }) => {
                 className="btn-primary md:hidden block"
                 onClick={() => router.push("/notification")}
               >
-                <MdOutlineNotificationsNone size={20} />
+                <BellRing size={20} />
               </button>
             ) : null}
           </nav>

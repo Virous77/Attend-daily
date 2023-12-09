@@ -8,13 +8,11 @@ import {
   ModalContent,
 } from "@nextui-org/react";
 import { useAppContext } from "@/store/useAppContext";
-import { HiOutlinePlus } from "react-icons/hi";
-import { BsFilePost } from "react-icons/bs";
-import { BiPoll } from "react-icons/bi";
 import Layout from "./layout";
 import Header from "@/common/header";
 import { usePost } from "@/store/usePostContext";
 import DeletePost from "../deletePost/deletePost";
+import { BarChart3, FileText, Plus } from "lucide-react";
 
 const GlobalPost = () => {
   const {
@@ -48,7 +46,7 @@ const GlobalPost = () => {
           <Popover placement="top" className=" bg-transparent shadow-none">
             <PopoverTrigger className=" w-full  font-extrabold bg-gradient-to-br from-green-600 to-blue-600 text-white  h-full rounded-full flex items-center justify-center cursor-pointer transition hover:scale-[1.03]">
               <p>
-                <HiOutlinePlus size={25} />
+                <Plus size={25} />
               </p>
             </PopoverTrigger>
             <PopoverContent className=" -bottom-2">
@@ -60,7 +58,7 @@ const GlobalPost = () => {
                     onOpen();
                   }}
                 >
-                  <BsFilePost size={25} />
+                  <FileText size={25} />
                   <p className=" font-bold text-[16px]">Post</p>
                 </div>
                 <div
@@ -70,7 +68,7 @@ const GlobalPost = () => {
                     onOpen();
                   }}
                 >
-                  <BiPoll size={25} />
+                  <BarChart3 size={25} />
                   <p className=" font-bold text-[16px]">Poll</p>
                 </div>
               </div>

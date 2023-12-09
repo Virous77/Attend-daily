@@ -7,8 +7,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { FileSignature, Flag, Trash2, UserMinus, UserPlus } from "lucide-react";
-import { BsThreeDots } from "react-icons/bs";
+import {
+  FileSignature,
+  Flag,
+  MoreHorizontal,
+  Trash2,
+  UserMinus,
+  UserPlus,
+} from "lucide-react";
 import { useAppContext } from "@/store/useAppContext";
 import { PostProps } from "@/common/post";
 import { useUserContext } from "@/store/useUserContext";
@@ -56,7 +62,7 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className=" outline-none">
-          <BsThreeDots size={20} cursor="pointer" />
+          <MoreHorizontal size={20} cursor="pointer" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className=" w-fit mr-2 z-[1000]">

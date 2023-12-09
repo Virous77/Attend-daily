@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import { BsThreeDots } from "react-icons/bs";
 import { useAppContext } from "@/store/useAppContext";
 import ModalComp from "./modal";
+import { MoreHorizontal } from "lucide-react";
 
 const Cover = () => {
   const { modal } = useAppContext();
@@ -13,7 +13,7 @@ const Cover = () => {
         className="fixed right-5 top-7 cursor-pointer"
         onClick={() => modal.onOpen()}
       >
-        <BsThreeDots size={20} />
+        <MoreHorizontal size={20} />
       </span>
       <ModalComp />
     </div>

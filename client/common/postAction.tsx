@@ -1,16 +1,19 @@
 import React from "react";
 import { PostListProps, StateType } from "../components/profile/post/postList";
-import { FaRegComment, FaRetweet } from "react-icons/fa";
-import { BsBookmarkCheckFill, BsBookmarkCheck } from "react-icons/bs";
 import { useUserContext } from "@/store/useUserContext";
 import useProfileAction from "@/hooks/useProfileAction";
 import Like from "@/common/like";
 import { usePathname, useRouter } from "next/navigation";
-import { MdIosShare } from "react-icons/md";
-import Share from "./share";
+import ShareIT from "./share";
 import { useDisclosure } from "@nextui-org/react";
 import RePost from "./re-post";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
+import {
+  BookmarkMinus,
+  BookmarkPlus,
+  MessageCircle,
+  Share,
+} from "lucide-react";
 
 type PostActionProps = {
   setOpen?: React.Dispatch<React.SetStateAction<StateType>>;
@@ -54,7 +57,7 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
           className=" cursor-pointer"
           onClick={() => router.push(`/post/${id}`)}
         >
-          <FaRegComment size={20} />
+          <MessageCircle size={20} />
         </span>
         {totalCommentsCount > 0 && (
           <p className=" leading-none">{totalCommentsCount}</p>
@@ -69,7 +72,7 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
             className=" cursor-pointer"
             onClick={() => handleBookmark(post._id)}
           >
-            <BsBookmarkCheckFill size={20} />
+            <BookmarkMinus size={21} color="green" />
           </span>
         ) : (
           <span
@@ -79,15 +82,15 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
               handleBookmark(post._id);
             }}
           >
-            <BsBookmarkCheck size={20} />
+            <BookmarkPlus size={21} />
           </span>
         )}
       </div>
 
       <div className=" cursor-pointer" onClick={onOpen}>
-        <MdIosShare size={20} />
+        <Share size={20} />
       </div>
-      <Share
+      <ShareIT
         onOpenChange={onOpenChange}
         isOpen={isOpen}
         url={`/post/${post._id}`}

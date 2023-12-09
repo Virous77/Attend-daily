@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { useAppContext } from "@/store/useAppContext";
 import { Avatar, useDisclosure } from "@nextui-org/react";
-import { MdOutlineModeEditOutline } from "react-icons/md";
 import EditProfile from "./editProfile";
 import { Skeleton } from "../ui/skeleton";
 import Content from "./content";
@@ -13,6 +12,7 @@ import { QueryData, QueryResponse, User, UserNetwork } from "@/types/types";
 import Network from "./network";
 import ProfileAction from "./profile-action";
 import FullImage from "@/common/full-image";
+import { Pencil } from "lucide-react";
 
 type Response = QueryResponse & {
   fetchResult: QueryData & {
@@ -102,7 +102,7 @@ const UserData = () => {
             onClick={() => handleSetUserState(fetchResult.data)}
             disabled={!fetchResult.data}
           >
-            <MdOutlineModeEditOutline size={22} />
+            <Pencil size={22} />
           </button>
         ) : (
           <ProfileAction

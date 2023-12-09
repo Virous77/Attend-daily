@@ -7,12 +7,12 @@ import {
   useDisclosure,
 } from "@nextui-org/react";
 import React, { useRef } from "react";
-import { IoMdTime } from "react-icons/io";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import Time from "@/common/time";
 import { usePost } from "@/store/usePostContext";
 import { toast } from "../use-toast";
+import { AlarmClock } from "lucide-react";
 
 const TimePicker = ({ name }: { name: string }) => {
   const { time, setTime, formatTime } = usePost();
@@ -65,7 +65,7 @@ const TimePicker = ({ name }: { name: string }) => {
           }
         }}
       >
-        <IoMdTime size={22} /> {`${hour}:${minutes} ${type}`}
+        <AlarmClock size={22} /> {`${hour}:${minutes} ${type}`}
       </span>
 
       <Modal

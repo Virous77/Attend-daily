@@ -1,5 +1,5 @@
-import { AiOutlineHeart, AiTwotoneHeart } from "react-icons/ai";
 import { useAppContext } from "@/store/useAppContext";
+import { Heart } from "lucide-react";
 
 type LikeProps = {
   value: string[];
@@ -14,11 +14,11 @@ const Like: React.FC<LikeProps> = ({ value, handleLike }) => {
     <div className=" flex items-center gap-1">
       {value?.includes(user?._id || "") ? (
         <span className=" cursor-pointer" onClick={handleLike}>
-          <AiTwotoneHeart size={20} color="red" />
+          <Heart size={20} color="red" className=" bg-red-700" />
         </span>
       ) : (
         <span className=" cursor-pointer" onClick={handleLike}>
-          <AiOutlineHeart size={20} />
+          <Heart size={20} />
         </span>
       )}
       {value?.length > 0 && <p className=" leading-none">{value?.length}</p>}

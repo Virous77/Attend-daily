@@ -3,9 +3,8 @@
 import * as React from "react";
 import * as SheetPrimitive from "@radix-ui/react-dialog";
 import { cva, type VariantProps } from "class-variance-authority";
-import { BsArrowLeft } from "react-icons/bs";
-
 import { cn } from "@/lib/utils";
+import { MoveLeft } from "lucide-react";
 
 const Sheet = SheetPrimitive.Root;
 
@@ -69,7 +68,7 @@ const SheetContent = React.forwardRef<
       {children}
       {closeButton && (
         <SheetPrimitive.Close className="absolute left-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 disabled:pointer-events-none data-[state=open]:bg-secondary outline-none">
-          <BsArrowLeft className="h-6 w-6 ml-2" />
+          <MoveLeft className="h-6 w-6 ml-2" />
           <span className="sr-only">Close</span>
         </SheetPrimitive.Close>
       )}

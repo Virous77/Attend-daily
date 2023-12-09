@@ -2,7 +2,6 @@
 
 import { CompletePost, QueryData, QueryResponse } from "@/types/types";
 import Header from "../../common/header";
-import HeaderChildren from "./headerChildren";
 import PostCommon from "@/common/post";
 import Comment from "./post-comment";
 import { Separator } from "../ui/separator";
@@ -31,9 +30,8 @@ const SinglePost: React.FC<PostProps> = ({ id }) => {
 
   return (
     <main>
-      <Header name="Post">
-        <HeaderChildren />
-      </Header>
+      <Header name="Post" />
+
       {isLoading ? (
         <div className="  pt-14 p-4 ">
           <FeedSkeleton />

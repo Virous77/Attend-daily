@@ -1,12 +1,12 @@
+import { Loader } from "lucide-react";
 import React from "react";
-import { LuLoader2 } from "react-icons/lu";
 
-const Loader = () => {
+const LoaderComp = () => {
   return (
     <div>
-      <LuLoader2 className="animate-spin" size={20} />
+      <Loader className="animate-spin" size={20} />
     </div>
   );
 };
 
-export default Loader;
+export default LoaderComp;

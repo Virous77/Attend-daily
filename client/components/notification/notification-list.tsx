@@ -1,9 +1,7 @@
 import { Notification } from "@/types/types";
 import { Avatar, Card, CardBody } from "@nextui-org/react";
-import { Repeat2, UserPlus, Vote } from "lucide-react";
+import { Heart, MessageCircle, Repeat2, UserPlus, Vote } from "lucide-react";
 import Link from "next/link";
-import { AiTwotoneHeart } from "react-icons/ai";
-import { FaRegComment } from "react-icons/fa";
 
 type NotificationType = {
   data: Notification;
@@ -32,15 +30,13 @@ const NotificationList: React.FC<NotificationType> = ({ data }) => {
       <CardBody className=" pt-[10px] pb-[10px]">
         <div className=" flex  gap-4 items-center">
           {data.notificationEvent === "follow" && <UserPlus size={17} />}
-          {data.notificationEvent === "like" && (
-            <AiTwotoneHeart size={18} color="red" />
-          )}
+          {data.notificationEvent === "like" && <Heart size={18} color="red" />}
           {data.notificationEvent === "poll" && (
             <Vote size={17} color="green" />
           )}
-          {data.notificationEvent === "comment" && <FaRegComment size={18} />}
+          {data.notificationEvent === "comment" && <MessageCircle size={18} />}
           {data.notificationEvent === "commentReplies" && (
-            <FaRegComment size={18} />
+            <MessageCircle size={18} />
           )}
           {data.notificationEvent === "repost" && <Repeat2 color="green" />}
           <div className=" flex items-center gap-2">

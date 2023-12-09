@@ -2,7 +2,6 @@
 import React, { useState } from "react";
 import { Sheet, SheetContent, SheetFooter } from "@/components/ui/sheet";
 import { Avatar, Button, Input } from "@nextui-org/react";
-import { AiOutlineCloudUpload } from "react-icons/ai";
 import { StateType } from "./userData";
 import { useMutation } from "@tanstack/react-query";
 import { putData } from "@/api/api";
@@ -10,6 +9,7 @@ import { useAppContext } from "@/store/useAppContext";
 import Loader from "../ui/loader/Loader";
 import { useParams } from "next/navigation";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
+import { UploadCloud } from "lucide-react";
 
 type EditProfileProps = {
   open: StateType;
@@ -95,7 +95,7 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
             className="-bottom-[10%] absolute z-[100] left-[46%] bg-foreground w-8 h-8 rounded-full text-accent flex items-center justify-center cursor-pointer"
             htmlFor="image"
           >
-            <AiOutlineCloudUpload size={20} />
+            <UploadCloud size={20} />
           </label>
           <input
             type="file"

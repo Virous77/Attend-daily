@@ -1,8 +1,7 @@
 import { ChangeEvent, useState } from "react";
-import { FaRegPlusSquare } from "react-icons/fa";
-import { FaCircleMinus } from "react-icons/fa6";
 import { usePost } from "@/store/usePostContext";
 import { Input } from "@nextui-org/react";
+import { Copy, MinusCircle } from "lucide-react";
 
 const Choice = ({ name, pollTime }: { name: string; pollTime: number }) => {
   const [choiceCount, setChoiceCount] = useState([1, 2]);
@@ -60,7 +59,7 @@ const Choice = ({ name, pollTime }: { name: string; pollTime: number }) => {
                         onClick={() => handleChoiceRemove(idx)}
                         className=" cursor-pointer hover:opacity-80"
                       >
-                        <FaCircleMinus size={23} />
+                        <MinusCircle size={23} />
                       </span>
                     )}
                   </>
@@ -78,7 +77,7 @@ const Choice = ({ name, pollTime }: { name: string; pollTime: number }) => {
               onClick={handleChoice}
               className=" flex items-center gap-3 justify-center mt-3 cursor-pointer"
             >
-              <FaRegPlusSquare size={23} /> Add Choice
+              <Copy size={23} /> Add Choice
             </div>
           )}
         </>

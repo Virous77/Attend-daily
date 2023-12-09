@@ -1,7 +1,6 @@
 import { Tab, Tabs } from "@nextui-org/react";
+import { BarChart3, FileText, Table2 } from "lucide-react";
 import React from "react";
-import { BsFilePost } from "react-icons/bs";
-import { MdFeed, MdPoll } from "react-icons/md";
 
 type TabProps = {
   setActiveTab: React.Dispatch<React.SetStateAction<string>>;
@@ -30,7 +29,7 @@ const TabComp: React.FC<TabProps> = ({ activeTab, setActiveTab }) => {
           key="feed"
           title={
             <div className="flex items-center space-x-2">
-              <MdFeed size={20} />
+              <Table2 size={20} />
               <span className=" text-[16px]">Feed</span>
             </div>
           }
@@ -39,7 +38,7 @@ const TabComp: React.FC<TabProps> = ({ activeTab, setActiveTab }) => {
           key="post"
           title={
             <div className="flex items-center space-x-2">
-              <BsFilePost size={20} />
+              <FileText size={20} />
               <span className=" text-[16px]">Post</span>
             </div>
           }
@@ -48,7 +47,7 @@ const TabComp: React.FC<TabProps> = ({ activeTab, setActiveTab }) => {
           key="poll"
           title={
             <div className="flex items-center space-x-2">
-              <MdPoll size={20} />
+              <BarChart3 size={20} />
               <span className=" text-[16px]">Poll</span>
             </div>
           }

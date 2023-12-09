@@ -2,7 +2,6 @@ import { Separator } from "@/components/ui/separator";
 import { MainComments } from "@/types/types";
 import { User } from "@nextui-org/react";
 import CommentAction from "./commentAction";
-import { BsThreeDots } from "react-icons/bs";
 import { useRouter } from "next/navigation";
 import CommentDropdown from "@/components/ui/custom/comment-dropdown";
 

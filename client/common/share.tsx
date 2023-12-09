@@ -7,10 +7,11 @@ import {
   ModalFooter,
   ModalHeader,
   Button,
+  Image,
 } from "@nextui-org/react";
+import { Copy, CopyCheck, Linkedin, Mail, Send, Twitter } from "lucide-react";
 import React, { useState } from "react";
-import { BsWhatsapp, BsTwitter, BsTelegram, BsLinkedin } from "react-icons/bs";
-import { LuMail, LuCopy, LuCopyCheck } from "react-icons/lu";
+import WhatsApp from "../public/whatsapp.svg";
 
 type ShareProps = {
   onOpenChange: () => void;
@@ -61,7 +62,7 @@ const Share: React.FC<ShareProps> = ({ isOpen, onOpenChange, url, name }) => {
               >
                 <Card className=" w-[100px] h-[80px] cursor-pointer box-shadow-local">
                   <CardBody className=" flex items-center" onClick={handleCopy}>
-                    {!copy ? <LuCopy size={30} /> : <LuCopyCheck size={30} />}
+                    {!copy ? <Copy size={30} /> : <CopyCheck size={30} />}
                   </CardBody>
                 </Card>
                 <Card className=" w-[100px] h-[80px] cursor-pointer  box-shadow-local">
@@ -73,7 +74,12 @@ const Share: React.FC<ShareProps> = ({ isOpen, onOpenChange, url, name }) => {
                     referrerPolicy="no-referrer"
                   >
                     <CardBody className=" flex items-center">
-                      <BsWhatsapp size={30} />
+                      <Image
+                        src={WhatsApp.src}
+                        alt="whatsapp"
+                        width={30}
+                        height={30}
+                      />
                     </CardBody>
                   </a>
                 </Card>
@@ -84,7 +90,7 @@ const Share: React.FC<ShareProps> = ({ isOpen, onOpenChange, url, name }) => {
                     referrerPolicy="no-referrer"
                   >
                     <CardBody className=" flex items-center">
-                      <BsTwitter size={30} />
+                      <Twitter size={30} />
                     </CardBody>
                   </a>
                 </Card>
@@ -96,7 +102,7 @@ const Share: React.FC<ShareProps> = ({ isOpen, onOpenChange, url, name }) => {
                     title="Share by Email"
                   >
                     <CardBody className=" flex items-center">
-                      <LuMail size={30} />
+                      <Mail size={30} />
                     </CardBody>
                   </a>
                 </Card>
@@ -107,7 +113,7 @@ const Share: React.FC<ShareProps> = ({ isOpen, onOpenChange, url, name }) => {
                     referrerPolicy="no-referrer"
                   >
                     <CardBody className=" flex items-center">
-                      <BsTelegram size={30} />
+                      <Send size={30} />
                     </CardBody>
                   </a>
                 </Card>
@@ -118,7 +124,7 @@ const Share: React.FC<ShareProps> = ({ isOpen, onOpenChange, url, name }) => {
                     referrerPolicy="no-referrer"
                   >
                     <CardBody className=" flex items-center">
-                      <BsLinkedin size={30} />
+                      <Linkedin size={30} />
                     </CardBody>
                   </a>
                 </Card>

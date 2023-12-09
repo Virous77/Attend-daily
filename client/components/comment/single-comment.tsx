@@ -1,7 +1,6 @@
 "use client";
 
 import Header from "@/common/header";
-import HeaderChildren from "../post/headerChildren";
 import CommentForm from "@/common/commentForm";
 import { MainComments, CommentReplies } from "@/types/types";
 import { useParams, usePathname } from "next/navigation";
@@ -56,9 +55,8 @@ const SingleComment = () => {
 
   return (
     <main className=" mt-12 p-4">
-      <Header name="Comment">
-        <HeaderChildren />
-      </Header>
+      <Header name="Comment" />
+
       {isLoading ? (
         <CommentSkeleton />
       ) : (

@@ -1,9 +1,9 @@
-import { FaRegComment } from "react-icons/fa";
 import Like from "@/common/like";
 import useProfileAction from "@/hooks/useProfileAction";
 import { useParams, useRouter } from "next/navigation";
 import { CommentProps } from "./mainCommentList";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
+import { MessageCircle } from "lucide-react";
 
 const CommentAction: React.FC<CommentProps> = ({ comment, type }) => {
   const { mutateAsync } = useProfileAction();
@@ -28,7 +28,7 @@ const CommentAction: React.FC<CommentProps> = ({ comment, type }) => {
           className=" cursor-pointer"
           onClick={() => router.push(`/comment/${type}/${comment._id}`)}
         >
-          <FaRegComment size={20} />
+          <MessageCircle size={20} />
         </span>
         {comment.totalComments > 0 && (
           <p className=" leading-none">{comment.totalComments}</p>

@@ -1,12 +1,12 @@
 "use client";
 
-import { IoMdSend } from "react-icons/io";
 import Loader from "@/components/ui/loader/Loader";
 import useQueryPost from "@/hooks/useQueryPost";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 import { useAppContext } from "@/store/useAppContext";
 import useQueryPut from "@/hooks/useQueryPut";
 import { Button, Input } from "@nextui-org/react";
+import { SendHorizontal } from "lucide-react";
 
 type CommentFormType = {
   postId: string;
@@ -104,7 +104,7 @@ const CommentForm: React.FC<CommentFormType> = ({
         color="primary"
         disabled={isPending || editPending}
       >
-        {isPending || editPending ? <Loader /> : <IoMdSend />}
+        {isPending || editPending ? <Loader /> : <SendHorizontal />}
       </Button>
       {activeType === "edit-comment" && (
         <Button

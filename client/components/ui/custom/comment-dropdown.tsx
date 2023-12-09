@@ -1,4 +1,3 @@
-import { BsThreeDots } from "react-icons/bs";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,7 +6,14 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "../dropdown-menu";
-import { FileSignature, Flag, Trash2, UserMinus, UserPlus } from "lucide-react";
+import {
+  FileSignature,
+  Flag,
+  MoreHorizontal,
+  Trash2,
+  UserMinus,
+  UserPlus,
+} from "lucide-react";
 import { useUserContext } from "@/store/useUserContext";
 import { useAppContext } from "@/store/useAppContext";
 import { MainComments } from "@/types/types";
@@ -30,7 +36,7 @@ const CommentDropdown: React.FC<CommentDropdownProps> = ({ comment }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className=" outline-none">
-          <BsThreeDots size={20} cursor="pointer" />
+          <MoreHorizontal size={20} cursor="pointer" />
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className=" w-fit mr-2 z-[1000]">

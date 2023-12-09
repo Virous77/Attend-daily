@@ -10,10 +10,10 @@ import {
   ModalFooter,
   useDisclosure,
 } from "@nextui-org/react";
-import { FaRegCalendarAlt } from "react-icons/fa";
 import moment from "moment";
 import { usePost } from "@/store/usePostContext";
 import { toast } from "../use-toast";
+import { CalendarDays } from "lucide-react";
 
 export function DatePickerComp({ name }: { name: string }) {
   const { time, setTime } = usePost();
@@ -35,8 +35,7 @@ export function DatePickerComp({ name }: { name: string }) {
         }}
         className=" flex items-center gap-2 pl-3 cursor-pointer"
       >
-        <FaRegCalendarAlt size={20} />{" "}
-        {moment(time.date).format("MMM DD, YYYY")}
+        <CalendarDays size={20} /> {moment(time.date).format("MMM DD, YYYY")}
       </span>
 
       <Modal
