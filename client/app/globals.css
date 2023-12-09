@@ -104,6 +104,10 @@
   border: 2px dotted #84f9af;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
 .hideScroll::-webkit-scrollbar {
   display: none;
 }

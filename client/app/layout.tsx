@@ -49,7 +49,8 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#0000" />
+        <meta name="theme-color" content="#000" />
+        <meta name="background-color" content="#000" />
         <meta
           name="viewport"
           content="width=device-width initial-scale=1 viewport-fit=cover maximum-scale=1 user-scalable=no"
