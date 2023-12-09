@@ -90,7 +90,15 @@ const useAuth = (endPoints: string) => {
     },
   });
 
-  return { formData, setFormData, mutate, isLoading };
+  const handleLogout = async () => {
+    const { data } = await axios.get(endPoints);
+    if (data.status === 200) {
+      router.push("/");
+      window.location.reload();
+    }
+  };
+
+  return { formData, setFormData, mutate, isLoading, handleLogout };
 };
 
 export default useAuth;

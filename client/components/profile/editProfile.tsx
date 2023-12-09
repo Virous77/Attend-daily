@@ -74,8 +74,8 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
   const handleUpdateProfile = () => {
     const { image, name, email, bio } = open;
 
-    if (!name || !email) {
-      notify("Please fill all the fields");
+    if (!name) {
+      notify("Name is required.");
       return;
     }
     const packet = { image, name, email, bio };
@@ -121,17 +121,6 @@ const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
               onChange={handleChange}
               variant="bordered"
               label="Name"
-            />
-          </div>
-
-          <div className="flex flex-col gap-2 mt-8">
-            <Input
-              value={open.email}
-              name="email"
-              id="email"
-              onChange={handleChange}
-              variant="bordered"
-              label="Email"
             />
           </div>
 

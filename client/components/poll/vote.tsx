@@ -85,7 +85,7 @@ const Vote: React.FC<VoteType> = ({
 
               <div className=" w-full text-center mt-2 flex flex-col gap-3">
                 <Button
-                  className=" w-full rounded"
+                  className=" w-full rounded-[30px] "
                   disabled={isPending || !selected}
                   onClick={handleAddVote}
                   variant={!selected ? "faded" : "shadow"}
@@ -96,7 +96,7 @@ const Vote: React.FC<VoteType> = ({
                 <Button
                   onClick={reset}
                   variant="ghost"
-                  className=" w-full rounded-[30px] text-[17px] font-bold"
+                  className=" w-full rounded-[30px] font-bold"
                   color="primary"
                 >
                   Close

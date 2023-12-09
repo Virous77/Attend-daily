@@ -52,7 +52,7 @@ const GlobalPost = () => {
             <PopoverContent className=" -bottom-2">
               <div className="px-1 py-2 flex flex-col gap-3">
                 <div
-                  className=" bg-accent p-3 rounded w-[120px] flex items-center gap-2 cursor-pointer"
+                  className=" bg-background p-3 rounded w-[120px] flex items-center gap-2 cursor-pointer"
                   onClick={() => {
                     setActiveType("post");
                     onOpen();
@@ -62,7 +62,7 @@ const GlobalPost = () => {
                   <p className=" font-bold text-[16px]">Post</p>
                 </div>
                 <div
-                  className=" bg-accent p-3 rounded w-[120px] flex items-center gap-2 cursor-pointer"
+                  className=" bg-background p-3 rounded w-[120px] flex items-center gap-2 cursor-pointer"
                   onClick={() => {
                     setActiveType("poll");
                     onOpen();

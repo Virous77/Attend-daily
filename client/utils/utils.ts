@@ -1,5 +1,15 @@
 import moment from "moment";
-import { Contact2, Home, MessagesSquare, Search, Wallet } from "lucide-react";
+import {
+  Contact2,
+  Home,
+  LogOut,
+  MessagesSquare,
+  Palette,
+  Search,
+  ShieldCheck,
+  User,
+  Wallet,
+} from "lucide-react";
 
 export const getLocalData = (id: string) => {
   const localData = localStorage.getItem(id);
@@ -96,3 +106,22 @@ export const previewFiles = (files: File[]) => {
 
   return { images, videos, PImages, PVideos, error };
 };
+
+export const Tabs = [
+  {
+    name: "Account",
+    icon: User,
+  },
+  {
+    name: "Security",
+    icon: ShieldCheck,
+  },
+  {
+    name: "Theme",
+    icon: Palette,
+  },
+  {
+    name: "Logout",
+    icon: LogOut,
+  },
+];

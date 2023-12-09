@@ -3,7 +3,6 @@
 import React from "react";
 import { ModeToggle } from "../ui/toggle-theme";
 import MainForm from "../auth/form";
-import Logout from "../auth/logout";
 import FeedType from "./feedType";
 import Logo from "./logo";
 import { useAppContext } from "@/store/useAppContext";
@@ -35,9 +34,14 @@ const NavbarComp: React.FC<NavbarProps> = ({ isLoggedIn }) => {
   return (
     <React.Fragment>
       {(pathName === "/" || pathName === "/feed") && (
-        <Navbar shouldHideOnScroll={true}>
+        <Navbar
+          shouldHideOnScroll={true}
+          classNames={{
+            wrapper: "pr-0 pl-0",
+          }}
+        >
           <nav
-            className={`bg-background flex fixed left-0 md:left-2/4 w-full md:w-[80%] md:transform -translate-x-1/2 -translate-y-1/2 transform-none items-center justify-between md:top-[7%] top-0 z-[100] px-5 py-[10px] md:rounded-[40px]`}
+            className={`bg-background flex w-full items-center justify-between px-5 py-[10px]`}
             style={{ boxShadow: "var(--shadow)" }}
           >
             <FeedType />
@@ -47,7 +51,6 @@ const NavbarComp: React.FC<NavbarProps> = ({ isLoggedIn }) => {
               {!isLoggedIn && !state.isLogged ? (
                 <MainForm isLoggedIn={isLoggedIn} />
               ) : null}
-              {isLoggedIn || state.isLogged ? <Logout /> : null}
               <div className="md:block hidden">
                 <ModeToggle />
               </div>

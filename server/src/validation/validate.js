@@ -48,9 +48,9 @@ export const PollValidate = async (req, res, next) => {
   const schema = joi
     .object({
       userId: joi.string().trim().required(),
-      postId: joi.string().trim().required(),
       choice: joi.array().required(),
       expiryDate: joi.number().required(),
+      postType: joi.string().required(),
     })
     .options({ stripUnknown: true });
   return common({ req, res, next, schema });

@@ -7,6 +7,7 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import React from "react";
+import LoaderComp from "../loader/Loader";
 
 type AlertType = {
   title: string;
@@ -58,7 +59,7 @@ const Alert: React.FC<AlertType> = ({
                 onClick={onAction}
                 disabled={isLoading}
               >
-                {buttonName}
+                {isLoading ? <LoaderComp /> : buttonName}
               </Button>
             </ModalFooter>
           </>

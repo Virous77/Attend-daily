@@ -1,4 +1,6 @@
 import Header from "@/common/header";
+import TabList from "./tab-list";
+import AccountData from "./account/account-data";
 
 const SettingsComp = () => {
   return (
@@ -8,6 +10,7 @@ const SettingsComp = () => {
         <p className=" text-center tracking-[6px] text-[13px]">
           CHAT-X VERSION {process.env.NEXT_PUBLIC_APP_VERSION}
         </p>
+        <TabList />
       </section>
     </main>
   );

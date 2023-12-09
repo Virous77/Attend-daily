@@ -25,10 +25,10 @@ const Action: React.FC<ActionProps> = ({
     >
       <Button
         onClick={onClick}
-        color={active ? "default" : "primary"}
+        color="primary"
         className="w-full rounded"
-        disabled={disabled}
-        variant="shadow"
+        disabled={disabled || !active}
+        variant={active ? "shadow" : "faded"}
       >
         {name}
       </Button>
