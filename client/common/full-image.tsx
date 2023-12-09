@@ -6,9 +6,9 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import Header from "./header";
-import { toast } from "@/components/ui/use-toast";
 import { FolderDown } from "lucide-react";
 import ReactPlayer from "react-player";
+import useToast from "@/hooks/useToast";
 
 type FullImageProps = {
   isOpen: boolean;
@@ -23,6 +23,8 @@ const FullImage: React.FC<FullImageProps> = ({
   url,
   type,
 }) => {
+  const { notify } = useToast();
+
   async function downloadImage() {
     try {
       const response = await fetch(url);
@@ -34,11 +36,7 @@ const FullImage: React.FC<FullImageProps> = ({
       a.click();
       document.body.removeChild(a);
     } catch (error) {
-      toast({
-        title: "Error in downloading image",
-        duration: 4000,
-        variant: "destructive",
-      });
+      notify("Error in downloading image");
     }
   }
   return (

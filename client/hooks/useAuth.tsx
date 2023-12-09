@@ -1,7 +1,6 @@
 "use client";
 
 import { postData } from "@/api/api";
-import { toast } from "@/components/ui/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import { useAppContext } from "@/store/useAppContext";
@@ -9,6 +8,7 @@ import axios from "axios";
 import { AppError, User } from "@/types/types";
 import { useRouter } from "next/navigation";
 import jwt_decode from "jwt-decode";
+import useToast from "./useToast";
 
 type RegisterResponse = {
   message: string;
@@ -31,6 +31,7 @@ const useAuth = (endPoints: string) => {
   const [formData, setFormData] = useState(initialState);
   const { password, email, name, userName } = formData;
   const router = useRouter();
+  const { notify } = useToast();
 
   const RegisterData = {
     password,
@@ -57,10 +58,7 @@ const useAuth = (endPoints: string) => {
     },
     onSuccess: (data) => {
       if (state.authModal) {
-        toast({
-          description: data.message,
-          duration: 4000,
-        });
+        notify(data.message);
         setState((prev) => ({ ...prev, authModal: false }));
 
         setFormData(initialState);
@@ -86,11 +84,7 @@ const useAuth = (endPoints: string) => {
     },
     onError: (err: any) => {
       const errResponse: AppError = err.data;
-      toast({
-        description: errResponse.message,
-        duration: 4000,
-        variant: "destructive",
-      });
+      notify(errResponse.message);
       setState((prev) => ({ ...prev, isLoading: "" }));
     },
   });

@@ -6,7 +6,6 @@ import Action from "./action";
 import React from "react";
 import { usePost } from "@/store/usePostContext";
 import Preview from "./preview";
-import { toast } from "../ui/use-toast";
 import { postData, putData } from "@/api/api";
 import Loader from "../ui/loader/Loader";
 import Info from "./info";
@@ -16,6 +15,7 @@ import PollTime from "./poll-time";
 import moment from "moment";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 import RePostContent from "./repost-content";
+import useToast from "@/hooks/useToast";
 
 type CommonType = {
   image: any[];
@@ -57,13 +57,10 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
   const { title, pin, location, id, image, video } = formData;
   const size = preview.image.length + preview.video.length;
   const { invalidateKey } = useQueryInvalidate();
+  const { notify } = useToast();
 
   const toastMessage = (message: string) => {
-    toast({
-      title: message,
-      variant: "destructive",
-      duration: 3000,
-    });
+    notify(message);
   };
 
   const validatePost = () => {
@@ -230,10 +227,8 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
       setStatus((prev) => ({ ...prev, isLoading: false }));
     } catch (error) {
       setStatus((prev) => ({ ...prev, isLoading: false }));
-      toast({
-        variant: "destructive",
-        title: "Something went wrong,Try again later",
-      });
+
+      notify("Something went wrong,Try again later");
     }
   };
 

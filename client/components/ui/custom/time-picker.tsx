@@ -11,12 +11,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import Time from "@/common/time";
 import { usePost } from "@/store/usePostContext";
-import { toast } from "../use-toast";
 import { AlarmClock } from "lucide-react";
+import useToast from "@/hooks/useToast";
 
 const TimePicker = ({ name }: { name: string }) => {
   const { time, setTime, formatTime } = usePost();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { notify } = useToast();
 
   const { hour, minutes, type } = time;
 
@@ -57,11 +58,7 @@ const TimePicker = ({ name }: { name: string }) => {
           if (name === "Poll") {
             onOpen();
           } else {
-            toast({
-              title: "Poll time can't be edited.",
-              variant: "destructive",
-              duration: 40000,
-            });
+            notify("Poll time can't be edited.");
           }
         }}
       >

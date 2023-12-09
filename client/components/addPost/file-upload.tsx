@@ -1,21 +1,18 @@
 import { ChangeEvent } from "react";
-import { toast } from "@/components/ui/use-toast";
 import { previewFiles } from "@/utils/utils";
 import { usePost } from "@/store/usePostContext";
 import { FileUp } from "lucide-react";
+import useToast from "@/hooks/useToast";
 
 const FileUpload = () => {
   const { setPreview, setTempFileStore, preview, status } = usePost();
   const size = preview.image.length + preview.video.length;
+  const { notify } = useToast();
 
   const handleValidate = (e: ChangeEvent<HTMLInputElement>, size: number) => {
     if (e.target.files && e.target.files.length > 4) {
       getValidatedFiles([...e.target.files].slice(0, 4), size);
-      toast({
-        title: "Only 4 files accepted.",
-        variant: "destructive",
-        duration: 3000,
-      });
+      notify("Only 4 files accepted.");
       e.preventDefault();
     } else {
       if (e.target.files) {
@@ -52,20 +49,12 @@ const FileUpload = () => {
       }));
     } else {
       if (error) {
-        toast({
-          title: error,
-          variant: "destructive",
-          duration: 3000,
-        });
+        notify(error.toString());
       }
     }
 
     if (error) {
-      toast({
-        title: error,
-        variant: "destructive",
-        duration: 3000,
-      });
+      notify(error.toString());
     }
   };
 

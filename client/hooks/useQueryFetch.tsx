@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { getData } from "@/api/api";
 import { useAppContext } from "@/store/useAppContext";
-import { toast } from "@/components/ui/use-toast";
 import { AppError } from "@/types/types";
+import useToast from "./useToast";
 
 type QueryProps = {
   key: string;
@@ -18,6 +18,7 @@ const useQueryFetch = ({
   enabled,
 }: QueryProps) => {
   const { state } = useAppContext();
+  const { notify } = useToast();
 
   const {
     data: fetchResult,
@@ -38,11 +39,8 @@ const useQueryFetch = ({
         if (error.message === "Post not found") {
           return null;
         }
-        toast({
-          title: err.message || "Something went wrong while fetching data",
-          duration: 40000,
-          variant: "destructive",
-        });
+        notify(err.message || "Something went wrong while fetching data");
+
         return null;
       }
     },

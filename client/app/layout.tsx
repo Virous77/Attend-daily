@@ -4,7 +4,6 @@ import { Roboto } from "next/font/google";
 import { AppContextProvider } from "@/store/useAppContext";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import ReactQueryProvider from "@/lib/reactQueryProvider";
-import { Toaster } from "@/components/ui/toaster";
 import Navigation from "@/components/layout/navigation";
 import { cookies } from "next/headers";
 import { Providers } from "./Providers";
@@ -12,6 +11,7 @@ import { UserContextProvider } from "@/store/useUserContext";
 import GlobalPost from "@/components/addPost/global-button";
 import { PostContextProvider } from "@/store/usePostContext";
 import NavbarComp from "@/components/layout/Navbar";
+import { Toaster } from "react-hot-toast";
 
 export async function get() {
   const cookieStore = cookies();
@@ -72,7 +72,14 @@ export default async function RootLayout({
                   <PostContextProvider>
                     <NavbarComp isLoggedIn={value?.value} />
                     {children}
-                    <Toaster />
+                    <Toaster
+                      position="top-center"
+                      toastOptions={{
+                        custom: {
+                          duration: 3000,
+                        },
+                      }}
+                    />
                     <GlobalPost />
                     <Navigation isLoggedIn={value?.value} />
                   </PostContextProvider>

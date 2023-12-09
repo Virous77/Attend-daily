@@ -1,13 +1,15 @@
 import { deleteData } from "@/api/api";
 import { useMutation } from "@tanstack/react-query";
 import { useAppContext } from "@/store/useAppContext";
-import { toast } from "@/components/ui/use-toast";
+import useToast from "./useToast";
 
 type MutateType = {
   endPoint: string;
 };
 
 const useQueryDelete = () => {
+  const { notify } = useToast();
+
   const {
     state: { user },
   } = useAppContext();
@@ -36,7 +38,7 @@ const useQueryDelete = () => {
     },
 
     onError: (data: string) => {
-      toast({ title: data, variant: "destructive", duration: 4000 });
+      notify(data?.toString());
     },
   });
   return { mutateAsync, isPending };

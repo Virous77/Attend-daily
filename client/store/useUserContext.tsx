@@ -11,9 +11,9 @@ import {
 import useQueryFetch from "@/hooks/useQueryFetch";
 import useQueryPost from "@/hooks/useQueryPost";
 import { QueryResponse, QueryData } from "@/types/types";
-import { toast } from "@/components/ui/use-toast";
 import { useAppContext } from "./useAppContext";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
+import useToast from "@/hooks/useToast";
 
 export type stateType = {
   networkUser: string | null;
@@ -60,6 +60,7 @@ export const UserContextProvider = ({
   const {
     state: { user },
   } = useAppContext();
+  const { notify } = useToast();
 
   const {
     fetchResult: networkData,
@@ -80,10 +81,7 @@ export const UserContextProvider = ({
     });
     if (data.status) {
       invalidateKey(["user-network", `${userName}-userNetwork`]);
-      toast({
-        title: data.message,
-        duration: 3000,
-      });
+      notify(data.message?.toString());
     }
   };
 

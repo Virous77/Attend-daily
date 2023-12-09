@@ -12,12 +12,14 @@ import {
 } from "@nextui-org/react";
 import moment from "moment";
 import { usePost } from "@/store/usePostContext";
-import { toast } from "../use-toast";
 import { CalendarDays } from "lucide-react";
+import useToast from "@/hooks/useToast";
 
 export function DatePickerComp({ name }: { name: string }) {
   const { time, setTime } = usePost();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const { notify } = useToast();
+
 
   return (
     <>
@@ -26,11 +28,8 @@ export function DatePickerComp({ name }: { name: string }) {
           if (name === "Poll") {
             onOpen();
           } else {
-            toast({
-              title: "Poll date can't be edited.",
-              variant: "destructive",
-              duration: 40000,
-            });
+        
+            notify("Poll date can't be edited.");
           }
         }}
         className=" flex items-center gap-2 pl-3 cursor-pointer"
