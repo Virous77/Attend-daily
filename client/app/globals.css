@@ -87,17 +87,6 @@
   }
 }
 
-body::before {
-  content: "";
-  position: fixed;
-  z-index: 10000000;
-  top: -100px;
-  height: 100px;
-  right: 0;
-  left: 0;
-  background-color: var(--background);
-}
-
 .loaderIcon {
   animation: App-logo-spin infinite 5s linear;
 }
