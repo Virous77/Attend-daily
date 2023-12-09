@@ -25,7 +25,7 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: "Attend-daily",
+  title: "ChatX",
   description: "ChatX: Share your daily memories globally with your friends.",
   keywords: "social, messaging, connect, network",
   authors: [
@@ -37,6 +37,45 @@ export const metadata: Metadata = {
     { rel: "apple-touch-icon", url: "../public/AppImages/ios/128.png" },
     { rel: "icon", url: "../public/AppImages/ios/128.png" },
   ],
+  appleWebApp: {
+    title: "ChatX",
+    statusBarStyle: "black",
+    capable: true,
+  },
+  referrer: "origin",
+  robots: "index, follow",
+  openGraph: {
+    type: "website",
+    url: "https://attend-daily.vercel.app",
+    title: "ChatX",
+    description: "ChatX: Share your daily memories globally with your friends.",
+    siteName: "ChatX",
+    images: [
+      {
+        url: "https://res.cloudinary.com/dw6wav4jg/image/upload/v1698341564/wnqjq5vvhux84afvmpra.jpg",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    site: "@iMBitcoinB",
+    creator: "@iMBitcoinB",
+    images:
+      "https://res.cloudinary.com/dw6wav4jg/image/upload/v1698341564/wnqjq5vvhux84afvmpra.jpg",
+    title: "ChatX",
+    description: "ChatX: Share your daily memories globally with your friends.",
+  },
+  category: "social",
+  creator: "Reetesh Kumar",
+  publisher: "Vercel",
+  metadataBase: new URL("https://attend-daily.vercel.app"),
+  alternates: {
+    canonical: "/",
+    languages: {
+      "en-US": "/en-US",
+      "de-DE": "/de-DE",
+    },
+  },
 };
 
 export default async function RootLayout({
@@ -55,10 +94,8 @@ export default async function RootLayout({
           name="viewport"
           content="width=device-width initial-scale=1 viewport-fit=cover maximum-scale=1 user-scalable=no"
         />
-        <meta name="robots" content="index, follow" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta property="twitter:url" content="attend-daily.vercel.app" />
       </head>
       <body className={roboto.className}>
         <ThemeProvider

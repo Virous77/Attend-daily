@@ -75,8 +75,12 @@ export const checkUserName = handleCallback(async (req, res) => {
 });
 
 export const status = handleCallback(async (req, res) => {
+  const { _id } = req.user._doc;
+
+  const user = await userModel.findById(_id).select("-password");
+
   sendResponse({
-    data: { ...req.user._doc, token: req.token },
+    data: { ...user._doc, token: req.token },
     message: "User status fetched successfully",
     status: true,
     res,

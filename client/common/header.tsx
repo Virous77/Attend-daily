@@ -14,7 +14,7 @@ const Header: React.FC<HeaderProps> = ({ children, name, close }) => {
   const router = useRouter();
   return (
     <nav
-      className=" fixed top-0 left-0 w-full p-4 bg-background flex items-center justify-between z-[100]"
+      className=" fixed top-0 left-0 w-full py-4 px-3 bg-background flex items-center justify-between z-[100]"
       style={{ boxShadow: "var(--shadow)" }}
     >
       <MoveLeft

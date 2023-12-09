@@ -19,6 +19,7 @@ export type User = {
   userName: string;
   bio: string;
   token: string;
+  country: string;
 };
 
 export type NetworkUser = {

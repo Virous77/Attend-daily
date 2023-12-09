@@ -14,7 +14,7 @@ export const updateUser = handleCallback(async (req, res, next) => {
 
   const packet = {
     ...rest,
-    image: image.length > 0 ? image[0].secure_url : req.user.image,
+    image: image ? image[0].secure_url : req.user.image,
   };
 
   await userModel.findByIdAndUpdate(req.user._id, packet);
@@ -76,6 +76,8 @@ export const getUser = handleCallback(async (req, res, next) => {
   const userName = req.params.id;
 
   const user = await userModel.findOne({ userName }).select("-password");
+
+  console.log(user);
 
   if (!user)
     return next(createError({ message: "User not found", status: 400 }));

@@ -4,12 +4,12 @@ import { Card } from "@nextui-org/react";
 import { ChevronRight } from "lucide-react";
 import { Tabs } from "@/utils/utils";
 import useAuth from "@/hooks/useAuth";
-import AccountData from "./account/account-data";
 import { useState } from "react";
+import Common from "./common";
 
 const TabList = () => {
   const { handleLogout } = useAuth("/api/logout");
-  const [open, setOpen] = useState("");
+  const [open, setOpen] = useState<string | undefined>(undefined);
 
   const handleOperation = (name: string) => {
     if (name === "Logout") {
@@ -44,7 +44,7 @@ const TabList = () => {
           </Card>
         ))}
       </ul>
-      <AccountData open={open} setOpen={setOpen} />
+      <Common open={open} setOpen={setOpen} />
     </section>
   );
 };
