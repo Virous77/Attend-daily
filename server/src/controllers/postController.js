@@ -406,7 +406,7 @@ export const addVote = handleCallback(async (req, res, next) => {
   });
 });
 
-export const userPinPost = handleCallback(async (req, res, next) => {
+export const userPinPost = handleCallback(async (req, res) => {
   const id = req.user._id;
 
   const isUserPost = await executePostQuery(
@@ -422,5 +422,35 @@ export const userPinPost = handleCallback(async (req, res, next) => {
     message: "Post pinned Successfully",
     res,
     data: isUserPost,
+  });
+});
+
+export const toggleUserPinPost = handleCallback(async (req, res) => {
+  const { type, postId } = req.query;
+
+  if (type === "false") {
+    await postModel.findOneAndUpdate(
+      { userId: req.user._id, pin: true },
+      {
+        pin: false,
+      }
+    );
+  }
+
+  const updatedPost = await postModel.findOneAndUpdate(
+    { userId: req.user._id, _id: postId },
+    { $set: { pin: type === "true" ? false : true } },
+    { new: true }
+  );
+
+  if (!updatedPost) {
+    throw new Error("You are not authorized for this action");
+  }
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: `Post ${type === "true" ? "Unpinned" : "Pinned"} Successfully`,
+    res,
   });
 });

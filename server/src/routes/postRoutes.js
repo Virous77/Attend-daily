@@ -9,6 +9,7 @@ import {
   getSinglePost,
   getUserPosts,
   getUserPostsByType,
+  toggleUserPinPost,
   updatePost,
   uploadFiles,
   userPinPost,
@@ -32,6 +33,7 @@ router.put("/post", [authenticate], updatePost);
 router.delete("/post/:id", [authenticate], deletePost);
 router.post("/upload", [authenticate], uploadFiles);
 router.put("/vote", [authenticate], addVote);
+router.put("/pin", [authenticate], toggleUserPinPost);
 
 //*Like
 router.put("/like", [authenticate], addPostLike);

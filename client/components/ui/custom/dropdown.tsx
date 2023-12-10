@@ -11,6 +11,8 @@ import {
   FileSignature,
   Flag,
   MoreHorizontal,
+  Pin,
+  PinOff,
   Trash2,
   UserMinus,
   UserPlus,
@@ -20,6 +22,10 @@ import { PostProps } from "@/common/post";
 import { useUserContext } from "@/store/useUserContext";
 import { usePost } from "@/store/usePostContext";
 import moment from "moment";
+import { CompletePost } from "@/types/types";
+import useQueryPut from "@/hooks/useQueryPut";
+import useQueryInvalidate from "@/hooks/useQueryInvalidate";
+import { invalidateServerQuery } from "@/api/action";
 
 const Dropdown: React.FC<PostProps> = ({ post }) => {
   const {
@@ -30,6 +36,8 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
   const { networkData, handleFollow } = useUserContext();
   const { modal, setPreview, setFormData, setChoice, setTime } = usePost();
   const followedId = networkData?.data?.following?.map((id) => id.id._id);
+  const { isPending, mutateAsync } = useQueryPut();
+  const { invalidateKey } = useQueryInvalidate();
 
   const handleEdit = ({ post }: PostProps) => {
     setActiveType(post.postType === "post" ? "edit-post" : "edit-poll");
@@ -56,6 +64,23 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
       }));
     }
     modal.onOpen();
+  };
+
+  const handlePin = async (post: CompletePost) => {
+    if (isPending) return;
+    const res = await mutateAsync({
+      endPoint: `pin?postId=${post._id}&type=${post.pin}`,
+      data: {},
+    });
+    if (res.status) {
+      invalidateKey([
+        "feedhome feed",
+        "feedposts",
+        "feedpolls",
+        `${post.userId._id}-post`,
+      ]);
+      invalidateServerQuery("userPin");
+    }
   };
 
   return (
@@ -96,6 +121,42 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
                       <span className=" text-[13px]">
                         @{post.userId.userName}
                       </span>
+                    </span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              )}
+            </>
+          )}
+
+          {post.userId._id === user?._id && (
+            <>
+              {!post.pin ? (
+                <>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => {
+                      handlePin(post);
+                    }}
+                  >
+                    <Pin className="mr-2 " size={20} />
+                    <span>
+                      Pin {post.postType === "poll" ? "Poll" : "Post"}
+                    </span>
+                  </DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                </>
+              ) : (
+                <>
+                  <DropdownMenuItem
+                    className="cursor-pointer"
+                    onClick={() => {
+                      handlePin(post);
+                    }}
+                  >
+                    <PinOff className="mr-2 " size={20} />
+                    <span>
+                      Unpin {post.postType === "poll" ? "Poll" : "Post"}
                     </span>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />

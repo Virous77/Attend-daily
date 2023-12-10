@@ -38,18 +38,33 @@ const AccountData = () => {
     <React.Fragment>
       {!update && (
         <div className=" mt-14 p-3 flex flex-col gap-3">
-          <div className=" flex items-center justify-between">
-            <b>Username</b>
-            <span className=" opacity-70">@{user?.userName}</span>
+          <div>
+            <div className="flex items-center justify-between mb-2">
+              <b>Username</b>
+              <span className=" opacity-70">@{user?.userName}</span>
+            </div>
+
+            <p className=" opacity-70 text-[14px] leading-[1.2]">
+              This username is unique and act like identify when other user
+              search you. You can change it anytime but depend on availability
+              of that new username.
+            </p>
           </div>
-          <div className=" flex items-center justify-between">
+          <div className=" flex items-center justify-between mt-2">
             <b>Email</b>
             <span className=" opacity-70">{user?.email}</span>
           </div>
 
-          <div className=" flex items-center justify-between">
-            <b>Country</b>
-            <span className=" opacity-70">{user?.country || "India"}</span>
+          <div>
+            <div className=" flex items-center justify-between mb-2">
+              <b>Country</b>
+              <span className=" opacity-70">{user?.country || "India"}</span>
+            </div>
+
+            <p className=" opacity-70 text-[14px] leading-[1.2]">
+              This will help us to show you relevant content. You can update it
+              with your current location.
+            </p>
           </div>
 
           <Button
