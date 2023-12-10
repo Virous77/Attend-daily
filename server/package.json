@@ -1,7 +1,7 @@
 {
-  "name": "attend-daily",
+  "name": "chatx",
   "version": "1.0.0",
-  "description": "Attend-daily backend",
+  "description": "ChatX backend",
   "main": "server.js",
   "type": "module",
   "scripts": {
@@ -9,8 +9,8 @@
     "dev": "./start.sh"
   },
   "keywords": [
-    "attendance",
-    "job"
+    "social",
+    "network"
   ],
   "author": "Reetesh Kumar",
   "license": "ISC",

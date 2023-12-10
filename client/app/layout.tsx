@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   robots: "index, follow",
   openGraph: {
     type: "website",
-    url: "https://attend-daily.vercel.app",
+    url: "https://chatx.vercel.app",
     title: "ChatX",
     description: "ChatX: Share your daily memories globally with your friends.",
     siteName: "ChatX",
@@ -68,7 +68,7 @@ export const metadata: Metadata = {
   category: "social",
   creator: "Reetesh Kumar",
   publisher: "Vercel",
-  metadataBase: new URL("https://attend-daily.vercel.app"),
+  metadataBase: new URL("https://chatx.vercel.app"),
   alternates: {
     canonical: "/",
     languages: {

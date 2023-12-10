@@ -12,6 +12,7 @@ import {
 import { MainComments, User } from "@/types/types";
 import { useDisclosure } from "@nextui-org/react";
 import { getLocalData } from "@/utils/utils";
+import { AppLoad } from "@/components/skeleton/skeleton";
 
 export type ModalType = {
   isOpen: boolean;
@@ -136,7 +137,7 @@ export const AppContextProvider = ({
     secondComment: true,
   });
 
-  const { refetch, isPending } = useQuery({
+  const { refetch, isPending, isLoading } = useQuery({
     staleTime: Number(process.env.NEXT_PUBLIC_QUERY_STALE_TIME),
     queryKey: ["user"],
     queryFn: async () => {
@@ -177,7 +178,7 @@ export const AppContextProvider = ({
         setInfiniteQuery,
       }}
     >
-      {children}
+      {isLoading ? <AppLoad /> : children}
     </AppContext.Provider>
   );
 };

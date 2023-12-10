@@ -2,6 +2,7 @@ import { Button, Card, Image, Skeleton } from "@nextui-org/react";
 import React from "react";
 import { useRouter } from "next/navigation";
 import notFound from "../../public/notfound.svg";
+import Logo from "../../public/AppImages/android-chrome-512x512.png";
 
 export const FeedSkeleton = () => {
   return (
@@ -94,6 +95,17 @@ export const CommentSkeleton = () => {
             </div>
           </React.Fragment>
         ))}
+      </div>
+    </div>
+  );
+};
+
+export const AppLoad = () => {
+  return (
+    <div className=" fixed top-0 left-0 bg-background w-full h-screen z-[1000000000000] flex items-center justify-center">
+      <div className=" flex flex-col gap-3 items-center justify-center">
+        <Image src={Logo.src} alt="ChatX" isBlurred width={120} height={120} />
+        <p className=" text-[13px] text-center">Loading...</p>
       </div>
     </div>
   );
