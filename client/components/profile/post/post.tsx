@@ -10,12 +10,15 @@ import {
   ThreeDotsSkeleton,
 } from "@/components/skeleton/skeleton";
 import { CompletePost } from "@/types/types";
+import PostCommon from "@/common/post";
+import { invalidateServerQuery } from "@/api/action";
 
-type PostProps = {
+type TPost = {
   id: string;
+  pinPost: CompletePost | null;
 };
 
-const Post: React.FC<PostProps> = ({ id }) => {
+const Post: React.FC<TPost> = ({ id, pinPost }) => {
   const { invalidateKey } = useQueryInvalidate();
   const {
     postData,
@@ -33,6 +36,7 @@ const Post: React.FC<PostProps> = ({ id }) => {
 
   const handleRefresh = async () => {
     invalidateKey([`${id}-post`]);
+    invalidateServerQuery("userPin");
   };
 
   return (
@@ -47,9 +51,10 @@ const Post: React.FC<PostProps> = ({ id }) => {
                 dataLength={postData ? postData.length + 1 : 1}
                 next={() => infiniteQuery.userAllPost && fetchNextPage()}
                 hasMore={infiniteQuery.userAllPost}
-                loader={<p>Loading...</p>}
+                loader={null}
               >
                 <ul className="flex flex-col gap-4 mt-3">
+                  {pinPost && <PostCommon post={pinPost} type="profile" />}
                   {postData &&
                     postData.map((post) => (
                       <PostList post={post} key={post._id} />

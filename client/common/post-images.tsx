@@ -39,7 +39,6 @@ const PostImages: React.FC<PostImagesProps> = ({ image }) => {
               className=" rounded-[15px]"
               placeholder="blur"
               classNames={{ wrapper: " rounded-[10px]" }}
-              onClick={() => console.log(img)}
             />
           ))}
         </Carousel>

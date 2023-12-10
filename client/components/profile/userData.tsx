@@ -8,25 +8,31 @@ import Content from "./content";
 import { useUserContext } from "@/store/useUserContext";
 import useQueryFetch from "@/hooks/useQueryFetch";
 import { useParams } from "next/navigation";
-import { QueryData, QueryResponse, User, UserNetwork } from "@/types/types";
+import {
+  CompletePost,
+  QueryData,
+  QueryResponse,
+  User,
+  UserNetwork,
+} from "@/types/types";
 import Network from "./network";
 import ProfileAction from "./profile-action";
 import FullImage from "@/common/full-image";
 import { Pencil } from "lucide-react";
 
-type Response = QueryResponse & {
+type TResponse = QueryResponse & {
   fetchResult: QueryData & {
     data: User;
   };
 };
 
-type NetworkResponse = QueryResponse & {
+type TNetworkResponse = QueryResponse & {
   fetchResult: QueryData & {
     data: UserNetwork;
   };
 };
 
-export type StateType = {
+export type TState = {
   name: string;
   image: string | ArrayBuffer;
   bio: string;
@@ -35,10 +41,14 @@ export type StateType = {
   previewImage: string;
 };
 
-const UserData = () => {
+type TUserData = {
+  pinPost: CompletePost | null;
+};
+
+const UserData: React.FC<TUserData> = ({ pinPost }) => {
   const { state, isPending } = useAppContext();
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [open, setOpen] = useState<StateType>({
+  const [open, setOpen] = useState<TState>({
     image: "",
     name: "",
     bio: "",
@@ -48,7 +58,7 @@ const UserData = () => {
   });
   const { networkData } = useUserContext();
   const { name }: { name: string } = useParams();
-  const { fetchResult, isPending: isLoading }: Response = useQueryFetch({
+  const { fetchResult, isPending: isLoading }: TResponse = useQueryFetch({
     endPoints: `profile/${name}`,
     key: `${name}-user`,
     enabled: true,
@@ -56,11 +66,13 @@ const UserData = () => {
 
   const isOtherUserMount = state.user?.userName !== name ? true : false;
 
-  const { fetchResult: otherUserNetworkData }: NetworkResponse = useQueryFetch({
-    endPoints: `user/network/${name}`,
-    key: `${name}-userNetwork`,
-    enabled: isOtherUserMount ? true : false,
-  });
+  const { fetchResult: otherUserNetworkData }: TNetworkResponse = useQueryFetch(
+    {
+      endPoints: `user/network/${name}`,
+      key: `${name}-userNetwork`,
+      enabled: isOtherUserMount ? true : false,
+    }
+  );
 
   const handleSetUserState = (user: User | null) => {
     if (!user) return;
@@ -139,7 +151,7 @@ const UserData = () => {
       ) : (
         <Skeleton className=" mt-[18px] h-3 w-[150px]" />
       )}
-      <Content id={fetchResult.data._id} />
+      <Content id={fetchResult.data._id} pinPost={pinPost} />
       <EditProfile open={open} setOpen={setOpen} />
       <FullImage
         isOpen={isOpen}

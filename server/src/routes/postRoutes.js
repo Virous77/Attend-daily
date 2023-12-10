@@ -11,6 +11,7 @@ import {
   getUserPostsByType,
   updatePost,
   uploadFiles,
+  userPinPost,
 } from "../controllers/postController.js";
 import { createPoll, updatePoll } from "../controllers/pollController.js";
 import {
@@ -40,6 +41,7 @@ router.get("/post/all/:id", [authenticate], getUserPosts);
 router.get("/post/type/:id/:type", [authenticate], getUserPostsByType);
 router.get("/feed/post", [authenticate], getPosts);
 router.get("/post/:id", [authenticate], getSinglePost);
+router.get("/pin", [authenticate], userPinPost);
 
 //*Poll
 router.post("/poll", [authenticate, PollValidate], createPoll);

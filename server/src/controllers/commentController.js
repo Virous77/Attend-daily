@@ -49,9 +49,7 @@ export const deleteComment = handleCallback(async (req, res, next) => {
 
   if (req.query.type === "parent") {
     await commentModel.findByIdAndDelete(id);
-    console.log("ok");
   } else {
-    console.log("no");
     await commentReplies.findByIdAndDelete(id);
     await commentModel.findByIdAndUpdate(isUserComment.commentId, {
       $inc: { totalComments: -1 },

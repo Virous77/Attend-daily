@@ -77,8 +77,6 @@ export const getUser = handleCallback(async (req, res, next) => {
 
   const user = await userModel.findOne({ userName }).select("-password");
 
-  console.log(user);
-
   if (!user)
     return next(createError({ message: "User not found", status: 400 }));
 

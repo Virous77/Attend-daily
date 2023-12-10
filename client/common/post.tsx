@@ -7,7 +7,7 @@ import PostImages from "./post-images";
 import PostVideos from "./post-videos";
 import PostAction from "./postAction";
 import PollComp from "@/components/poll/poll";
-import { Repeat2 } from "lucide-react";
+import { Pin, Repeat2 } from "lucide-react";
 import { useAppContext } from "@/store/useAppContext";
 import { useRouter } from "next/navigation";
 import RePostContent from "@/components/addPost/repost-content";
@@ -15,9 +15,10 @@ import { CompletePost } from "@/types/types";
 
 export type PostProps = {
   post: CompletePost;
+  type?: string;
 };
 
-const PostCommon: React.FC<PostProps> = ({ post }) => {
+const PostCommon: React.FC<PostProps> = ({ post, type }) => {
   const {
     state: { user },
   } = useAppContext();
@@ -31,6 +32,13 @@ const PostCommon: React.FC<PostProps> = ({ post }) => {
           <span onClick={() => router.push(`/profile/${post.userId.userName}`)}>
             {name} reposted
           </span>
+        </div>
+      )}
+
+      {type === "profile" && (
+        <div className=" flex items-center gap-2 pl-8 pb-2">
+          <Pin color="green" size={19} />{" "}
+          <span className="text-[13px]">Pinned Post</span>
         </div>
       )}
       <Author post={post} />

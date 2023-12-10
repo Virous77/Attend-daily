@@ -5,16 +5,21 @@ import { createError, handleCallback, sendResponse } from "../utils/utils.js";
 
 export const createPoll = handleCallback(async (req, res) => {
   const user = req.user;
-  const { title, postType, location, image, video, choice, expiryDate } =
-    req.body;
+  const { choice, expiryDate, pin, ...rest } = req.body;
   const packet = {
     userId: user._id,
-    title,
-    postType,
-    location,
-    image,
-    video,
+    pin,
+    ...rest,
   };
+
+  if (pin === true) {
+    await postModel.findOneAndUpdate(
+      { userId: user._id, pin: true },
+      {
+        pin: false,
+      }
+    );
+  }
 
   const newPost = new postModel(packet);
   await newPost.save();
@@ -48,17 +53,7 @@ export const createPoll = handleCallback(async (req, res) => {
 
 export const updatePoll = handleCallback(async (req, res, next) => {
   const user = req.user;
-  const {
-    title,
-    postType,
-    location,
-    image,
-    video,
-    id,
-    deleteFiles,
-    choice,
-    expiryDate,
-  } = req.body;
+  const { id, deleteFiles, choice, expiryDate, ...rest } = req.body;
 
   const isUserPost = await postModel.findById(id);
   if (!isUserPost.userId.equals(user._id))
@@ -71,11 +66,7 @@ export const updatePoll = handleCallback(async (req, res, next) => {
 
   const packet = {
     userId: user._id,
-    title,
-    postType,
-    location,
-    image,
-    video,
+    ...rest,
   };
 
   const pollPacket = {

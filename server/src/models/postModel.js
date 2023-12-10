@@ -21,7 +21,6 @@ const PostSchema = new mongoose.Schema(
     },
     pin: {
       type: Boolean,
-      default: false,
     },
     postType: {
       type: String,

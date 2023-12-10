@@ -77,15 +77,19 @@ export const toggleLikeInComment = async ({
 
 export const createPost = handleCallback(async (req, res) => {
   const user = req.user;
-  const { title, postType, location, image, video } = req.body;
   const packet = {
     userId: user._id,
-    title,
-    postType,
-    location,
-    image,
-    video,
+    ...req.body,
   };
+
+  if (req.body.pin === true) {
+    await postModel.findOneAndUpdate(
+      { userId: user._id, pin: true },
+      {
+        pin: false,
+      }
+    );
+  }
 
   const newPost = new postModel(packet);
   await newPost.save();
@@ -104,7 +108,7 @@ export const createPost = handleCallback(async (req, res) => {
 
 export const updatePost = handleCallback(async (req, res, next) => {
   const user = req.user;
-  const { title, postType, location, image, video, id, deleteFiles } = req.body;
+  const { id, deleteFiles, ...rest } = req.body;
 
   const isUserPost = await postModel.findById(id);
   if (!isUserPost.userId.equals(user._id))
@@ -117,11 +121,7 @@ export const updatePost = handleCallback(async (req, res, next) => {
 
   const packet = {
     userId: user._id,
-    title,
-    postType,
-    location,
-    image,
-    video,
+    ...rest,
   };
 
   await postModel.findByIdAndUpdate(id, packet);
@@ -277,7 +277,7 @@ export const getUserPosts = handleCallback(async (req, res, next) => {
   const { pageNumber, pageSize } = req.query;
 
   const posts = await executePostQuery(
-    { userId: id },
+    { userId: id, pin: false },
     true,
     pageNumber,
     pageSize
@@ -398,11 +398,29 @@ export const addVote = handleCallback(async (req, res, next) => {
     { arrayFilters: [{ index: index }] }
   );
 
-  console.log(vote);
   sendResponse({
     status: true,
     code: 200,
     message: "Votes added Successfully",
     res,
+  });
+});
+
+export const userPinPost = handleCallback(async (req, res, next) => {
+  const id = req.user._id;
+
+  const isUserPost = await executePostQuery(
+    { userId: id, pin: true },
+    true,
+    1,
+    1
+  );
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Post pinned Successfully",
+    res,
+    data: isUserPost,
   });
 });
