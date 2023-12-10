@@ -261,7 +261,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
         </>
       )}
 
-      <div className=" pl-14 mt-6 flex items-center gap-2">
+      <div className="mt-6 flex items-center gap-2">
         <Switch
           defaultChecked={pin}
           color="success"
@@ -277,7 +277,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
         <Info name={name} />
       </div>
 
-      <div className="pl-14 mt-6">
+      <div className="mt-6">
         <Input
           type="text"
           label="Location"

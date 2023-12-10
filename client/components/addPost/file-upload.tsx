@@ -60,7 +60,7 @@ const FileUpload = () => {
 
   return (
     <>
-      <div className=" border-dotted border-local p-4 flex items-center justify-center  mt-6 ml-14">
+      <div className=" border-dotted border-local p-4 flex items-center justify-center  mt-6">
         <input
           type="file"
           id="fileInput"

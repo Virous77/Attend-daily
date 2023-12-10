@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { usePost } from "@/store/usePostContext";
 import { Input } from "@nextui-org/react";
-import { Copy, MinusCircle } from "lucide-react";
+import { CopyPlus, MinusCircle } from "lucide-react";
 
 const Choice = ({ name, pollTime }: { name: string; pollTime: number }) => {
   const [choiceCount, setChoiceCount] = useState([1, 2]);
@@ -38,7 +38,7 @@ const Choice = ({ name, pollTime }: { name: string; pollTime: number }) => {
 
   return (
     <>
-      <div className=" pl-14 mt-4 flex flex-col gap-3">
+      <div className="mt-4 flex flex-col gap-3">
         {choiceMap.map((_, idx) => (
           <div key={idx}>
             <div className="space-y-1">
@@ -77,7 +77,7 @@ const Choice = ({ name, pollTime }: { name: string; pollTime: number }) => {
               onClick={handleChoice}
               className=" flex items-center gap-3 justify-center mt-3 cursor-pointer"
             >
-              <Copy size={23} /> Add Choice
+              <CopyPlus size={23} /> Add Choice
             </div>
           )}
         </>

@@ -3,7 +3,7 @@ import TimePicker from "../ui/custom/time-picker";
 
 const PollTime = ({ name }: { name: string }) => {
   return (
-    <div className=" mt-6 pb-3 pl-14">
+    <div className=" mt-6 pb-3">
       <h1
         className=" uppercase opacity-75 pb-2 pl-1"
         style={{ letterSpacing: "3px" }}

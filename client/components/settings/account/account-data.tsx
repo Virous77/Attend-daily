@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import useQueryPut from "@/hooks/useQueryPut";
 import LoaderComp from "@/components/ui/loader/Loader";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
+import Username from "@/common/username";
 
 const AccountData = () => {
   const {
@@ -14,20 +15,24 @@ const AccountData = () => {
     userName: user?.userName,
     email: user?.email,
     country: user?.country || "India",
+    error: false,
   });
   const { mutateAsync, isPending } = useQueryPut();
   const { invalidateKey } = useQueryInvalidate();
 
   const handleFormSubmit = async () => {
+    const { error, ...rest } = formData;
     const data = await mutateAsync({
       endPoint: "/user",
-      data: formData,
+      data: rest,
     });
     if (data.status) {
       invalidateKey([`user`]);
       setUpdate(false);
     }
   };
+
+  const isExist = formData.error && user?.userName !== formData.userName;
 
   return (
     <React.Fragment>
@@ -61,14 +66,13 @@ const AccountData = () => {
       {update && (
         <div className=" mt-14 p-3">
           <div className=" flex flex-col gap-4">
-            <Input
-              label="Username"
-              value={formData?.userName}
-              disabled={isPending}
-              variant="bordered"
+            <Username
+              errorCheck={true}
+              value={formData.userName!}
               onChange={(e) =>
-                setFormData((prev) => ({ ...prev, userName: e.target.value }))
+                setFormData((prev) => ({ ...prev, userName: e }))
               }
+              onError={(e) => setFormData((prev) => ({ ...prev, error: e }))}
             />
 
             <Input
@@ -102,10 +106,10 @@ const AccountData = () => {
               Cancel
             </Button>
             <Button
-              variant={isPending ? "faded" : "shadow"}
+              variant={isPending || isExist ? "faded" : "shadow"}
               color="primary"
               className=" w-full"
-              disabled={isPending}
+              disabled={isPending || isExist}
               onClick={handleFormSubmit}
             >
               {isPending ? <LoaderComp /> : "Save Changes"}

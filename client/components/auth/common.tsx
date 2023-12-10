@@ -2,16 +2,9 @@ import React, { useState } from "react";
 import styles from "./form.module.scss";
 import { useAppContext } from "@/store/useAppContext";
 import Loader from "../ui/loader/Loader";
-import {
-  Button,
-  Checkbox,
-  CircularProgress,
-  Input,
-  ModalFooter,
-} from "@nextui-org/react";
+import { Button, Checkbox, Input, ModalFooter } from "@nextui-org/react";
 import { Eye, EyeOff } from "lucide-react";
-import axios from "axios";
-import { base_url } from "@/api/api";
+import Username from "@/common/username";
 
 type FormData = {
   email: string;
@@ -40,40 +33,7 @@ const Common: React.FC<PropsType> = ({
   const componentType = state.authModal ? "SIGN UP" : "SIGN IN";
   const [isVisible, setIsVisible] = useState(false);
   const toggleVisibility = () => setIsVisible(!isVisible);
-  const [timer, setTimer] = useState<any>(undefined);
-  const [exist, setExist] = useState("initial");
-
-  const handleInputChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const value = event.target.value;
-    clearTimeout(timer);
-
-    const newTimer = setTimeout(async () => {
-      try {
-        if (value.length > 0) {
-          setExist("loading");
-          const { data } = await axios.get(
-            `${base_url}username?username=${value}`
-          );
-          if (data.status) {
-            if (data.data) {
-              setExist("exist");
-            } else {
-              setExist("success");
-            }
-          } else {
-            setExist("error");
-          }
-        }
-      } catch (error) {
-        setExist("error");
-      }
-    }, 500);
-
-    setTimer(newTimer);
-    handleChange(event);
-  };
+  const [exist, setExist] = useState(false);
 
   return (
     <>
@@ -93,23 +53,13 @@ const Common: React.FC<PropsType> = ({
             </div>
 
             <div className={styles.box}>
-              <Input
-                id="userName"
-                className="col-span-3"
-                onChange={handleInputChange}
+              <Username
+                errorCheck={false}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, userName: e }))
+                }
                 value={formData.userName}
-                variant="bordered"
-                type="text"
-                label="UserName"
-                isInvalid={exist === "exist" ? true : false}
-                errorMessage={
-                  exist === "exist" ? "Username already exist" : null
-                }
-                endContent={
-                  exist === "loading" ? (
-                    <CircularProgress size="sm" aria-label="Loading..." />
-                  ) : null
-                }
+                onError={(e) => setExist(e)}
               />
             </div>
           </>
@@ -191,7 +141,7 @@ const Common: React.FC<PropsType> = ({
             type="submit"
             className="rounded w-full"
             onClick={handleFormSubmit}
-            disabled={isLoading || exist === "exist" ? true : false}
+            disabled={isLoading || exist}
             variant={isLoading ? "ghost" : "shadow"}
             color="primary"
           >
