@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Sheet, SheetContent, SheetFooter } from "@/components/ui/sheet";
 import { Avatar, Button, Input } from "@nextui-org/react";
-import { StateType } from "./userData";
+import { TState } from "./userData";
 import { useMutation } from "@tanstack/react-query";
 import { putData } from "@/api/api";
 import { useAppContext } from "@/store/useAppContext";
@@ -13,8 +13,8 @@ import { UploadCloud } from "lucide-react";
 import useToast from "@/hooks/useToast";
 
 type EditProfileProps = {
-  open: StateType;
-  setOpen: React.Dispatch<React.SetStateAction<StateType>>;
+  open: TState;
+  setOpen: React.Dispatch<React.SetStateAction<TState>>;
 };
 
 const EditProfile: React.FC<EditProfileProps> = ({ open, setOpen }) => {
