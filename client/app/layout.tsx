@@ -12,6 +12,7 @@ import GlobalPost from "@/components/addPost/global-button";
 import { PostContextProvider } from "@/store/usePostContext";
 import NavbarComp from "@/components/layout/Navbar";
 import { Toaster } from "react-hot-toast";
+import View from "@/components/mobile-only/view";
 
 export async function get() {
   const cookieStore = cookies();
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
   robots: "index, follow",
   openGraph: {
     type: "website",
-    url: "https://chatx.vercel.app",
+    url: "https://chatxe.vercel.app",
     title: "ChatX",
     description: "ChatX: Share your daily memories globally with your friends.",
     siteName: "ChatX",
@@ -68,7 +69,7 @@ export const metadata: Metadata = {
   category: "social",
   creator: "Reetesh Kumar",
   publisher: "Vercel",
-  metadataBase: new URL("https://chatx.vercel.app"),
+  metadataBase: new URL("https://chatxe.vercel.app"),
   alternates: {
     canonical: "/",
     languages: {
@@ -104,31 +105,33 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Providers>
-            <ReactQueryProvider>
-              <AppContextProvider>
-                <UserContextProvider>
-                  <PostContextProvider>
-                    <NavbarComp isLoggedIn={value?.value} />
-                    {children}
-                    <Toaster
-                      position="top-center"
-                      toastOptions={{
-                        custom: {
-                          duration: 3000,
-                          style: {
-                            zIndex: "100000000",
+          <View>
+            <Providers>
+              <ReactQueryProvider>
+                <AppContextProvider>
+                  <UserContextProvider>
+                    <PostContextProvider>
+                      <NavbarComp isLoggedIn={value?.value} />
+                      {children}
+                      <Toaster
+                        position="top-center"
+                        toastOptions={{
+                          custom: {
+                            duration: 3000,
+                            style: {
+                              zIndex: "100000000",
+                            },
                           },
-                        },
-                      }}
-                    />
-                    <GlobalPost />
-                    <Navigation isLoggedIn={value?.value} />
-                  </PostContextProvider>
-                </UserContextProvider>
-              </AppContextProvider>
-            </ReactQueryProvider>
-          </Providers>
+                        }}
+                      />
+                      <GlobalPost />
+                      <Navigation isLoggedIn={value?.value} />
+                    </PostContextProvider>
+                  </UserContextProvider>
+                </AppContextProvider>
+              </ReactQueryProvider>
+            </Providers>
+          </View>
         </ThemeProvider>
       </body>
     </html>
