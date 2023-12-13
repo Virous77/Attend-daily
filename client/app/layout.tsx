@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Roboto } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { AppContextProvider } from "@/store/useAppContext";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import ReactQueryProvider from "@/lib/reactQueryProvider";
@@ -20,7 +20,7 @@ export async function get() {
   return cookie;
 }
 
-const roboto = Roboto({
+const inter = Poppins({
   weight: "400",
   subsets: ["latin"],
 });
@@ -96,9 +96,9 @@ export default async function RootLayout({
           content="width=device-width initial-scale=1 viewport-fit=cover maximum-scale=1 user-scalable=no"
         />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta property="twitter:url" content="attend-daily.vercel.app" />
+        <meta property="twitter:url" content="chatxe.vercel.app" />
       </head>
-      <body className={roboto.className}>
+      <body className={inter.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"
