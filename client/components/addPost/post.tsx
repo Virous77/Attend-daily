@@ -100,7 +100,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
     const pollTime = `${time.hour}:${Number(time.minutes) + 1} ${time.type}`;
     const formatDate = moment(time.date).format("YYYY-MM-DD");
     const date = new Date(`${formatDate} ${pollTime}`).getTime();
-
+    console.log(date);
     return date;
   };
 
@@ -198,7 +198,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
         const pollPacket = {
           ...postPacket,
           choice,
-          expiryDate: String(commonDate()),
+          expiryDate: commonDate(),
         };
         await handleCreatePoll(pollPacket);
       }
