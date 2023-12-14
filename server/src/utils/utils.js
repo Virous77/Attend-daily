@@ -1,8 +1,11 @@
+import errorLogModel from "../models/errorLogModel.js";
+
 export const handleCallback = (callback) => {
   return async (req, res, next) => {
     try {
       await callback(req, res, next);
     } catch (error) {
+      await errorLogModel.create({ error: JSON.stringify(error) });
       next(error);
     }
   };

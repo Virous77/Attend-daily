@@ -26,7 +26,7 @@ export const createPoll = handleCallback(async (req, res) => {
 
   const pollPacket = {
     choice,
-    expiryDate,
+    expiryDate: Number(expiryDate),
     userId: user._id,
     postId: newPost._id,
     vote: choice.map((value) => 0),
