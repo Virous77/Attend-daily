@@ -6,6 +6,7 @@ import { createError, handleCallback, sendResponse } from "../utils/utils.js";
 export const createPoll = handleCallback(async (req, res) => {
   const user = req.user;
   const { choice, expiryDate, pin, ...rest } = req.body;
+  console.log(req.body);
   if (!expiryDate)
     return next(
       createError({ message: "Expiry date is required", status: 400 })
