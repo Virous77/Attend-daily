@@ -49,6 +49,7 @@ export const PollValidate = async (req, res, next) => {
     .object({
       userId: joi.string().trim().required(),
       choice: joi.array().required(),
+      expiryDate: joi.number().required(),
       postType: joi.string().required(),
     })
     .options({ stripUnknown: true });

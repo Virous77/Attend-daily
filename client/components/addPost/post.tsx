@@ -229,10 +229,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
       setStatus((prev) => ({ ...prev, isLoading: false }));
     } catch (error: any) {
       setStatus((prev) => ({ ...prev, isLoading: false }));
-      notify(JSON.stringify(error.data.data));
-      notify(JSON.stringify(error));
-
-      // notify("Something went wrong,Try again later");
+      notify("Something went wrong,Try again later");
     }
   };
 
