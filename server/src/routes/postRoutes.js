@@ -46,7 +46,7 @@ router.get("/post/:id", [authenticate], getSinglePost);
 router.get("/pin", [authenticate], userPinPost);
 
 //*Poll
-router.post("/poll", [authenticate, PollValidate], createPoll);
+router.post("/poll", [authenticate], createPoll);
 router.put("/poll", [authenticate], updatePoll);
 
 //*RePost
