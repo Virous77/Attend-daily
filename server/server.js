@@ -41,6 +41,8 @@ app.use((err, req, res, next) => {
   const errorStatus = err.status || 500;
   const errorMessage = err.message || "Something went wrong, Try again!";
 
+  console.log(err);
+
   return res.status(errorStatus).json({
     status: errorStatus,
     message: errorMessage,
