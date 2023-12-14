@@ -44,7 +44,7 @@ const AccountData = () => {
               <span className=" opacity-70">@{user?.userName}</span>
             </div>
 
-            <p className=" opacity-70 text-[14px] leading-[1.2]">
+            <p className=" opacity-70 text-[14px] leading-[1.3]">
               This username is unique and act like identify when other user
               search you. You can change it anytime but depend on availability
               of that new username.
@@ -61,7 +61,7 @@ const AccountData = () => {
               <span className=" opacity-70">{user?.country || "India"}</span>
             </div>
 
-            <p className=" opacity-70 text-[14px] leading-[1.2]">
+            <p className=" opacity-70 text-[14px] leading-[1.3]">
               This will help us to show you relevant content. You can update it
               with your current location.
             </p>

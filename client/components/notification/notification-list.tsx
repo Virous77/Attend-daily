@@ -48,8 +48,8 @@ const NotificationList: React.FC<NotificationType> = ({ data }) => {
             </Link>
 
             <Link href={url}>
-              <div className=" flex items-center gap-1 mt-1">
-                <span className=" text-[17px] font-bold">
+              <div className=" flex items-center flex-wrap gap-1 mt-1">
+                <span className=" text-[17px] font-bold whitespace-nowrap">
                   {data.notificationBy.name}
                 </span>
                 <span className=" text-[15px]">{data.message}</span>

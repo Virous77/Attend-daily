@@ -102,7 +102,7 @@ const Common: React.FC<PropsType> = ({
 
         <div
           className={`flex py-2 px-1 ${
-            state.authModal ? "justify-end" : "justify-between"
+            state.authModal ? "justify-end" : "justify-between gap-3 flex-wrap"
           }`}
         >
           {!state.authModal && (

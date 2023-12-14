@@ -52,6 +52,7 @@ const Preview = () => {
                 loop={true}
                 controls={true}
                 className=" rounded"
+                playsInline={true}
               ></video>
 
               <span

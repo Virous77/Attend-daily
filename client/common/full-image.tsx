@@ -102,6 +102,7 @@ const FullImage: React.FC<FullImageProps> = ({
                     width={"100%"}
                     height={"100%"}
                     controls={true}
+                    playsinline={true}
                   />
                 </div>
               )}

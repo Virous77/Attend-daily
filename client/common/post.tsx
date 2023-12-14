@@ -43,7 +43,7 @@ const PostCommon: React.FC<PostProps> = ({ post, type }) => {
       )}
       <Author post={post} />
       <CardBody className=" p-0 pt-5">
-        {post?.title && <p>{post?.title}</p>}
+        {post?.title && <p className=" pl-2">{post?.title}</p>}
 
         <PostImages image={post.image} />
         <PostVideos video={post.video} />
