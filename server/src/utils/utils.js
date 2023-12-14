@@ -1,5 +1,3 @@
-import errorLogModel from "../models/errorLogModel.js";
-
 export const handleCallback = (callback) => {
   return async (req, res, next) => {
     try {
