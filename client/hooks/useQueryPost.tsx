@@ -30,13 +30,14 @@ const useQueryPost = () => {
         if (data.status) {
           return data;
         } else {
-          notify(JSON.stringify(data));
+          notify(`man${JSON.stringify(data)}`);
           throw new Error(
             data.message || "Something went wrong,Try again later"
           );
         }
       } catch (error: any) {
-        notify(JSON.stringify(error));
+        notify(`man2${JSON.stringify(error)}`);
+
         if (error.status > 201) {
           throw error.data.message;
         }
@@ -51,7 +52,7 @@ const useQueryPost = () => {
       });
     },
     onError: (data: string) => {
-      notify(JSON.stringify(data));
+      notify(`man3${JSON.stringify(data)}`);
 
       notify(data?.toString());
     },
