@@ -198,7 +198,7 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
         const pollPacket = {
           ...postPacket,
           choice,
-          expiryDate: Number(commonDate()),
+          expiryDate: String(commonDate()),
         };
         await handleCreatePoll(pollPacket);
       }
