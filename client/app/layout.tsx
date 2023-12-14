@@ -105,33 +105,33 @@ export default async function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <View>
-            <Providers>
-              <ReactQueryProvider>
-                <AppContextProvider>
-                  <UserContextProvider>
-                    <PostContextProvider>
-                      <NavbarComp isLoggedIn={value?.value} />
-                      {children}
-                      <Toaster
-                        position="top-center"
-                        toastOptions={{
-                          custom: {
-                            duration: 3000,
-                            style: {
-                              zIndex: "100000000",
-                            },
+          {/* <View> */}
+          <Providers>
+            <ReactQueryProvider>
+              <AppContextProvider>
+                <UserContextProvider>
+                  <PostContextProvider>
+                    <NavbarComp isLoggedIn={value?.value} />
+                    {children}
+                    <Toaster
+                      position="top-center"
+                      toastOptions={{
+                        custom: {
+                          duration: 3000,
+                          style: {
+                            zIndex: "100000000",
                           },
-                        }}
-                      />
-                      <GlobalPost />
-                      <Navigation isLoggedIn={value?.value} />
-                    </PostContextProvider>
-                  </UserContextProvider>
-                </AppContextProvider>
-              </ReactQueryProvider>
-            </Providers>
-          </View>
+                        },
+                      }}
+                    />
+                    <GlobalPost />
+                    <Navigation isLoggedIn={value?.value} />
+                  </PostContextProvider>
+                </UserContextProvider>
+              </AppContextProvider>
+            </ReactQueryProvider>
+          </Providers>
+          {/* </View> */}
         </ThemeProvider>
       </body>
     </html>
