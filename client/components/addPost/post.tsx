@@ -98,9 +98,11 @@ const Post: React.FC<PostProps> = ({ onClose, name }) => {
 
   const commonDate = () => {
     const pollTime = `${time.hour}:${Number(time.minutes) + 1} ${time.type}`;
-    const formatDate = moment(time.date).format("YYYY-MM-DD");
-    const date = new Date(`${formatDate} ${pollTime}`).getTime();
-    console.log(date);
+    const formatDate = moment(time.date, "YYYY-MM-DD").format("YYYY-MM-DD");
+    const formattedDateTime = `${formatDate} ${pollTime}`;
+
+    const parsedDate = moment(formattedDateTime, "YYYY-MM-DD hh:mm A");
+    const date = parsedDate.toDate().getTime();
     return date;
   };
 
