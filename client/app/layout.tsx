@@ -117,7 +117,7 @@ export default async function RootLayout({
                       position="top-center"
                       toastOptions={{
                         custom: {
-                          duration: 3000,
+                          duration: 12000,
                           style: {
                             zIndex: "100000000",
                           },
