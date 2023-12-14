@@ -45,7 +45,12 @@ const RePost: React.FC<PostListProps> = ({ post }) => {
     const data = await deleteMutateAsync({ endPoint: `repost/${postId}` });
 
     if (data.status) {
-      invalidateKey(["feed", `${user?._id}-post`]);
+      invalidateKey([
+        "feedhome feed",
+        `${user?._id}-post`,
+        "feedposts",
+        "feedpolls",
+      ]);
       onOpenChange();
     }
   };

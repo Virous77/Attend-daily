@@ -55,7 +55,7 @@ const SearchModel: React.FC<SearchType> = ({ search }) => {
         wrapper: "z-[10000]",
       }}
     >
-      <ModalContent>
+      <ModalContent className=" bg-background">
         {(onClose) => (
           <>
             <ModalHeader>

@@ -45,7 +45,7 @@ const Post: React.FC<TPost> = ({ id, pinPost }) => {
         <FeedSkeleton />
       ) : (
         <>
-          {postData && postData?.length > 0 && !isLoading ? (
+          {(postData && postData?.length > 0 && !isLoading) || pinPost ? (
             <PullToRefresh onRefresh={handleRefresh} fetchMoreThreshold={3}>
               <InfiniteScroll
                 dataLength={postData ? postData.length + 1 : 1}

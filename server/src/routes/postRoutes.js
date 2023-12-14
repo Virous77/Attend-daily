@@ -50,7 +50,7 @@ router.post("/poll", [authenticate, PollValidate], createPoll);
 router.put("/poll", [authenticate], updatePoll);
 
 //*RePost
-router.post("/repost", [authenticate, PostValidate], addRePost);
+router.post("/repost", [authenticate], addRePost);
 router.delete("/repost/:id", [authenticate], removeRePost);
 router.post(
   "/quote/repost",
