@@ -9,7 +9,7 @@ import useQueryFetch from "@/hooks/useQueryFetch";
 import { useState } from "react";
 
 export type SearchType = {
-  search: RecentSearch;
+  search: RecentSearch | undefined;
 };
 
 type Response = QueryResponse & {

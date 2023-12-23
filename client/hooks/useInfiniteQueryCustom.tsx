@@ -63,7 +63,7 @@ const useInfiniteQueryCustom = <T,>({
       queryFn: fetchIt,
       initialPageParam: 1,
       getNextPageParam: (_, pages) => pages.length + 1,
-      enabled: state.user?.token && enabled ? true : false,
+      enabled: enabled ? true : false,
       staleTime,
     });
 

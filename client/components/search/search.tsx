@@ -2,21 +2,30 @@ import { QueryData, RecentSearch } from "@/types/types";
 import SearchForm from "./search-form";
 import SearchModel from "./search-model";
 import { getServerData } from "@/api/server-api";
+import { get } from "../../app/layout";
 
-type Response = QueryData & {
-  data: RecentSearch;
-};
+type Response =
+  | (QueryData & {
+      data: RecentSearch;
+    })
+  | null;
 
 const SearchComp = async () => {
-  const search: Response = await getServerData({
-    endpoint: "search/user",
-    tag: "search",
-  });
+  const value = await get();
+
+  let search: Response = null;
+
+  if (value?.value) {
+    search = await getServerData({
+      endpoint: "search/user",
+      tag: "search",
+    });
+  }
 
   return (
     <main>
       <SearchForm />
-      <SearchModel search={search.data} />
+      <SearchModel search={value?.value ? search?.data : undefined} />
     </main>
   );
 };

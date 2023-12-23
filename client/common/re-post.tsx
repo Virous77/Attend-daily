@@ -20,9 +20,13 @@ const RePost: React.FC<PostListProps> = ({ post }) => {
   const { mutateAsync: deleteMutateAsync } = useQueryDelete();
   const { invalidateKey, user } = useQueryInvalidate();
   const { setRePostData, modal } = usePost();
-  const { setActiveType, activeType } = useAppContext();
+  const { setActiveType, handleRedirect } = useAppContext();
 
   const handleRepost = async (postId: string) => {
+    if (!user?.token) {
+      return handleRedirect();
+    }
+
     const data = await mutateAsync({ endPoint: "repost", data: { postId } });
 
     if (data.status) {
@@ -131,6 +135,9 @@ const RePost: React.FC<PostListProps> = ({ post }) => {
                   <div
                     className=" flex items-center gap-2 w-fit cursor-pointer"
                     onClick={() => {
+                      if (!user?.token) {
+                        return handleRedirect();
+                      }
                       setActiveType("repost");
                       setRePostData((prev) => ({ ...prev, post: post }));
                       onOpenChange();

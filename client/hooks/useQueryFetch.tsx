@@ -44,7 +44,7 @@ const useQueryFetch = ({
         return null;
       }
     },
-    enabled: state.user?.token && enabled ? true : false,
+    enabled: enabled ? true : false,
     staleTime,
   });
 

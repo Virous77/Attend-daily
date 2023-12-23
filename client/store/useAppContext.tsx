@@ -13,6 +13,7 @@ import { MainComments, User } from "@/types/types";
 import { useDisclosure } from "@nextui-org/react";
 import { getLocalData } from "@/utils/utils";
 import { AppLoad } from "@/components/skeleton/skeleton";
+import { useRouter } from "next/navigation";
 
 export type ModalType = {
   isOpen: boolean;
@@ -30,6 +31,7 @@ export type stateType = {
   support: string;
   isScroll: boolean;
   lastScrollNumber: number;
+  redirectLogin: boolean;
 };
 
 export type CommentsType = {
@@ -71,6 +73,7 @@ type ContextType = {
   search: string;
   infiniteQuery: InfiniteQueryFalse;
   setInfiniteQuery: Dispatch<SetStateAction<InfiniteQueryFalse>>;
+  handleRedirect: () => void;
 };
 
 type StatusType = {
@@ -96,6 +99,7 @@ const initialValue = {
   setSearch: () => {},
   infiniteQuery: {} as InfiniteQueryFalse,
   setInfiniteQuery: () => {},
+  handleRedirect: () => {},
 };
 
 const AppContext = createContext<ContextType>(initialValue);
@@ -115,9 +119,11 @@ export const AppContextProvider = ({
     support: "",
     isScroll: false,
     lastScrollNumber: 0,
+    redirectLogin: false,
   });
   const [activeType, setActiveType] = useState<TActive>("");
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const router = useRouter();
   const modal = {
     isOpen,
     onOpen,
@@ -160,6 +166,14 @@ export const AppContextProvider = ({
     retry: false,
   });
 
+  const handleRedirect = () => {
+    if (!state.user?.token) {
+      setState((prev) => ({ ...prev, redirectLogin: true }));
+      router.push("/");
+      return;
+    }
+  };
+
   return (
     <AppContext.Provider
       value={{
@@ -176,6 +190,7 @@ export const AppContextProvider = ({
         setSearch,
         infiniteQuery,
         setInfiniteQuery,
+        handleRedirect,
       }}
     >
       {isLoading ? <AppLoad /> : children}

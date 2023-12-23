@@ -41,8 +41,8 @@ router.put("/like", [authenticate], addPostLike);
 //*Post Query
 router.get("/post/all/:id", [authenticate], getUserPosts);
 router.get("/post/type/:id/:type", [authenticate], getUserPostsByType);
-router.get("/feed/post", [authenticate], getPosts);
-router.get("/post/:id", [authenticate], getSinglePost);
+router.get("/feed/post", getPosts);
+router.get("/post/:id", getSinglePost);
 router.get("/pin", [authenticate], userPinPost);
 
 //*Poll

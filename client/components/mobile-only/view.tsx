@@ -6,6 +6,7 @@ import Image from "next/image";
 
 const View = ({ children }: { children: React.ReactNode }) => {
   const [isMobile, setIsMobile] = useState(false);
+  const [mount, setMount] = useState(false);
   function updateScreenStatus() {
     const screenWidth =
       window.innerWidth ||
@@ -24,13 +25,14 @@ const View = ({ children }: { children: React.ReactNode }) => {
   }
 
   const debouncedUpdateScreenStatus = debounce(updateScreenStatus, 200);
-  window.addEventListener("resize", debouncedUpdateScreenStatus);
+  mount && window.addEventListener("resize", debouncedUpdateScreenStatus);
 
   useLayoutEffect(() => {
+    setMount(true);
     updateScreenStatus();
   }, []);
 
-  if (!isMobile) {
+  if (!isMobile && mount) {
     return (
       <main className=" w-full h-screen bg-background flex items-center justify-center">
         <div className=" flex items-center justify-center flex-col">

@@ -8,6 +8,7 @@ import { Separator } from "../ui/separator";
 import CommentForm from "../../common/commentForm";
 import useQueryFetch from "@/hooks/useQueryFetch";
 import { FeedSkeleton, PostNotFound } from "../skeleton/skeleton";
+import { useAppContext } from "@/store/useAppContext";
 
 type PostProps = {
   id: string;
@@ -20,6 +21,9 @@ type Response = QueryResponse & {
 };
 
 const SinglePost: React.FC<PostProps> = ({ id }) => {
+  const {
+    state: { user },
+  } = useAppContext();
   const { fetchResult, isLoading }: Response = useQueryFetch({
     endPoints: `post/${id}`,
     key: `${id}-post`,
@@ -45,7 +49,7 @@ const SinglePost: React.FC<PostProps> = ({ id }) => {
       )}
       <Separator />
       <Comment postId={fetchResult?.data?._id} />
-      {!isLoading && <CommentForm postId={id} />}
+      {!isLoading && user?.token && <CommentForm postId={id} />}
     </main>
   );
 };

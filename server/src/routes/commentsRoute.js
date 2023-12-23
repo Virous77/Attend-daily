@@ -14,8 +14,8 @@ const router = express.Router();
 
 //*Comment
 router.post("/comment", [authenticate], addComment);
-router.get("/comment/:postId", [authenticate], getComments);
-router.get("/comment/single/:id/:type", [authenticate], getSingleComment);
+router.get("/comment/:postId", getComments);
+router.get("/comment/single/:id/:type", getSingleComment);
 router.post("/comment/replies", [authenticate], addCommentReplies);
 router.delete("/comment/:id", [authenticate], deleteComment);
 router.put("/comment", [authenticate], updateComment);

@@ -59,7 +59,9 @@ export const UserContextProvider = ({
   });
   const {
     state: { user },
+    handleRedirect,
   } = useAppContext();
+
   const { notify } = useToast();
 
   const {
@@ -72,9 +74,13 @@ export const UserContextProvider = ({
     enabled: user?.userName ? true : false,
   });
   const { invalidateKey } = useQueryInvalidate();
-
   const { mutateAsync, isPending: isFollowing } = useQueryPost();
+
   const handleFollow = async (id: string, userName: string) => {
+    if (!user?.token) {
+      return handleRedirect();
+    }
+
     const data = await mutateAsync({
       data: { followUser: id },
       endPoint: "follow",

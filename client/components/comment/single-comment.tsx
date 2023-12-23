@@ -12,6 +12,7 @@ import { CommentSkeleton } from "../skeleton/skeleton";
 import useInfiniteQueryCustom from "@/hooks/useInfiniteQueryCustom";
 import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 import { InfiniteQueryFalse } from "@/store/useAppContext";
+import { useAppContext } from "@/store/useAppContext";
 
 type Response = {
   data: {
@@ -23,6 +24,9 @@ type Response = {
 const SingleComment = () => {
   const params = useParams();
   const path = usePathname();
+  const {
+    state: { user },
+  } = useAppContext();
 
   const { invalidateKey } = useQueryInvalidate();
   const {
@@ -88,7 +92,7 @@ const SingleComment = () => {
           handleRefresh={handleRefresh}
         />
       )}
-      {!isLoading && (
+      {!isLoading && user?.token && (
         <CommentForm
           postId={postData[0]?.comment.postId}
           commentId={params.id}

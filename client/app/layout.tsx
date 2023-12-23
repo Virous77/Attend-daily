@@ -1,5 +1,5 @@
 import "./globals.css";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Poppins } from "next/font/google";
 import { AppContextProvider } from "@/store/useAppContext";
 import { ThemeProvider } from "@/components/ui/theme-provider";
@@ -25,6 +25,14 @@ const inter = Poppins({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: "cover",
+};
+
 export const metadata: Metadata = {
   title: "ChatX",
   description: "ChatX: Share your daily memories globally with your friends.",
@@ -35,8 +43,8 @@ export const metadata: Metadata = {
   generator: "Next.js",
   manifest: "/manifest.json",
   icons: [
-    { rel: "apple-touch-icon", url: "../public/AppImages/ios/128.png" },
-    { rel: "icon", url: "../public/AppImages/ios/128.png" },
+    { rel: "apple-touch-icon", url: "/public/AppImages/ios/128.png" },
+    { rel: "icon", url: "/public/AppImages/ios/128.png" },
   ],
   appleWebApp: {
     title: "ChatX",
@@ -91,10 +99,6 @@ export default async function RootLayout({
       <head>
         <meta name="theme-color" content="#000" />
         <meta name="background-color" content="#000" />
-        <meta
-          name="viewport"
-          content="width=device-width initial-scale=1 viewport-fit=cover maximum-scale=1 user-scalable=no"
-        />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta property="twitter:url" content="chatxe.vercel.app" />
       </head>

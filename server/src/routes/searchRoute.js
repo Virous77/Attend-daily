@@ -9,7 +9,7 @@ import {
 
 const router = express.Router();
 
-router.get("/search", [authenticate], searchQuery);
+router.get("/search", searchQuery);
 router.post("/search/add", [authenticate], addRecentSearch);
 router.get("/search/user", [authenticate], userRecentSearch);
 

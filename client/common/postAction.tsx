@@ -14,6 +14,7 @@ import {
   MessageCircle,
   Share,
 } from "lucide-react";
+import { useAppContext } from "@/store/useAppContext";
 
 type PostActionProps = {
   setOpen?: React.Dispatch<React.SetStateAction<StateType>>;
@@ -26,8 +27,16 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
   const path = usePathname();
   const router = useRouter();
   const { invalidateKey } = useQueryInvalidate();
+  const {
+    state: { user },
+    handleRedirect,
+  } = useAppContext();
 
   const handleLike = async (postId: string) => {
+    if (!user?.token) {
+      return handleRedirect();
+    }
+
     const key = path.includes("/profile")
       ? `${post.userId._id}-post`
       : path.includes("/feed")
@@ -38,6 +47,9 @@ const PostAction: React.FC<PostListProps & PostActionProps> = ({ post }) => {
   };
 
   const handleBookmark = async (postId: string) => {
+    if (!user?.token) {
+      return handleRedirect();
+    }
     await mutateAsync({ postId: postId, endPoints: "/bookmark" });
     invalidateKey(["user-network"]);
   };

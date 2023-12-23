@@ -1,10 +1,11 @@
 import { ScrollArea } from "../ui/scroll-area";
 import { Search } from "@/types/types";
-import { Avatar, Button, User, user } from "@nextui-org/react";
+import { Avatar, Button, User } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 import useQueryPost from "@/hooks/useQueryPost";
 import { SearchType } from "./search-model";
 import { useUserContext } from "@/store/useUserContext";
+import { useAppContext } from "@/store/useAppContext";
 
 const SearchResult: React.FC<SearchType & { data: Search[] }> = ({
   search: recentSearch,
@@ -13,8 +14,12 @@ const SearchResult: React.FC<SearchType & { data: Search[] }> = ({
   const router = useRouter();
   const { networkData, handleFollow } = useUserContext();
   const { mutateAsync } = useQueryPost();
+  const {
+    state: { user },
+  } = useAppContext();
 
   const handleRedirect = (userName: string, id: string) => {
+    if (!user?.token) return;
     router.push(`/profile/${userName}`);
     mutateAsync({ endPoint: "/search/add", data: { searchedUser: id } });
   };
@@ -72,30 +77,38 @@ const SearchResult: React.FC<SearchType & { data: Search[] }> = ({
                   onClick={() => handleRedirect(item.userName, item._id)}
                 />
 
-                {networkData.data?.userId !== item._id && (
+                {user?.token && (
                   <>
-                    {networkData.data?.following.find(
-                      (user) => user.id._id === item._id
-                    ) ? (
-                      <Button
-                        className="rounded"
-                        variant="ghost"
-                        color="primary"
-                        style={{ height: "30px" }}
-                        onClick={() => handleFollow(item._id, item.userName)}
-                      >
-                        Unfollow
-                      </Button>
-                    ) : (
-                      <Button
-                        className="rounded"
-                        style={{ height: "30px" }}
-                        variant="shadow"
-                        color="primary"
-                        onClick={() => handleFollow(item._id, item.userName)}
-                      >
-                        Follow
-                      </Button>
+                    {networkData.data?.userId !== item._id && (
+                      <>
+                        {networkData.data?.following.find(
+                          (user) => user.id._id === item._id
+                        ) ? (
+                          <Button
+                            className="rounded"
+                            variant="ghost"
+                            color="primary"
+                            style={{ height: "30px" }}
+                            onClick={() =>
+                              handleFollow(item._id, item.userName)
+                            }
+                          >
+                            Unfollow
+                          </Button>
+                        ) : (
+                          <Button
+                            className="rounded"
+                            style={{ height: "30px" }}
+                            variant="shadow"
+                            color="primary"
+                            onClick={() =>
+                              handleFollow(item._id, item.userName)
+                            }
+                          >
+                            Follow
+                          </Button>
+                        )}
+                      </>
                     )}
                   </>
                 )}

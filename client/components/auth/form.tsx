@@ -10,9 +10,10 @@ import { User } from "lucide-react";
 
 const MainForm: React.FC<NavbarProps> = ({ isLoggedIn }) => {
   const [open, setOpen] = useState(false);
-  const { state } = useAppContext();
+  const { state, setState } = useAppContext();
 
   const componentType = state.authModal ? "SIGN UP" : "SIGN IN";
+  const action = state.isLoading === "login" ? true : open;
 
   return (
     <React.Fragment>
@@ -23,8 +24,11 @@ const MainForm: React.FC<NavbarProps> = ({ isLoggedIn }) => {
         <User size={20} />
       </p>
       <Modal
-        isOpen={isLoggedIn ? false : state.isLoading === "login" ? true : open}
-        onOpenChange={setOpen}
+        isOpen={action || state.redirectLogin}
+        onOpenChange={() => {
+          setOpen(false);
+          setState((prev) => ({ ...prev, redirectLogin: false }));
+        }}
         placement="center"
         hideCloseButton
       >

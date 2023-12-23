@@ -39,18 +39,18 @@ export const navLink = [
     link: "/search",
     icon: Search,
   },
-  {
-    id: 3,
-    name: "message",
-    link: "/message",
-    icon: MessagesSquare,
-  },
-  {
-    id: 4,
-    name: "Account",
-    link: "/account",
-    icon: Wallet,
-  },
+  // {
+  //   id: 3,
+  //   name: "message",
+  //   link: "/message",
+  //   icon: MessagesSquare,
+  // },
+  // {
+  //   id: 4,
+  //   name: "Account",
+  //   link: "/account",
+  //   icon: Wallet,
+  // },
   {
     id: 5,
     name: "Profile",
