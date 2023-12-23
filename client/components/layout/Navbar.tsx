@@ -39,6 +39,8 @@ const NavbarComp: React.FC<NavbarProps> = ({ isLoggedIn }) => {
           classNames={{
             wrapper: "pr-0 pl-0",
           }}
+          onScrollPositionChange={handleScroll}
+          isBordered={true}
         >
           <nav
             className={`bg-background flex w-full items-center justify-between px-5 py-[10px]`}

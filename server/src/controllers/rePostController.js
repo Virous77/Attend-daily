@@ -97,15 +97,11 @@ export const removeRePost = handleCallback(async (req, res, next) => {
 
 export const addQuoteRepost = handleCallback(async (req, res, next) => {
   const user = req.user;
-  const { title, postType, location, image, video, repostRef } = req.body;
+  const { repostRef, ...rest } = req.body;
 
   const packet = {
+    ...rest,
     userId: user._id,
-    title,
-    postType,
-    location,
-    image,
-    video,
     quotePostId: repostRef,
   };
 

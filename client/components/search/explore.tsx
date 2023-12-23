@@ -57,7 +57,7 @@ const Explore = () => {
                   src={post.image}
                   alt="ChatX Image"
                   key={post._id}
-                  className=" w-full h-[250px] cursor-pointer"
+                  className=" w-full h-[200px] cursor-pointer"
                   isBlurred
                   onClick={() => router.push(`/post/${post._id}`)}
                 />
