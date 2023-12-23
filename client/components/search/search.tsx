@@ -3,6 +3,7 @@ import SearchForm from "./search-form";
 import SearchModel from "./search-model";
 import { getServerData } from "@/api/server-api";
 import { get } from "../../app/layout";
+import Explore from "./explore";
 
 type Response =
   | (QueryData & {
@@ -26,6 +27,7 @@ const SearchComp = async () => {
     <main>
       <SearchForm />
       <SearchModel search={value?.value ? search?.data : undefined} />
+      <Explore />
     </main>
   );
 };

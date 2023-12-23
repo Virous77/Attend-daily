@@ -180,10 +180,10 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
             </>
           )}
 
-          <DropdownMenuItem className=" cursor-pointer text-red-500">
+          {/* <DropdownMenuItem className=" cursor-pointer text-red-500">
             <Flag className="mr-2" size={20} />
             <span>Report</span>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           {post.userId._id === user?._id && !post.isRetweeted && (
             <>
               <DropdownMenuSeparator />

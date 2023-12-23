@@ -5,6 +5,7 @@ import {
   addVote,
   createPost,
   deletePost,
+  getExplorePosts,
   getPosts,
   getSinglePost,
   getUserPosts,
@@ -44,6 +45,7 @@ router.get("/post/type/:id/:type", [authenticate], getUserPostsByType);
 router.get("/feed/post", getPosts);
 router.get("/post/:id", getSinglePost);
 router.get("/pin", [authenticate], userPinPost);
+router.get("/explore", getExplorePosts);
 
 //*Poll
 router.post("/poll", [authenticate, PollValidate], createPoll);

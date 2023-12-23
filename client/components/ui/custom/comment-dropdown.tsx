@@ -103,12 +103,12 @@ const CommentDropdown: React.FC<CommentDropdownProps> = ({ comment }) => {
             </>
           )}
 
-          <DropdownMenuItem className=" cursor-pointer">
+          {/* <DropdownMenuItem className=" cursor-pointer">
             <Flag className=" mr-2" size={20} color="rgba(239, 68, 68, 0.75)" />
             <span style={{ color: "rgba(239,68,68, 0.75)" }}>
               Report Comment
             </span>
-          </DropdownMenuItem>
+          </DropdownMenuItem> */}
           {comment.commentedUser._id === user?._id && (
             <>
               <DropdownMenuSeparator />

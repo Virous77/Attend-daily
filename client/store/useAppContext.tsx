@@ -46,6 +46,7 @@ export type InfiniteQueryFalse = {
   userPost: boolean;
   mainComments: boolean;
   secondComment: boolean;
+  explore: boolean;
 };
 
 export type TActive =
@@ -141,6 +142,7 @@ export const AppContextProvider = ({
     userPost: true,
     mainComments: true,
     secondComment: true,
+    explore: true,
   });
 
   const { refetch, isPending, isLoading } = useQuery({

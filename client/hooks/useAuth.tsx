@@ -93,7 +93,7 @@ const useAuth = (endPoints: string) => {
   const handleLogout = async () => {
     const { data } = await axios.get(endPoints);
     if (data.status === 200) {
-      router.push("/");
+      router.push("/feed");
       window.location.reload();
     }
   };

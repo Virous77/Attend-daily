@@ -53,6 +53,11 @@ const useInfiniteQueryCustom = <T,>({
         ...prev,
         secondComments: !isDataLengthLessThan10,
       }));
+    } else if (type === "explore") {
+      setInfiniteQuery((prev) => ({
+        ...prev,
+        explore: !isDataLengthLessThan10,
+      }));
     }
     return data;
   };

@@ -28,9 +28,7 @@ const FeedComp = () => {
   const { invalidateKey } = useQueryInvalidate();
 
   const handleRefresh = async () => {
-    setTimeout(() => {
-      invalidateKey([`feed${state.feedType}`]);
-    }, 5000);
+    invalidateKey([`feed${state.feedType}`]);
   };
 
   return (

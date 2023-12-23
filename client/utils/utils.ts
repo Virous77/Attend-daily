@@ -112,14 +112,14 @@ export const Tabs = [
     name: "Account",
     icon: User,
   },
-  {
-    name: "Security",
-    icon: ShieldCheck,
-  },
-  {
-    name: "Theme",
-    icon: Palette,
-  },
+  // {
+  //   name: "Security",
+  //   icon: ShieldCheck,
+  // },
+  // {
+  //   name: "Theme",
+  //   icon: Palette,
+  // },
   {
     name: "Logout",
     icon: LogOut,

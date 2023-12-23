@@ -49,7 +49,7 @@ const NavbarComp: React.FC<NavbarProps> = ({ isLoggedIn }) => {
 
             <div className="items-center gap-8 flex">
               {!isLoggedIn && !state.isLogged ? (
-                <MainForm isLoggedIn={isLoggedIn} />
+                <MainForm type={false} />
               ) : null}
               <div className="md:block hidden">
                 <ModeToggle />

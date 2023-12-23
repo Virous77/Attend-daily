@@ -454,3 +454,36 @@ export const toggleUserPinPost = handleCallback(async (req, res) => {
     res,
   });
 });
+
+export const getExplorePosts = handleCallback(async (req, res) => {
+  const { pageNumber, pageSize } = req.query;
+
+  const skipDocuments = (+pageNumber - 1) * +pageSize;
+  const posts = await postModel.aggregate([
+    {
+      $match: {
+        image: { $exists: true, $ne: [] },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        image: { $arrayElemAt: ["$image", 0] },
+      },
+    },
+    {
+      $skip: skipDocuments,
+    },
+    {
+      $limit: +pageSize,
+    },
+  ]);
+
+  sendResponse({
+    status: true,
+    code: 200,
+    message: "Posts fetched Successfully",
+    data: posts,
+    res,
+  });
+});
