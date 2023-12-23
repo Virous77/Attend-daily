@@ -13,6 +13,7 @@ const MainForm = ({ type }: { type: boolean }) => {
 
   const componentType = state.authModal ? "SIGN UP" : "SIGN IN";
   const action = state.isLoading === "login" ? true : open;
+  const actionTwo = type ? false : state.redirectLogin;
 
   return (
     <React.Fragment>
@@ -34,7 +35,7 @@ const MainForm = ({ type }: { type: boolean }) => {
         </p>
       )}
       <Modal
-        isOpen={action || state.redirectLogin}
+        isOpen={state.isLogged ? false : action || actionTwo}
         onOpenChange={() => {
           setOpen(false);
           setState((prev) => ({ ...prev, redirectLogin: false }));
