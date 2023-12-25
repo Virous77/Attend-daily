@@ -12,6 +12,7 @@ import {
 import { CompletePost } from "@/types/types";
 import PostCommon from "@/common/post";
 import { invalidateServerQuery } from "@/api/action";
+import { useAppContext } from "@/store/useAppContext";
 
 type TPost = {
   id: string;
@@ -33,6 +34,9 @@ const Post: React.FC<TPost> = ({ id, pinPost }) => {
     enabled: id ? true : false,
     type: "userAllPost",
   });
+  const {
+    state: { user },
+  } = useAppContext();
 
   const handleRefresh = async () => {
     invalidateKey([`${id}-post`]);
@@ -54,7 +58,9 @@ const Post: React.FC<TPost> = ({ id, pinPost }) => {
                 loader={null}
               >
                 <ul className="flex flex-col gap-4 mt-3">
-                  {pinPost && <PostCommon post={pinPost} type="profile" />}
+                  {pinPost && user?._id === id && (
+                    <PostCommon post={pinPost} type="profile" />
+                  )}
                   {postData &&
                     postData.map((post) => (
                       <PostList post={post} key={post._id} />

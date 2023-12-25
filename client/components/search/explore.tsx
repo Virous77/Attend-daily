@@ -51,13 +51,13 @@ const Explore = () => {
             hasMore={infiniteQuery.explore}
             loader={null}
           >
-            <div className=" grid grid-cols-2 gap-2">
+            <div className=" grid grid-cols-2 gap-2 mt-1">
               {postData?.flat().map((post) => (
                 <Image
                   src={post.image}
                   alt="ChatX Image"
                   key={post._id}
-                  className=" w-full h-[200px] cursor-pointer"
+                  className=" w-full h-[180px] cursor-pointer"
                   isBlurred
                   onClick={() => router.push(`/post/${post._id}`)}
                 />

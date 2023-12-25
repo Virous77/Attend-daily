@@ -37,9 +37,7 @@ export const metadata: Metadata = {
   title: "ChatX",
   description: "ChatX: Share your daily memories globally with your friends.",
   keywords: "social, messaging, connect, network",
-  authors: [
-    { name: "Reetesh Kumar", url: "https://reetesh-virous.netlify.app/" },
-  ],
+  authors: [{ name: "Reetesh Kumar", url: "https://reetesh.in" }],
   generator: "Next.js",
   manifest: "/manifest.json",
   icons: [
@@ -51,7 +49,6 @@ export const metadata: Metadata = {
     statusBarStyle: "black",
     capable: true,
   },
-  referrer: "origin",
   robots: "index, follow",
   openGraph: {
     type: "website",
@@ -61,7 +58,7 @@ export const metadata: Metadata = {
     siteName: "ChatX",
     images: [
       {
-        url: "https://res.cloudinary.com/dw6wav4jg/image/upload/v1698341564/wnqjq5vvhux84afvmpra.jpg",
+        url: "https://res.cloudinary.com/dw6wav4jg/image/upload/v1703515452/Image_10-12-23_at_8.04_PM_i1ngtg.jpg",
       },
     ],
   },
@@ -70,19 +67,17 @@ export const metadata: Metadata = {
     site: "@iMBitcoinB",
     creator: "@iMBitcoinB",
     images:
-      "https://res.cloudinary.com/dw6wav4jg/image/upload/v1698341564/wnqjq5vvhux84afvmpra.jpg",
+      "https://res.cloudinary.com/dw6wav4jg/image/upload/v1703515452/Image_10-12-23_at_8.04_PM_i1ngtg.jpg",
     title: "ChatX",
     description: "ChatX: Share your daily memories globally with your friends.",
   },
   category: "social",
   creator: "Reetesh Kumar",
-  publisher: "Vercel",
   metadataBase: new URL("https://chatxe.vercel.app"),
   alternates: {
-    canonical: "/",
+    canonical: "https://chatxe.vercel.app",
     languages: {
-      "en-US": "/en-US",
-      "de-DE": "/de-DE",
+      "en-US": "https://chatxe.vercel.app",
     },
   },
 };
