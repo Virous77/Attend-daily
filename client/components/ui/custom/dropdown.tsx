@@ -105,7 +105,6 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
                     <UserPlus className="mr-2" size={20} />
                     <span>Follow</span>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
                 </>
               ) : (
                 <>
@@ -123,7 +122,6 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
                       </span>
                     </span>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
                 </>
               )}
             </>
@@ -184,9 +182,10 @@ const Dropdown: React.FC<PostProps> = ({ post }) => {
             <Flag className="mr-2" size={20} />
             <span>Report</span>
           </DropdownMenuItem> */}
+          {/* <DropdownMenuSeparator /> */}
+
           {post.userId._id === user?._id && !post.isRetweeted && (
             <>
-              <DropdownMenuSeparator />
               <DropdownMenuItem
                 className=" bg-red-500 hover:bg-red-400 cursor-pointer"
                 onClick={() => {

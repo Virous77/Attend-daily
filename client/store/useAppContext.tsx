@@ -8,8 +8,9 @@ import {
   useContext,
   SetStateAction,
   Dispatch,
+  useEffect,
 } from "react";
-import { MainComments, User } from "@/types/types";
+import { CompletePost, MainComments, User } from "@/types/types";
 import { useDisclosure } from "@nextui-org/react";
 import { getLocalData } from "@/utils/utils";
 import { AppLoad } from "@/components/skeleton/skeleton";
@@ -90,6 +91,8 @@ type ContextType = {
   handleRedirect: () => void;
   tempComment: TTempComment | null;
   setTempComment: Dispatch<SetStateAction<TTempComment | null>>;
+  tempRePost: CompletePost | null;
+  setTempRePost: Dispatch<SetStateAction<CompletePost | null>>;
 };
 
 type StatusType = {
@@ -118,6 +121,8 @@ const initialValue = {
   handleRedirect: () => {},
   tempComment: {} as TTempComment,
   setTempComment: () => {},
+  tempRePost: {} as CompletePost,
+  setTempRePost: () => {},
 };
 
 const AppContext = createContext<ContextType>(initialValue);
@@ -163,6 +168,7 @@ export const AppContextProvider = ({
   });
 
   const [tempComment, setTempComment] = useState<TTempComment | null>(null);
+  const [tempRePost, setTempRePost] = useState<CompletePost | null>(null);
   const { refetch, isPending, isLoading } = useQuery({
     staleTime: Number(process.env.NEXT_PUBLIC_QUERY_STALE_TIME),
     queryKey: ["user"],
@@ -213,6 +219,8 @@ export const AppContextProvider = ({
         handleRedirect,
         setTempComment,
         tempComment,
+        tempRePost,
+        setTempRePost,
       }}
     >
       {isLoading ? <AppLoad /> : children}

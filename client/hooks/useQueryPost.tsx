@@ -13,6 +13,7 @@ const useQueryPost = () => {
   const {
     state: { user },
     setTempComment,
+    setTempRePost,
   } = useAppContext();
   const client = useQueryClient();
   const [key, setKey] = useState("");
@@ -44,7 +45,8 @@ const useQueryPost = () => {
     onSuccess: () => {
       setTimeout(() => {
         setTempComment(null);
-      }, 280);
+        setTempRePost(null);
+      }, 400);
       client.invalidateQueries({
         queryKey: [key],
         exact: true,

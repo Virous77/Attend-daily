@@ -11,7 +11,7 @@ type NavigationProps = {
 
 const Navigation: React.FC<NavigationProps> = ({ isLoggedIn }) => {
   const router = useRouter();
-  const { state } = useAppContext();
+  const { state, setState } = useAppContext();
   const pathName = usePathname();
 
   return (
@@ -32,6 +32,7 @@ const Navigation: React.FC<NavigationProps> = ({ isLoggedIn }) => {
           <li
             key={value.id}
             onClick={() => {
+              setState((prev) => ({ ...prev, isScroll: false }));
               if (value.link === "/profile") {
                 router.push(
                   !isLoggedIn && !state.isLogged

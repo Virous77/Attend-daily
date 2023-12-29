@@ -10,7 +10,7 @@ import { FeedSkeleton, ThreeDotsSkeleton } from "../skeleton/skeleton";
 import { CompletePost } from "@/types/types";
 
 const FeedComp = () => {
-  const { state } = useAppContext();
+  const { state, tempRePost } = useAppContext();
   const {
     postData,
     fetchNextPage,
@@ -47,6 +47,7 @@ const FeedComp = () => {
             loader={null}
           >
             <ul className="flex flex-col gap-4 mt-1">
+              {tempRePost && <PostList post={tempRePost} />}
               {postData &&
                 postData.map((post) => <PostList post={post} key={post._id} />)}
               {isFetchingNextPage && (
