@@ -28,7 +28,14 @@ const CommentForm: React.FC<CommentFormType> = ({
 }) => {
   const { mutateAsync, isPending } = useQueryPost();
   const { invalidateKey } = useQueryInvalidate();
-  const { content, setContent, activeType, setActiveType } = useAppContext();
+  const {
+    content,
+    setContent,
+    activeType,
+    setActiveType,
+    setTempComment,
+    state: { user },
+  } = useAppContext();
   const { mutateAsync: editMutateAsync, isPending: editPending } =
     useQueryPut();
 
@@ -58,6 +65,19 @@ const CommentForm: React.FC<CommentFormType> = ({
           type: type ? type : "parent",
         },
       };
+      setTempComment({
+        commentedUser: user!,
+        _id: "hwhddh83",
+        content: content.new,
+        postId: postId,
+        like: [],
+        createdAt: "2023-12-29T13:45:20.271Z",
+        updatedAt: "2023-12-29T13:45:20.271Z",
+        totalComments: 0,
+        isDeleted: false,
+        commentId: "hjwdjwhdueh",
+      });
+
       const data = await mutateAsync(packet);
       if (data.status) {
         common();

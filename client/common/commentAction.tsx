@@ -27,6 +27,7 @@ const CommentAction: React.FC<CommentProps> = ({ comment, type }) => {
     });
     invalidateKey([`${id}-comment`]);
   };
+
   return (
     <div className=" flex items-center gap-8" style={{ paddingLeft: "3rem" }}>
       <Like value={comment.like} handleLike={() => handleLike(comment._id)} />

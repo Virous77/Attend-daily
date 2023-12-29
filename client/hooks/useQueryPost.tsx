@@ -1,7 +1,6 @@
 import { postData } from "@/api/api";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppContext } from "@/store/useAppContext";
-
 import { useState } from "react";
 import useToast from "./useToast";
 
@@ -13,12 +12,13 @@ type MutateType = {
 const useQueryPost = () => {
   const {
     state: { user },
+    setTempComment,
   } = useAppContext();
   const client = useQueryClient();
   const [key, setKey] = useState("");
   const { notify } = useToast();
 
-  const { mutateAsync, isPending } = useMutation({
+  const { mutateAsync, isPending, variables } = useMutation({
     mutationFn: async (params: MutateType) => {
       try {
         const data = await postData({
@@ -42,6 +42,9 @@ const useQueryPost = () => {
       }
     },
     onSuccess: () => {
+      setTimeout(() => {
+        setTempComment(null);
+      }, 280);
       client.invalidateQueries({
         queryKey: [key],
         exact: true,
@@ -52,7 +55,7 @@ const useQueryPost = () => {
       notify(data?.toString());
     },
   });
-  return { mutateAsync, isPending, setKey };
+  return { mutateAsync, isPending, setKey, variables };
 };
 
 export default useQueryPost;

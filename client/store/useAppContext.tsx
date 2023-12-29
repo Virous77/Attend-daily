@@ -49,6 +49,19 @@ export type InfiniteQueryFalse = {
   explore: boolean;
 };
 
+type TTempComment = {
+  commentedUser: User;
+  content: string;
+  like: string[];
+  _id: string;
+  postId: string;
+  updatedAt: string;
+  totalComments: number;
+  isDeleted: boolean;
+  createdAt: string;
+  commentId: string;
+};
+
 export type TActive =
   | "poll"
   | "post"
@@ -75,6 +88,8 @@ type ContextType = {
   infiniteQuery: InfiniteQueryFalse;
   setInfiniteQuery: Dispatch<SetStateAction<InfiniteQueryFalse>>;
   handleRedirect: () => void;
+  tempComment: TTempComment | null;
+  setTempComment: Dispatch<SetStateAction<TTempComment | null>>;
 };
 
 type StatusType = {
@@ -101,6 +116,8 @@ const initialValue = {
   infiniteQuery: {} as InfiniteQueryFalse,
   setInfiniteQuery: () => {},
   handleRedirect: () => {},
+  tempComment: {} as TTempComment,
+  setTempComment: () => {},
 };
 
 const AppContext = createContext<ContextType>(initialValue);
@@ -145,6 +162,7 @@ export const AppContextProvider = ({
     explore: true,
   });
 
+  const [tempComment, setTempComment] = useState<TTempComment | null>(null);
   const { refetch, isPending, isLoading } = useQuery({
     staleTime: Number(process.env.NEXT_PUBLIC_QUERY_STALE_TIME),
     queryKey: ["user"],
@@ -193,6 +211,8 @@ export const AppContextProvider = ({
         infiniteQuery,
         setInfiniteQuery,
         handleRedirect,
+        setTempComment,
+        tempComment,
       }}
     >
       {isLoading ? <AppLoad /> : children}

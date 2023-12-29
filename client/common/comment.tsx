@@ -10,6 +10,7 @@ import {
 import PullToRefresh from "react-simple-pull-to-refresh";
 import { InfiniteQueryFalse } from "@/store/useAppContext";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { useAppContext } from "@/store/useAppContext";
 
 type CommentProps = {
   data: CommentReplies[] | undefined;
@@ -30,6 +31,7 @@ const CommonComment: React.FC<CommentProps> = ({
   infiniteQuery,
   isFetchingNextPage,
 }) => {
+  const { tempComment } = useAppContext();
   return (
     <>
       {isLoading ? (
@@ -47,6 +49,13 @@ const CommonComment: React.FC<CommentProps> = ({
               hasMore={infiniteQuery.feed}
               loader={null}
             >
+              {tempComment && (
+                <MainCommentList
+                  key={tempComment._id}
+                  type="p"
+                  comment={tempComment}
+                />
+              )}
               {data && data?.length > 0 && !isLoading ? (
                 <div className="pb-4">
                   {data?.map((comment) => (
