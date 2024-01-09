@@ -13,6 +13,7 @@ import useQueryInvalidate from "@/hooks/useQueryInvalidate";
 import useQueryDelete from "@/hooks/useQueryDelete";
 import { usePost } from "@/store/usePostContext";
 import { useAppContext } from "@/store/useAppContext";
+import { CompletePost } from "@/types/types";
 
 const RePost: React.FC<PostListProps> = ({ post }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -20,28 +21,36 @@ const RePost: React.FC<PostListProps> = ({ post }) => {
   const { mutateAsync: deleteMutateAsync } = useQueryDelete();
   const { invalidateKey, user } = useQueryInvalidate();
   const { setRePostData, modal } = usePost();
-  const { setActiveType, handleRedirect } = useAppContext();
+  const { setActiveType, handleRedirect, setTempRePost, tempRePost } =
+    useAppContext();
 
-  const handleRepost = async (postId: string) => {
+  const handleRepost = async (post: CompletePost) => {
     if (!user?.token) {
       return handleRedirect();
     }
 
-    const data = await mutateAsync({ endPoint: "repost", data: { postId } });
+    setTempRePost(post);
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: "smooth",
+    });
+    onOpenChange();
+
+    const data = await mutateAsync({
+      endPoint: "repost",
+      data: { postId: post._id },
+    });
 
     if (data.status) {
-      window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: "smooth",
-      });
       invalidateKey([
         `${user?._id}-post`,
         "feedhome feed",
         "feedposts",
         "feedpolls",
       ]);
-      onOpenChange();
+    } else {
+      setTempRePost(null);
     }
   };
 
@@ -65,23 +74,35 @@ const RePost: React.FC<PostListProps> = ({ post }) => {
 
   return (
     <>
-      {(post?.userId._id === user?._id ||
-        post.originalPost?.retweetUser?.users?.includes(user?._id || "")) &&
-      post.isRetweeted ? (
+      {tempRePost ? (
         <div className=" flex items-center gap-1">
           <span className=" cursor-pointer" onClick={onOpen}>
             <Repeat2 size={21} color="green" />
           </span>
-          {totalRepost > 0 && <span>{totalRepost}</span>}
+          <span>{totalRepost + 1}</span>
         </div>
       ) : (
-        <div className=" flex items-center gap-1">
-          <span className=" cursor-pointer" onClick={onOpen}>
-            <Repeat2 size={21} />
-          </span>
-          {totalRepost > 0 && <span>{totalRepost}</span>}
-        </div>
+        <>
+          {(post?.userId._id === user?._id ||
+            post.originalPost?.retweetUser?.users?.includes(user?._id || "")) &&
+          post.isRetweeted ? (
+            <div className=" flex items-center gap-1">
+              <span className=" cursor-pointer" onClick={onOpen}>
+                <Repeat2 size={21} color="green" />
+              </span>
+              {totalRepost > 0 && <span>{totalRepost}</span>}
+            </div>
+          ) : (
+            <div className=" flex items-center gap-1">
+              <span className=" cursor-pointer" onClick={onOpen}>
+                <Repeat2 size={21} />
+              </span>
+              {totalRepost > 0 && <span>{totalRepost}</span>}
+            </div>
+          )}
+        </>
       )}
+
       <Modal
         isOpen={isOpen}
         placement={"auto"}
@@ -123,7 +144,7 @@ const RePost: React.FC<PostListProps> = ({ post }) => {
                       ) && (
                         <div
                           className=" flex items-center gap-2 cursor-pointer w-fit"
-                          onClick={() => handleRepost(post._id)}
+                          onClick={() => handleRepost(post)}
                         >
                           <Repeat2 size={21} />
                           <span>Repost</span>

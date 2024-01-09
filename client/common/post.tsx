@@ -21,12 +21,17 @@ export type PostProps = {
 const PostCommon: React.FC<PostProps> = ({ post, type }) => {
   const {
     state: { user },
+    tempRePost,
   } = useAppContext();
-  const name = post?.userId._id === user?._id ? "You" : post.userId.name;
+  const name =
+    post?.userId._id === user?._id || tempRePost ? "You" : post.userId.name;
   const router = useRouter();
   return (
-    <Card className=" p-4 cursor-pointer" style={{ margin: "2px" }}>
-      {post.isRetweeted && (
+    <Card
+      className=" p-4 cursor-pointer"
+      style={{ margin: "2px", opacity: tempRePost?._id === post._id ? 0.5 : 1 }}
+    >
+      {(post.isRetweeted || tempRePost) && (
         <div className=" flex items-center gap-2 pl-8 pb-1 opacity-60 text-[13px]">
           <Repeat2 size={18} />
           <span onClick={() => router.push(`/profile/${post.userId.userName}`)}>
